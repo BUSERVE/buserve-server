@@ -1,0 +1,1691 @@
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/.DS_Store\r\n.gradle\r\n.idea\r\nlogs\r\nbuild\r\ngradle/\r\n\r\n# Compiled class file\r\n*.class\r\n\r\n# Log file\r\n*.log\r\n\r\n# BlueJ files\r\n*.ctxt\r\n\r\n# Mobile Tools for Java (J2ME)\r\n.mtj.tmp/\r\n\r\n# Package Files #\r\n*.jar\r\n*.war\r\n*.nar\r\n*.ear\r\n*.zip\r\n*.tar.gz\r\n*.rar\r\n\r\n# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml\r\nhs_err_pid*\r\nreplay_pid*\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ b/.gitignore	(date 1690220130793)
+@@ -29,3 +29,5 @@
+ # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+ hs_err_pid*
+ replay_pid*
++
++application-oauth.properties
+Index: gradlew
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#!/usr/bin/env sh\r\n\r\n#\r\n# Copyright 2015 the original author or authors.\r\n#\r\n# Licensed under the Apache License, Version 2.0 (the \"License\");\r\n# you may not use this file except in compliance with the License.\r\n# You may obtain a copy of the License at\r\n#\r\n#      https://www.apache.org/licenses/LICENSE-2.0\r\n#\r\n# Unless required by applicable law or agreed to in writing, software\r\n# distributed under the License is distributed on an \"AS IS\" BASIS,\r\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n# See the License for the specific language governing permissions and\r\n# limitations under the License.\r\n#\r\n\r\n##############################################################################\r\n##\r\n##  Gradle start up script for UN*X\r\n##\r\n##############################################################################\r\n\r\n# Attempt to set APP_HOME\r\n# Resolve links: $0 may be a link\r\nPRG=\"$0\"\r\n# Need this for relative symlinks.\r\nwhile [ -h \"$PRG\" ] ; do\r\n    ls=`ls -ld \"$PRG\"`\r\n    link=`expr \"$ls\" : '.*-> \\(.*\\)$'`\r\n    if expr \"$link\" : '/.*' > /dev/null; then\r\n        PRG=\"$link\"\r\n    else\r\n        PRG=`dirname \"$PRG\"`\"/$link\"\r\n    fi\r\ndone\r\nSAVED=\"`pwd`\"\r\ncd \"`dirname \\\"$PRG\\\"`/\" >/dev/null\r\nAPP_HOME=\"`pwd -P`\"\r\ncd \"$SAVED\" >/dev/null\r\n\r\nAPP_NAME=\"Gradle\"\r\nAPP_BASE_NAME=`basename \"$0\"`\r\n\r\n# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.\r\nDEFAULT_JVM_OPTS='\"-Xmx64m\" \"-Xms64m\"'\r\n\r\n# Use the maximum available, or set MAX_FD != -1 to use that value.\r\nMAX_FD=\"maximum\"\r\n\r\nwarn () {\r\n    echo \"$*\"\r\n}\r\n\r\ndie () {\r\n    echo\r\n    echo \"$*\"\r\n    echo\r\n    exit 1\r\n}\r\n\r\n# OS specific support (must be 'true' or 'false').\r\ncygwin=false\r\nmsys=false\r\ndarwin=false\r\nnonstop=false\r\ncase \"`uname`\" in\r\n  CYGWIN* )\r\n    cygwin=true\r\n    ;;\r\n  Darwin* )\r\n    darwin=true\r\n    ;;\r\n  MINGW* )\r\n    msys=true\r\n    ;;\r\n  NONSTOP* )\r\n    nonstop=true\r\n    ;;\r\nesac\r\n\r\nCLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar\r\n\r\n\r\n# Determine the Java command to use to start the JVM.\r\nif [ -n \"$JAVA_HOME\" ] ; then\r\n    if [ -x \"$JAVA_HOME/jre/sh/java\" ] ; then\r\n        # IBM's JDK on AIX uses strange locations for the executables\r\n        JAVACMD=\"$JAVA_HOME/jre/sh/java\"\r\n    else\r\n        JAVACMD=\"$JAVA_HOME/bin/java\"\r\n    fi\r\n    if [ ! -x \"$JAVACMD\" ] ; then\r\n        die \"ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME\r\n\r\nPlease set the JAVA_HOME variable in your environment to match the\r\nlocation of your Java installation.\"\r\n    fi\r\nelse\r\n    JAVACMD=\"java\"\r\n    which java >/dev/null 2>&1 || die \"ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.\r\n\r\nPlease set the JAVA_HOME variable in your environment to match the\r\nlocation of your Java installation.\"\r\nfi\r\n\r\n# Increase the maximum file descriptors if we can.\r\nif [ \"$cygwin\" = \"false\" -a \"$darwin\" = \"false\" -a \"$nonstop\" = \"false\" ] ; then\r\n    MAX_FD_LIMIT=`ulimit -H -n`\r\n    if [ $? -eq 0 ] ; then\r\n        if [ \"$MAX_FD\" = \"maximum\" -o \"$MAX_FD\" = \"max\" ] ; then\r\n            MAX_FD=\"$MAX_FD_LIMIT\"\r\n        fi\r\n        ulimit -n $MAX_FD\r\n        if [ $? -ne 0 ] ; then\r\n            warn \"Could not set maximum file descriptor limit: $MAX_FD\"\r\n        fi\r\n    else\r\n        warn \"Could not query maximum file descriptor limit: $MAX_FD_LIMIT\"\r\n    fi\r\nfi\r\n\r\n# For Darwin, add options to specify how the application appears in the dock\r\nif $darwin; then\r\n    GRADLE_OPTS=\"$GRADLE_OPTS \\\"-Xdock:name=$APP_NAME\\\" \\\"-Xdock:icon=$APP_HOME/media/gradle.icns\\\"\"\r\nfi\r\n\r\n# For Cygwin or MSYS, switch paths to Windows format before running java\r\nif [ \"$cygwin\" = \"true\" -o \"$msys\" = \"true\" ] ; then\r\n    APP_HOME=`cygpath --path --mixed \"$APP_HOME\"`\r\n    CLASSPATH=`cygpath --path --mixed \"$CLASSPATH\"`\r\n\r\n    JAVACMD=`cygpath --unix \"$JAVACMD\"`\r\n\r\n    # We build the pattern for arguments to be converted via cygpath\r\n    ROOTDIRSRAW=`find -L / -maxdepth 1 -mindepth 1 -type d 2>/dev/null`\r\n    SEP=\"\"\r\n    for dir in $ROOTDIRSRAW ; do\r\n        ROOTDIRS=\"$ROOTDIRS$SEP$dir\"\r\n        SEP=\"|\"\r\n    done\r\n    OURCYGPATTERN=\"(^($ROOTDIRS))\"\r\n    # Add a user-defined pattern to the cygpath arguments\r\n    if [ \"$GRADLE_CYGPATTERN\" != \"\" ] ; then\r\n        OURCYGPATTERN=\"$OURCYGPATTERN|($GRADLE_CYGPATTERN)\"\r\n    fi\r\n    # Now convert the arguments - kludge to limit ourselves to /bin/sh\r\n    i=0\r\n    for arg in \"$@\" ; do\r\n        CHECK=`echo \"$arg\"|egrep -c \"$OURCYGPATTERN\" -`\r\n        CHECK2=`echo \"$arg\"|egrep -c \"^-\"`                                 ### Determine if an option\r\n\r\n        if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; then                    ### Added a condition\r\n            eval `echo args$i`=`cygpath --path --ignore --mixed \"$arg\"`\r\n        else\r\n            eval `echo args$i`=\"\\\"$arg\\\"\"\r\n        fi\r\n        i=`expr $i + 1`\r\n    done\r\n    case $i in\r\n        0) set -- ;;\r\n        1) set -- \"$args0\" ;;\r\n        2) set -- \"$args0\" \"$args1\" ;;\r\n        3) set -- \"$args0\" \"$args1\" \"$args2\" ;;\r\n        4) set -- \"$args0\" \"$args1\" \"$args2\" \"$args3\" ;;\r\n        5) set -- \"$args0\" \"$args1\" \"$args2\" \"$args3\" \"$args4\" ;;\r\n        6) set -- \"$args0\" \"$args1\" \"$args2\" \"$args3\" \"$args4\" \"$args5\" ;;\r\n        7) set -- \"$args0\" \"$args1\" \"$args2\" \"$args3\" \"$args4\" \"$args5\" \"$args6\" ;;\r\n        8) set -- \"$args0\" \"$args1\" \"$args2\" \"$args3\" \"$args4\" \"$args5\" \"$args6\" \"$args7\" ;;\r\n        9) set -- \"$args0\" \"$args1\" \"$args2\" \"$args3\" \"$args4\" \"$args5\" \"$args6\" \"$args7\" \"$args8\" ;;\r\n    esac\r\nfi\r\n\r\n# Escape application args\r\nsave () {\r\n    for i do printf %s\\\\n \"$i\" | sed \"s/'/'\\\\\\\\''/g;1s/^/'/;\\$s/\\$/' \\\\\\\\/\" ; done\r\n    echo \" \"\r\n}\r\nAPP_ARGS=`save \"$@\"`\r\n\r\n# Collect all arguments for the java command, following the shell quoting and substitution rules\r\neval set -- $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS \"\\\"-Dorg.gradle.appname=$APP_BASE_NAME\\\"\" -classpath \"\\\"$CLASSPATH\\\"\" org.gradle.wrapper.GradleWrapperMain \"$APP_ARGS\"\r\n\r\nexec \"$JAVACMD\" \"$@\"\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradlew b/gradlew
+--- a/gradlew	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ b/gradlew	(date 1690086161267)
+@@ -1,7 +1,7 @@
+-#!/usr/bin/env sh
++#!/bin/sh
+ 
+ #
+-# Copyright 2015 the original author or authors.
++# Copyright © 2015-2021 the original authors.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License");
+ # you may not use this file except in compliance with the License.
+@@ -17,67 +17,101 @@
+ #
+ 
+ ##############################################################################
+-##
+-##  Gradle start up script for UN*X
+-##
++#
++#   Gradle start up script for POSIX generated by Gradle.
++#
++#   Important for running:
++#
++#   (1) You need a POSIX-compliant shell to run this script. If your /bin/sh is
++#       noncompliant, but you have some other compliant shell such as ksh or
++#       bash, then to run this script, type that shell name before the whole
++#       command line, like:
++#
++#           ksh Gradle
++#
++#       Busybox and similar reduced shells will NOT work, because this script
++#       requires all of these POSIX shell features:
++#         * functions;
++#         * expansions «$var», «${var}», «${var:-default}», «${var+SET}»,
++#           «${var#prefix}», «${var%suffix}», and «$( cmd )»;
++#         * compound commands having a testable exit status, especially «case»;
++#         * various built-in commands including «command», «set», and «ulimit».
++#
++#   Important for patching:
++#
++#   (2) This script targets any POSIX shell, so it avoids extensions provided
++#       by Bash, Ksh, etc; in particular arrays are avoided.
++#
++#       The "traditional" practice of packing multiple parameters into a
++#       space-separated string is a well documented source of bugs and security
++#       problems, so this is (mostly) avoided, by progressively accumulating
++#       options in "$@", and eventually passing that to Java.
++#
++#       Where the inherited environment variables (DEFAULT_JVM_OPTS, JAVA_OPTS,
++#       and GRADLE_OPTS) rely on word-splitting, this is performed explicitly;
++#       see the in-line comments for details.
++#
++#       There are tweaks for specific operating systems such as AIX, CygWin,
++#       Darwin, MinGW, and NonStop.
++#
++#   (3) This script is generated from the Groovy template
++#       https://github.com/gradle/gradle/blob/HEAD/subprojects/plugins/src/main/resources/org/gradle/api/internal/plugins/unixStartScript.txt
++#       within the Gradle project.
++#
++#       You can find Gradle at https://github.com/gradle/gradle/.
++#
+ ##############################################################################
+ 
+ # Attempt to set APP_HOME
++
+ # Resolve links: $0 may be a link
+-PRG="$0"
+-# Need this for relative symlinks.
+-while [ -h "$PRG" ] ; do
+-    ls=`ls -ld "$PRG"`
+-    link=`expr "$ls" : '.*-> \(.*\)$'`
+-    if expr "$link" : '/.*' > /dev/null; then
+-        PRG="$link"
+-    else
+-        PRG=`dirname "$PRG"`"/$link"
+-    fi
++app_path=$0
++
++# Need this for daisy-chained symlinks.
++while
++    APP_HOME=${app_path%"${app_path##*/}"}  # leaves a trailing /; empty if no leading path
++    [ -h "$app_path" ]
++do
++    ls=$( ls -ld "$app_path" )
++    link=${ls#*' -> '}
++    case $link in             #(
++      /*)   app_path=$link ;; #(
++      *)    app_path=$APP_HOME$link ;;
++    esac
+ done
+-SAVED="`pwd`"
+-cd "`dirname \"$PRG\"`/" >/dev/null
+-APP_HOME="`pwd -P`"
+-cd "$SAVED" >/dev/null
+ 
+-APP_NAME="Gradle"
+-APP_BASE_NAME=`basename "$0"`
++# This is normally unused
++# shellcheck disable=SC2034
++APP_BASE_NAME=${0##*/}
++APP_HOME=$( cd "${APP_HOME:-./}" && pwd -P ) || exit
+ 
+ # Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
+ DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
+ 
+ # Use the maximum available, or set MAX_FD != -1 to use that value.
+-MAX_FD="maximum"
++MAX_FD=maximum
+ 
+ warn () {
+     echo "$*"
+-}
++} >&2
+ 
+ die () {
+     echo
+     echo "$*"
+     echo
+     exit 1
+-}
++} >&2
+ 
+ # OS specific support (must be 'true' or 'false').
+ cygwin=false
+ msys=false
+ darwin=false
+ nonstop=false
+-case "`uname`" in
+-  CYGWIN* )
+-    cygwin=true
+-    ;;
+-  Darwin* )
+-    darwin=true
+-    ;;
+-  MINGW* )
+-    msys=true
+-    ;;
+-  NONSTOP* )
+-    nonstop=true
+-    ;;
++case "$( uname )" in                #(
++  CYGWIN* )         cygwin=true  ;; #(
++  Darwin* )         darwin=true  ;; #(
++  MSYS* | MINGW* )  msys=true    ;; #(
++  NONSTOP* )        nonstop=true ;;
+ esac
+ 
+ CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
+@@ -87,9 +121,9 @@
+ if [ -n "$JAVA_HOME" ] ; then
+     if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
+         # IBM's JDK on AIX uses strange locations for the executables
+-        JAVACMD="$JAVA_HOME/jre/sh/java"
++        JAVACMD=$JAVA_HOME/jre/sh/java
+     else
+-        JAVACMD="$JAVA_HOME/bin/java"
++        JAVACMD=$JAVA_HOME/bin/java
+     fi
+     if [ ! -x "$JAVACMD" ] ; then
+         die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
+@@ -98,7 +132,7 @@
+ location of your Java installation."
+     fi
+ else
+-    JAVACMD="java"
++    JAVACMD=java
+     which java >/dev/null 2>&1 || die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
+ 
+ Please set the JAVA_HOME variable in your environment to match the
+@@ -106,80 +140,105 @@
+ fi
+ 
+ # Increase the maximum file descriptors if we can.
+-if [ "$cygwin" = "false" -a "$darwin" = "false" -a "$nonstop" = "false" ] ; then
+-    MAX_FD_LIMIT=`ulimit -H -n`
+-    if [ $? -eq 0 ] ; then
+-        if [ "$MAX_FD" = "maximum" -o "$MAX_FD" = "max" ] ; then
+-            MAX_FD="$MAX_FD_LIMIT"
+-        fi
+-        ulimit -n $MAX_FD
+-        if [ $? -ne 0 ] ; then
+-            warn "Could not set maximum file descriptor limit: $MAX_FD"
+-        fi
+-    else
+-        warn "Could not query maximum file descriptor limit: $MAX_FD_LIMIT"
+-    fi
++if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
++    case $MAX_FD in #(
++      max*)
++        # In POSIX sh, ulimit -H is undefined. That's why the result is checked to see if it worked.
++        # shellcheck disable=SC3045
++        MAX_FD=$( ulimit -H -n ) ||
++            warn "Could not query maximum file descriptor limit"
++    esac
++    case $MAX_FD in  #(
++      '' | soft) :;; #(
++      *)
++        # In POSIX sh, ulimit -n is undefined. That's why the result is checked to see if it worked.
++        # shellcheck disable=SC3045
++        ulimit -n "$MAX_FD" ||
++            warn "Could not set maximum file descriptor limit to $MAX_FD"
++    esac
+ fi
+ 
+-# For Darwin, add options to specify how the application appears in the dock
+-if $darwin; then
+-    GRADLE_OPTS="$GRADLE_OPTS \"-Xdock:name=$APP_NAME\" \"-Xdock:icon=$APP_HOME/media/gradle.icns\""
+-fi
++# Collect all arguments for the java command, stacking in reverse order:
++#   * args from the command line
++#   * the main class name
++#   * -classpath
++#   * -D...appname settings
++#   * --module-path (only if needed)
++#   * DEFAULT_JVM_OPTS, JAVA_OPTS, and GRADLE_OPTS environment variables.
+ 
+ # For Cygwin or MSYS, switch paths to Windows format before running java
+-if [ "$cygwin" = "true" -o "$msys" = "true" ] ; then
+-    APP_HOME=`cygpath --path --mixed "$APP_HOME"`
+-    CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
++if "$cygwin" || "$msys" ; then
++    APP_HOME=$( cygpath --path --mixed "$APP_HOME" )
++    CLASSPATH=$( cygpath --path --mixed "$CLASSPATH" )
+ 
+-    JAVACMD=`cygpath --unix "$JAVACMD"`
++    JAVACMD=$( cygpath --unix "$JAVACMD" )
+ 
+-    # We build the pattern for arguments to be converted via cygpath
+-    ROOTDIRSRAW=`find -L / -maxdepth 1 -mindepth 1 -type d 2>/dev/null`
+-    SEP=""
+-    for dir in $ROOTDIRSRAW ; do
+-        ROOTDIRS="$ROOTDIRS$SEP$dir"
+-        SEP="|"
+-    done
+-    OURCYGPATTERN="(^($ROOTDIRS))"
+-    # Add a user-defined pattern to the cygpath arguments
+-    if [ "$GRADLE_CYGPATTERN" != "" ] ; then
+-        OURCYGPATTERN="$OURCYGPATTERN|($GRADLE_CYGPATTERN)"
+-    fi
+     # Now convert the arguments - kludge to limit ourselves to /bin/sh
+-    i=0
+-    for arg in "$@" ; do
+-        CHECK=`echo "$arg"|egrep -c "$OURCYGPATTERN" -`
+-        CHECK2=`echo "$arg"|egrep -c "^-"`                                 ### Determine if an option
+-
+-        if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; then                    ### Added a condition
+-            eval `echo args$i`=`cygpath --path --ignore --mixed "$arg"`
+-        else
+-            eval `echo args$i`="\"$arg\""
+-        fi
+-        i=`expr $i + 1`
+-    done
+-    case $i in
+-        0) set -- ;;
+-        1) set -- "$args0" ;;
+-        2) set -- "$args0" "$args1" ;;
+-        3) set -- "$args0" "$args1" "$args2" ;;
+-        4) set -- "$args0" "$args1" "$args2" "$args3" ;;
+-        5) set -- "$args0" "$args1" "$args2" "$args3" "$args4" ;;
+-        6) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" ;;
+-        7) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" "$args6" ;;
+-        8) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" "$args6" "$args7" ;;
+-        9) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" "$args6" "$args7" "$args8" ;;
+-    esac
++    for arg do
++        if
++            case $arg in                                #(
++              -*)   false ;;                            # don't mess with options #(
++              /?*)  t=${arg#/} t=/${t%%/*}              # looks like a POSIX filepath
++                    [ -e "$t" ] ;;                      #(
++              *)    false ;;
++            esac
++        then
++            arg=$( cygpath --path --ignore --mixed "$arg" )
++        fi
++        # Roll the args list around exactly as many times as the number of
++        # args, so each arg winds up back in the position where it started, but
++        # possibly modified.
++        #
++        # NB: a `for` loop captures its iteration list before it begins, so
++        # changing the positional parameters here affects neither the number of
++        # iterations, nor the values presented in `arg`.
++        shift                   # remove old arg
++        set -- "$@" "$arg"      # push replacement arg
++    done
+ fi
+ 
+-# Escape application args
+-save () {
+-    for i do printf %s\\n "$i" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/' \\\\/" ; done
+-    echo " "
+-}
+-APP_ARGS=`save "$@"`
++# Collect all arguments for the java command;
++#   * $DEFAULT_JVM_OPTS, $JAVA_OPTS, and $GRADLE_OPTS can contain fragments of
++#     shell script including quotes and variable substitutions, so put them in
++#     double quotes to make sure that they get re-expanded; and
++#   * put everything else in single quotes, so that it's not re-expanded.
+ 
+-# Collect all arguments for the java command, following the shell quoting and substitution rules
+-eval set -- $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS "\"-Dorg.gradle.appname=$APP_BASE_NAME\"" -classpath "\"$CLASSPATH\"" org.gradle.wrapper.GradleWrapperMain "$APP_ARGS"
++set -- \
++        "-Dorg.gradle.appname=$APP_BASE_NAME" \
++        -classpath "$CLASSPATH" \
++        org.gradle.wrapper.GradleWrapperMain \
++        "$@"
++
++# Stop when "xargs" is not available.
++if ! command -v xargs >/dev/null 2>&1
++then
++    die "xargs is not available"
++fi
++
++# Use "xargs" to parse quoted args.
++#
++# With -n1 it outputs one arg per line, with the quotes and backslashes removed.
++#
++# In Bash we could simply go:
++#
++#   readarray ARGS < <( xargs -n1 <<<"$var" ) &&
++#   set -- "${ARGS[@]}" "$@"
++#
++# but POSIX shell has neither arrays nor command substitution, so instead we
++# post-process each arg (as a line of input to sed) to backslash-escape any
++# character that might be a shell metacharacter, then use eval to reverse
++# that process (while maintaining the separation between arguments), and wrap
++# the whole thing up as a single "set" statement.
++#
++# This will of course break if any of these variables contains a newline or
++# an unmatched quote.
++#
++
++eval "set -- $(
++        printf '%s\n' "$DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS" |
++        xargs -n1 |
++        sed ' s~[^-[:alnum:]+,./:=@_]~\\&~g; ' |
++        tr '\n' ' '
++    )" '"$@"'
+ 
+ exec "$JAVACMD" "$@"
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'org.springframework.boot' version '2.7.11'\r\n    id 'io.spring.dependency-management' version '1.1.0'\r\n    id 'java'\r\n}\r\n\r\ngroup = 'com.example'\r\nversion = '0.0.1-SNAPSHOT'\r\n\r\nsourceCompatibility = 1.8\r\ntargetCompatibility = 1.8\r\n\r\ncompileJava.options.encoding = 'UTF-8'\r\n\r\nconfigurations {\r\n    compileOnly {\r\n        extendsFrom annotationProcessor\r\n    }\r\n}\r\n\r\nrepositories {\r\n    mavenCentral()\r\n}\r\n\r\ndependencies {\r\n    implementation 'org.jetbrains:annotations:24.0.1'\r\n\r\n    // Spring Boot Starter\r\n    implementation('org.springframework.boot:spring-boot-starter')\r\n    implementation('org.springframework.boot:spring-boot-starter-web')\r\n    testImplementation ('org.springframework.boot:spring-boot-starter-test')\r\n\r\n    // Lombok\r\n    implementation ('org.projectlombok:lombok')\r\n    compileOnly ('org.projectlombok:lombok:1.18.26')\r\n    annotationProcessor ('org.projectlombok:lombok:1.18.26')\r\n\r\n    // DB\r\n    runtimeOnly ('com.h2database:h2')\r\n    runtimeOnly ('org.mariadb.jdbc:mariadb-java-client')\r\n    implementation ('org.springframework.boot:spring-boot-starter-jdbc')\r\n    implementation ('org.springframework.boot:spring-boot-starter-data-jpa')\r\n\r\n    // Web\r\n    implementation ('org.springframework.boot:spring-boot-starter-web')\r\n\r\n    // Security, Authentication\r\n    implementation('org.springframework.boot:spring-boot-starter-security')\r\n    implementation(group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5')\r\n    implementation('io.jsonwebtoken:jjwt-api:0.11.5')\r\n}\r\n\r\ntest {\r\n    useJUnitPlatform()\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle b/build.gradle
+--- a/build.gradle	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ b/build.gradle	(date 1690466073886)
+@@ -48,6 +48,11 @@
+     implementation('org.springframework.boot:spring-boot-starter-security')
+     implementation(group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5')
+     implementation('io.jsonwebtoken:jjwt-api:0.11.5')
++    implementation 'com.auth0:java-jwt:4.2.1'
++
++    // OAuth
++    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
++
+ }
+ 
+ test {
+Index: gradlew.bat
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>@rem\r\n@rem Copyright 2015 the original author or authors.\r\n@rem\r\n@rem Licensed under the Apache License, Version 2.0 (the \"License\");\r\n@rem you may not use this file except in compliance with the License.\r\n@rem You may obtain a copy of the License at\r\n@rem\r\n@rem      https://www.apache.org/licenses/LICENSE-2.0\r\n@rem\r\n@rem Unless required by applicable law or agreed to in writing, software\r\n@rem distributed under the License is distributed on an \"AS IS\" BASIS,\r\n@rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n@rem See the License for the specific language governing permissions and\r\n@rem limitations under the License.\r\n@rem\r\n\r\n@if \"%DEBUG%\" == \"\" @echo off\r\n@rem ##########################################################################\r\n@rem\r\n@rem  Gradle startup script for Windows\r\n@rem\r\n@rem ##########################################################################\r\n\r\n@rem Set local scope for the variables with windows NT shell\r\nif \"%OS%\"==\"Windows_NT\" setlocal\r\n\r\nset DIRNAME=%~dp0\r\nif \"%DIRNAME%\" == \"\" set DIRNAME=.\r\nset APP_BASE_NAME=%~n0\r\nset APP_HOME=%DIRNAME%\r\n\r\n@rem Resolve any \".\" and \"..\" in APP_HOME to make it shorter.\r\nfor %%i in (\"%APP_HOME%\") do set APP_HOME=%%~fi\r\n\r\n@rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.\r\nset DEFAULT_JVM_OPTS=\"-Xmx64m\" \"-Xms64m\"\r\n\r\n@rem Find java.exe\r\nif defined JAVA_HOME goto findJavaFromJavaHome\r\n\r\nset JAVA_EXE=java.exe\r\n%JAVA_EXE% -version >NUL 2>&1\r\nif \"%ERRORLEVEL%\" == \"0\" goto execute\r\n\r\necho.\r\necho ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.\r\necho.\r\necho Please set the JAVA_HOME variable in your environment to match the\r\necho location of your Java installation.\r\n\r\ngoto fail\r\n\r\n:findJavaFromJavaHome\r\nset JAVA_HOME=%JAVA_HOME:\"=%\r\nset JAVA_EXE=%JAVA_HOME%/bin/java.exe\r\n\r\nif exist \"%JAVA_EXE%\" goto execute\r\n\r\necho.\r\necho ERROR: JAVA_HOME is set to an invalid directory: %JAVA_HOME%\r\necho.\r\necho Please set the JAVA_HOME variable in your environment to match the\r\necho location of your Java installation.\r\n\r\ngoto fail\r\n\r\n:execute\r\n@rem Setup the command line\r\n\r\nset CLASSPATH=%APP_HOME%\\gradle\\wrapper\\gradle-wrapper.jar\r\n\r\n\r\n@rem Execute Gradle\r\n\"%JAVA_EXE%\" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %GRADLE_OPTS% \"-Dorg.gradle.appname=%APP_BASE_NAME%\" -classpath \"%CLASSPATH%\" org.gradle.wrapper.GradleWrapperMain %*\r\n\r\n:end\r\n@rem End local scope for the variables with windows NT shell\r\nif \"%ERRORLEVEL%\"==\"0\" goto mainEnd\r\n\r\n:fail\r\nrem Set variable GRADLE_EXIT_CONSOLE if you need the _script_ return code instead of\r\nrem the _cmd.exe /c_ return code!\r\nif  not \"\" == \"%GRADLE_EXIT_CONSOLE%\" exit 1\r\nexit /b 1\r\n\r\n:mainEnd\r\nif \"%OS%\"==\"Windows_NT\" endlocal\r\n\r\n:omega\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradlew.bat b/gradlew.bat
+--- a/gradlew.bat	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ b/gradlew.bat	(date 1690086161368)
+@@ -14,7 +14,7 @@
+ @rem limitations under the License.
+ @rem
+ 
+-@if "%DEBUG%" == "" @echo off
++@if "%DEBUG%"=="" @echo off
+ @rem ##########################################################################
+ @rem
+ @rem  Gradle startup script for Windows
+@@ -25,7 +25,8 @@
+ if "%OS%"=="Windows_NT" setlocal
+ 
+ set DIRNAME=%~dp0
+-if "%DIRNAME%" == "" set DIRNAME=.
++if "%DIRNAME%"=="" set DIRNAME=.
++@rem This is normally unused
+ set APP_BASE_NAME=%~n0
+ set APP_HOME=%DIRNAME%
+ 
+@@ -40,7 +41,7 @@
+ 
+ set JAVA_EXE=java.exe
+ %JAVA_EXE% -version >NUL 2>&1
+-if "%ERRORLEVEL%" == "0" goto execute
++if %ERRORLEVEL% equ 0 goto execute
+ 
+ echo.
+ echo ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
+@@ -75,13 +76,15 @@
+ 
+ :end
+ @rem End local scope for the variables with windows NT shell
+-if "%ERRORLEVEL%"=="0" goto mainEnd
++if %ERRORLEVEL% equ 0 goto mainEnd
+ 
+ :fail
+ rem Set variable GRADLE_EXIT_CONSOLE if you need the _script_ return code instead of
+ rem the _cmd.exe /c_ return code!
+-if  not "" == "%GRADLE_EXIT_CONSOLE%" exit 1
+-exit /b 1
++set EXIT_CODE=%ERRORLEVEL%
++if %EXIT_CODE% equ 0 set EXIT_CODE=1
++if not ""=="%GRADLE_EXIT_CONSOLE%" exit %EXIT_CODE%
++exit /b %EXIT_CODE%
+ 
+ :mainEnd
+ if "%OS%"=="Windows_NT" endlocal
+Index: src/main/java/com/example/buserve/config/BaseException.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/config/BaseException.java b/src/main/java/com/example/buserve/config/BaseException.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/config/BaseException.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,12 +0,0 @@
+-package com.example.buserve.config;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-import lombok.Setter;
+-
+-@Getter
+-@Setter
+-@AllArgsConstructor
+-public class BaseException extends Exception {
+-    private BaseResponseStatus status;
+-}
+Index: src/main/java/com/example/buserve/config/BaseResponseStatus.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/config/BaseResponseStatus.java b/src/main/java/com/example/buserve/config/BaseResponseStatus.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/config/BaseResponseStatus.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,60 +0,0 @@
+-package com.example.buserve.config;
+-
+-import lombok.Getter;
+-import org.springframework.http.HttpStatus;
+-
+-/**
+- * 에러 코드 관리
+- */
+-@Getter
+-public enum BaseResponseStatus {
+-    /**
+-     * 200 : 요청 성공
+-     */
+-    SUCCESS(true, HttpStatus.OK.value(), "요청에 성공하였습니다."),
+-
+-
+-    /**
+-     * 400 : Request 오류, Response 오류
+-     */
+-    // Common
+-    REQUEST_ERROR(false, HttpStatus.BAD_REQUEST.value(), "입력값을 확인해주세요."),
+-    EMPTY_JWT(false, HttpStatus.UNAUTHORIZED.value(), "JWT를 입력해주세요."),
+-    INVALID_JWT(false, HttpStatus.UNAUTHORIZED.value(), "유효하지 않은 JWT입니다."),
+-    INVALID_USER_JWT(false,HttpStatus.FORBIDDEN.value(),"권한이 없는 유저의 접근입니다."),
+-    RESPONSE_ERROR(false, HttpStatus.NOT_FOUND.value(), "값을 불러오는데 실패하였습니다."),
+-
+-    // users
+-    USERS_EMPTY_USER_ID(false, HttpStatus.BAD_REQUEST.value(), "유저 아이디 값을 확인해주세요."),
+-
+-    // [POST] /users
+-    POST_USERS_EMPTY_EMAIL(false, HttpStatus.BAD_REQUEST.value(), "이메일을 입력해주세요."),
+-    POST_USERS_INVALID_EMAIL(false, HttpStatus.BAD_REQUEST.value(), "이메일 형식을 확인해주세요."),
+-    POST_USERS_EXISTS_EMAIL(false,HttpStatus.BAD_REQUEST.value(),"중복된 이메일입니다."),
+-    FAILED_TO_LOGIN(false,HttpStatus.NOT_FOUND.value(),"없는 아이디거나 비밀번호가 틀렸습니다."),
+-
+-
+-
+-    /**
+-     * 50 : Database, Server 오류
+-     */
+-    DATABASE_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "데이터베이스 연결에 실패하였습니다."),
+-    SERVER_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "서버와의 연결에 실패하였습니다."),
+-
+-    //[PATCH] /users/{userIdx}
+-    MODIFY_FAIL_USERNAME(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"유저네임 수정 실패"),
+-
+-    PASSWORD_ENCRYPTION_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "비밀번호 암호화에 실패하였습니다."),
+-    PASSWORD_DECRYPTION_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "비밀번호 복호화에 실패하였습니다.");
+-
+-
+-    private final boolean isSuccess;
+-    private final int code;
+-    private final String message;
+-
+-    private BaseResponseStatus(boolean isSuccess, int code, String message) {
+-        this.isSuccess = isSuccess;
+-        this.code = code;
+-        this.message = message;
+-    }
+-}
+Index: src/main/java/com/example/buserve/src/user/UserService.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/UserService.java b/src/main/java/com/example/buserve/src/user/UserService.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/src/user/UserService.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,70 +0,0 @@
+-package com.example.buserve.src.user;
+-
+-
+-
+-import com.example.buserve.config.BaseException;
+-import com.example.buserve.src.user.model.*;
+-import com.example.buserve.utils.JwtService;
+-import com.example.buserve.utils.SHA256;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.stereotype.Service;
+-
+-import static com.example.buserve.config.BaseResponseStatus.*;
+-
+-// Service Create, Update, Delete 의 로직 처리
+-@Service
+-public class UserService {
+-    final Logger logger = LoggerFactory.getLogger(this.getClass());
+-
+-    private final UserDao userDao;
+-    private final UserProvider userProvider;
+-    private final JwtService jwtService;
+-
+-
+-    @Autowired
+-    public UserService(UserDao userDao, UserProvider userProvider, JwtService jwtService) {
+-        this.userDao = userDao;
+-        this.userProvider = userProvider;
+-        this.jwtService = jwtService;
+-
+-    }
+-
+-    //POST
+-    public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
+-        //중복
+-        if(userProvider.checkEmail(postUserReq.getEmail()) ==1){
+-            throw new BaseException(POST_USERS_EXISTS_EMAIL);
+-        }
+-
+-        String pwd;
+-        try{
+-            //암호화
+-            pwd = new SHA256().encrypt(postUserReq.getPassword());
+-            postUserReq.setPassword(pwd);
+-
+-        } catch (Exception ignored) {
+-            throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
+-        }
+-        try{
+-            int userIdx = userDao.createUser(postUserReq);
+-            //jwt 발급.
+-            String jwt = jwtService.createJwt(userIdx);
+-            return new PostUserRes(jwt,userIdx);
+-        } catch (Exception exception) {
+-            throw new BaseException(DATABASE_ERROR);
+-        }
+-    }
+-
+-    public void modifyUserName(PatchUserReq patchUserReq) throws BaseException {
+-        try{
+-            int result = userDao.modifyUserName(patchUserReq);
+-            if(result == 0){
+-                throw new BaseException(MODIFY_FAIL_USERNAME);
+-            }
+-        } catch(Exception exception){
+-            throw new BaseException(DATABASE_ERROR);
+-        }
+-    }
+-}
+Index: src/main/java/com/example/buserve/utils/SHA256.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/utils/SHA256.java b/src/main/java/com/example/buserve/utils/SHA256.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/utils/SHA256.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,37 +0,0 @@
+-package com.example.buserve.utils;
+-
+-import java.security.MessageDigest;
+-
+-public class SHA256 {
+-    public SHA256() {
+-    }
+-
+-    public static String encrypt(String planText) {
+-        try {
+-            MessageDigest md = MessageDigest.getInstance("SHA-256");
+-            md.update(planText.getBytes());
+-            byte[] byteData = md.digest();
+-            StringBuffer sb = new StringBuffer();
+-
+-            for(int i = 0; i < byteData.length; ++i) {
+-                sb.append(Integer.toString((byteData[i] & 255) + 256, 16).substring(1));
+-            }
+-
+-            StringBuffer hexString = new StringBuffer();
+-
+-            for(int i = 0; i < byteData.length; ++i) {
+-                String hex = Integer.toHexString(255 & byteData[i]);
+-                if (hex.length() == 1) {
+-                    hexString.append('0');
+-                }
+-
+-                hexString.append(hex);
+-            }
+-
+-            return hexString.toString();
+-        } catch (Exception var7) {
+-            var7.printStackTrace();
+-            throw new RuntimeException();
+-        }
+-    }
+-}
+Index: src/main/java/com/example/buserve/config/BaseResponse.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/config/BaseResponse.java b/src/main/java/com/example/buserve/config/BaseResponse.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/config/BaseResponse.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,37 +0,0 @@
+-package com.example.buserve.config;
+-
+-import com.fasterxml.jackson.annotation.JsonInclude;
+-import com.fasterxml.jackson.annotation.JsonProperty;
+-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-
+-import static com.example.buserve.config.BaseResponseStatus.SUCCESS;
+-
+-@Getter
+-@AllArgsConstructor
+-@JsonPropertyOrder({"isSuccess", "code", "message", "result"})
+-public class BaseResponse<T> {
+-    @JsonProperty("isSuccess")
+-    private final Boolean isSuccess;
+-    private final String message;
+-    private final int code;
+-    @JsonInclude(JsonInclude.Include.NON_NULL)
+-    private T result;
+-
+-    // 요청에 성공한 경우
+-    public BaseResponse(T result) {
+-        this.isSuccess = SUCCESS.isSuccess();
+-        this.message = SUCCESS.getMessage();
+-        this.code = SUCCESS.getCode();
+-        this.result = result;
+-    }
+-
+-    // 요청에 실패한 경우
+-    public BaseResponse(BaseResponseStatus status) {
+-        this.isSuccess = status.isSuccess();
+-        this.message = status.getMessage();
+-        this.code = status.getCode();
+-    }
+-}
+-
+Index: src/main/java/com/example/buserve/src/user/UserProvider.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/UserProvider.java b/src/main/java/com/example/buserve/src/user/UserProvider.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/src/user/UserProvider.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,93 +0,0 @@
+-package com.example.buserve.src.user;
+-
+-
+-import com.example.buserve.config.BaseException;
+-import com.example.buserve.src.user.model.*;
+-import com.example.buserve.utils.JwtService;
+-import com.example.buserve.utils.SHA256;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.stereotype.Service;
+-
+-import java.util.List;
+-
+-import static com.example.buserve.config.BaseResponseStatus.*;
+-
+-//Provider : Read의 비즈니스 로직 처리
+-@Service
+-public class UserProvider {
+-
+-    private final UserDao userDao;
+-    private final JwtService jwtService;
+-
+-
+-    final Logger logger = LoggerFactory.getLogger(this.getClass());
+-
+-    @Autowired
+-    public UserProvider(UserDao userDao, JwtService jwtService) {
+-        this.userDao = userDao;
+-        this.jwtService = jwtService;
+-    }
+-
+-    public List<GetUserRes> getUsers() throws BaseException{
+-        try{
+-            List<GetUserRes> getUserRes = userDao.getUsers();
+-            return getUserRes;
+-        }
+-        catch (Exception exception) {
+-            // Logger를 이용하여 에러를 로그에 기록한다
+-            logger.error("Error!", exception);
+-            throw new BaseException(DATABASE_ERROR);
+-        }
+-    }
+-
+-    public List<GetUserRes> getUsersByEmail(String email) throws BaseException{
+-        try{
+-            List<GetUserRes> getUsersRes = userDao.getUsersByEmail(email);
+-            return getUsersRes;
+-        }
+-        catch (Exception exception) {
+-            throw new BaseException(DATABASE_ERROR);
+-        }
+-    }
+-
+-
+-    public GetUserRes getUser(int userIdx) throws BaseException {
+-        try {
+-            GetUserRes getUserRes = userDao.getUser(userIdx);
+-            return getUserRes;
+-        } catch (Exception exception) {
+-            throw new BaseException(DATABASE_ERROR);
+-        }
+-    }
+-
+-    public int checkEmail(String email) throws BaseException{
+-        try{
+-            return userDao.checkEmail(email);
+-        } catch (Exception exception){
+-            throw new BaseException(DATABASE_ERROR);
+-        }
+-    }
+-
+-    public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
+-        User user = userDao.getPwd(postLoginReq);
+-        String encryptPwd;
+-        try {
+-            encryptPwd=new SHA256().encrypt(postLoginReq.getPassword());
+-        } catch (Exception ignored) {
+-            throw new BaseException(PASSWORD_DECRYPTION_ERROR);
+-        }
+-
+-        if(user.getPassword().equals(encryptPwd)){
+-            int userIdx = user.getUserIdx();
+-            String jwt = jwtService.createJwt(userIdx);
+-            return new PostLoginRes(userIdx,jwt);
+-        }
+-        else{
+-            throw new BaseException(FAILED_TO_LOGIN);
+-        }
+-
+-    }
+-
+-}
+Index: src/main/java/com/example/buserve/src/user/model/User.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/model/User.java b/src/main/java/com/example/buserve/src/user/model/User.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/src/user/model/User.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,16 +0,0 @@
+-package com.example.buserve.src.user.model;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-import lombok.Setter;
+-
+-@Getter
+-@Setter
+-@AllArgsConstructor
+-public class User {
+-    private int userIdx;
+-    private String ID;
+-    private String userName;
+-    private String password;
+-    private String email;
+-}
+Index: src/main/java/com/example/buserve/config/secret/Secret.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/config/secret/Secret.java b/src/main/java/com/example/buserve/config/secret/Secret.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/config/secret/Secret.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,8 +0,0 @@
+-package com.example.buserve.config.secret;
+-
+-// TODO: 해당 KEY 값들을 꼭 바꿔서 사용해주세요!
+-// TODO: .gitignore에 추가하는거 앚지 마세요!
+-public class Secret {
+-    public static String JWT_SECRET_KEY = "UwKYibQQgkW7g-*k.ap9kje-wxBHb9wdXoBT4vnt4P3sJWt-Nu";
+-  
+-}
+Index: src/main/java/com/example/buserve/utils/ValidationRegex.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/utils/ValidationRegex.java b/src/main/java/com/example/buserve/utils/ValidationRegex.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/utils/ValidationRegex.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,14 +0,0 @@
+-package com.example.buserve.utils;
+-
+-import java.util.regex.Matcher;
+-import java.util.regex.Pattern;
+-
+-public class ValidationRegex {
+-    public static boolean isRegexEmail(String target) {
+-        String regex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+-        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+-        Matcher matcher = pattern.matcher(target);
+-        return matcher.find();
+-    }
+-}
+-
+Index: src/main/java/com/example/buserve/src/user/UserDao.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/UserDao.java b/src/main/java/com/example/buserve/src/user/UserDao.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/src/user/UserDao.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,104 +0,0 @@
+-package com.example.buserve.src.user;
+-
+-
+-import com.example.buserve.src.user.model.*;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.jdbc.core.JdbcTemplate;
+-import org.springframework.stereotype.Repository;
+-
+-import javax.sql.DataSource;
+-import java.util.List;
+-
+-@Repository
+-public class UserDao {
+-
+-    private JdbcTemplate jdbcTemplate;
+-
+-    @Autowired
+-    public void setDataSource(DataSource dataSource){
+-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+-    }
+-
+-    public List<GetUserRes> getUsers(){
+-        String getUsersQuery = "select * from UserInfo";
+-        return this.jdbcTemplate.query(getUsersQuery,
+-                (rs,rowNum) -> new GetUserRes(
+-                        rs.getInt("userIdx"),
+-                        rs.getString("userName"),
+-                        rs.getString("ID"),
+-                        rs.getString("Email"),
+-                        rs.getString("password"))
+-                );
+-    }
+-
+-    public List<GetUserRes> getUsersByEmail(String email){
+-        String getUsersByEmailQuery = "select * from UserInfo where email =?";
+-        String getUsersByEmailParams = email;
+-        return this.jdbcTemplate.query(getUsersByEmailQuery,
+-                (rs, rowNum) -> new GetUserRes(
+-                        rs.getInt("userIdx"),
+-                        rs.getString("userName"),
+-                        rs.getString("ID"),
+-                        rs.getString("Email"),
+-                        rs.getString("password")),
+-                getUsersByEmailParams);
+-    }
+-
+-    public GetUserRes getUser(int userIdx){
+-        String getUserQuery = "select * from UserInfo where userIdx = ?";
+-        int getUserParams = userIdx;
+-        return this.jdbcTemplate.queryForObject(getUserQuery,
+-                (rs, rowNum) -> new GetUserRes(
+-                        rs.getInt("userIdx"),
+-                        rs.getString("userName"),
+-                        rs.getString("ID"),
+-                        rs.getString("Email"),
+-                        rs.getString("password")),
+-                getUserParams);
+-    }
+-    
+-
+-    public int createUser(PostUserReq postUserReq){
+-        String createUserQuery = "insert into UserInfo (userName, ID, password, email) VALUES (?,?,?,?)";
+-        Object[] createUserParams = new Object[]{postUserReq.getUserName(), postUserReq.getId(), postUserReq.getPassword(), postUserReq.getEmail()};
+-        this.jdbcTemplate.update(createUserQuery, createUserParams);
+-
+-        String lastInserIdQuery = "select last_insert_id()";
+-        return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
+-    }
+-
+-    public int checkEmail(String email){
+-        String checkEmailQuery = "select exists(select email from UserInfo where email = ?)";
+-        String checkEmailParams = email;
+-        return this.jdbcTemplate.queryForObject(checkEmailQuery,
+-                int.class,
+-                checkEmailParams);
+-
+-    }
+-
+-    public int modifyUserName(PatchUserReq patchUserReq){
+-        String modifyUserNameQuery = "update UserInfo set userName = ? where userIdx = ? ";
+-        Object[] modifyUserNameParams = new Object[]{patchUserReq.getUserName(), patchUserReq.getUserIdx()};
+-
+-        return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
+-    }
+-
+-    public User getPwd(PostLoginReq postLoginReq){
+-        String getPwdQuery = "select userIdx, password,email,userName,ID from UserInfo where ID = ?";
+-        String getPwdParams = postLoginReq.getId();
+-
+-        return this.jdbcTemplate.queryForObject(getPwdQuery,
+-                (rs,rowNum)-> new User(
+-                        rs.getInt("userIdx"),
+-                        rs.getString("ID"),
+-                        rs.getString("userName"),
+-                        rs.getString("password"),
+-                        rs.getString("email")
+-                ),
+-                getPwdParams
+-                );
+-
+-    }
+-
+-
+-}
+Index: src/main/java/com/example/buserve/utils/JwtService.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/utils/JwtService.java b/src/main/java/com/example/buserve/utils/JwtService.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/utils/JwtService.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,73 +0,0 @@
+-package com.example.buserve.utils;
+-
+-
+-import com.example.buserve.config.BaseException;
+-import com.example.buserve.config.secret.Secret;
+-import io.jsonwebtoken.Claims;
+-import io.jsonwebtoken.Jws;
+-import io.jsonwebtoken.Jwts;
+-import io.jsonwebtoken.SignatureAlgorithm;
+-import org.springframework.stereotype.Service;
+-import org.springframework.web.context.request.RequestContextHolder;
+-import org.springframework.web.context.request.ServletRequestAttributes;
+-
+-import javax.servlet.http.HttpServletRequest;
+-import java.util.Date;
+-
+-import static com.example.buserve.config.BaseResponseStatus.*;
+-
+-@Service
+-public class JwtService {
+-
+-    /*
+-    JWT 생성
+-    @param userIdx
+-    @return String
+-     */
+-    public String createJwt(int userIdx){
+-        Date now = new Date();
+-        return Jwts.builder()
+-                .setHeaderParam("type","jwt")
+-                .claim("userIdx",userIdx)
+-                .setIssuedAt(now)
+-                .setExpiration(new Date(System.currentTimeMillis()+1*(1000*60*60*24*365)))
+-                .signWith(SignatureAlgorithm.HS256, Secret.JWT_SECRET_KEY)
+-                .compact();
+-    }
+-
+-    /*
+-    Header에서 X-ACCESS-TOKEN 으로 JWT 추출
+-    @return String
+-     */
+-    public String getJwt(){
+-        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+-        return request.getHeader("X-ACCESS-TOKEN");
+-    }
+-
+-    /*
+-    JWT에서 userIdx 추출
+-    @return int
+-    @throws BaseException
+-     */
+-    public int getUserIdx() throws BaseException{
+-        //1. JWT 추출
+-        String accessToken = getJwt();
+-        if(accessToken == null || accessToken.length() == 0){
+-            throw new BaseException(EMPTY_JWT);
+-        }
+-
+-        // 2. JWT parsing
+-        Jws<Claims> claims;
+-        try{
+-            claims = Jwts.parser()
+-                    .setSigningKey(Secret.JWT_SECRET_KEY)
+-                    .parseClaimsJws(accessToken);
+-        } catch (Exception ignored) {
+-            throw new BaseException(INVALID_JWT);
+-        }
+-
+-        // 3. userIdx 추출
+-        return claims.getBody().get("userIdx",Integer.class);
+-    }
+-
+-}
+Index: src/main/java/com/example/buserve/config/WebConfig.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/config/WebConfig.java b/src/main/java/com/example/buserve/config/WebConfig.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/config/WebConfig.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,26 +0,0 @@
+-package com.example.buserve.config;
+-
+-import org.springframework.context.annotation.Configuration;
+-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+-
+-@Configuration
+-@EnableWebMvc
+-public class WebConfig implements WebMvcConfigurer {
+-
+-    @Override
+-    public void addCorsMappings(CorsRegistry registry) {
+-        // 모든 경로에 앞으로 만들 모든 CORS 정보를 적용한다
+-        registry.addMapping("/**") 
+-                // Header의 Origin에 들어있는 주소가 http://localhost:3000인 경우를 허용한다
+-                .allowedOrigins("http://localhost:3000") 
+-                // 모든 HTTP Method를 허용한다.
+-                .allowedMethods("*")
+-                // HTTP 요청의 Header에 어떤 값이든 들어갈 수 있도록 허용한다.
+-                .allowedHeaders("*")
+-                // 자격증명 사용을 허용한다.
+-                // 해당 옵션 사용시 allowedOrigins를 * (전체)로 설정할 수 없다.
+-                .allowCredentials(true);
+-    }
+-}
+\ No newline at end of file
+Index: src/main/java/com/example/buserve/src/user/model/GetUserRes.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/model/GetUserRes.java b/src/main/java/com/example/buserve/src/user/model/GetUserRes.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/src/user/model/GetUserRes.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,17 +0,0 @@
+-package com.example.buserve.src.user.model;
+-
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-import lombok.Setter;
+-
+-@Getter
+-@Setter
+-@AllArgsConstructor
+-public class GetUserRes {
+-    private int userIdx;
+-    private String userName;
+-    private String ID;
+-    private String email;
+-    private String password;
+-}
+Index: src/main/java/com/example/buserve/src/user/UserController.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/UserController.java b/src/main/java/com/example/buserve/src/user/UserController.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/src/user/UserController.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,151 +0,0 @@
+-package com.example.buserve.src.user;
+-
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
+-import com.example.buserve.config.BaseException;
+-import com.example.buserve.config.BaseResponse;
+-import com.example.buserve.src.user.model.*;
+-import com.example.buserve.utils.JwtService;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.*;
+-
+-import java.util.List;
+-
+-
+-import static com.example.buserve.config.BaseResponseStatus.*;
+-import static com.example.buserve.utils.ValidationRegex.isRegexEmail;
+-
+-@RestController
+-@RequestMapping("/app/users")
+-public class UserController {
+-    final Logger logger = LoggerFactory.getLogger(this.getClass());
+-
+-    @Autowired
+-    private final UserProvider userProvider;
+-    @Autowired
+-    private final UserService userService;
+-    @Autowired
+-    private final JwtService jwtService;
+-
+-
+-
+-
+-    public UserController(UserProvider userProvider, UserService userService, JwtService jwtService){
+-        this.userProvider = userProvider;
+-        this.userService = userService;
+-        this.jwtService = jwtService;
+-    }
+-
+-    /**
+-     * 회원 조회 API
+-     * [GET] /users
+-     * 회원 번호 및 이메일 검색 조회 API
+-     * [GET] /users? Email=
+-     * @return BaseResponse<List<GetUserRes>>
+-     */
+-    //Query String
+-    @ResponseBody
+-    @GetMapping("") // (GET) 127.0.0.1:9000/app/users
+-    public BaseResponse<List<GetUserRes>> getUsers(@RequestParam(required = false) String Email) {
+-        try{
+-            if(Email == null){
+-                List<GetUserRes> getUsersRes = userProvider.getUsers();
+-                return new BaseResponse<>(getUsersRes);
+-            }
+-            // Get Users
+-            List<GetUserRes> getUsersRes = userProvider.getUsersByEmail(Email);
+-            return new BaseResponse<>(getUsersRes);
+-        } catch(BaseException exception){
+-            return new BaseResponse<>((exception.getStatus()));
+-        }
+-    }
+-
+-    /**
+-     * 회원 1명 조회 API
+-     * [GET] /users/:userIdx
+-     * @return BaseResponse<GetUserRes>
+-     */
+-    // Path-variable
+-    @ResponseBody
+-    @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/app/users/:userIdx
+-    public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
+-        // Get Users
+-        try{
+-            GetUserRes getUserRes = userProvider.getUser(userIdx);
+-            return new BaseResponse<>(getUserRes);
+-        } catch(BaseException exception){
+-            return new BaseResponse<>((exception.getStatus()));
+-        }
+-
+-    }
+-
+-    /**
+-     * 회원가입 API
+-     * [POST] /users
+-     * @return BaseResponse<PostUserRes>
+-     */
+-    // Body
+-    @ResponseBody
+-    @PostMapping("")
+-    public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
+-        // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
+-        if(postUserReq.getEmail() == null){
+-            return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
+-        }
+-        //이메일 정규표현
+-        if(!isRegexEmail(postUserReq.getEmail())){
+-            return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
+-        }
+-        try{
+-            PostUserRes postUserRes = userService.createUser(postUserReq);
+-            return new BaseResponse<>(postUserRes);
+-        } catch(BaseException exception){
+-            return new BaseResponse<>((exception.getStatus()));
+-        }
+-    }
+-    /**
+-     * 로그인 API
+-     * [POST] /users/logIn
+-     * @return BaseResponse<PostLoginRes>
+-     */
+-    @ResponseBody
+-    @PostMapping("/logIn")
+-    public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
+-        try{
+-            // TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
+-            // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.
+-            PostLoginRes postLoginRes = userProvider.logIn(postLoginReq);
+-            return new BaseResponse<>(postLoginRes);
+-        } catch (BaseException exception){
+-            return new BaseResponse<>(exception.getStatus());
+-        }
+-    }
+-
+-    /**
+-     * 유저정보변경 API
+-     * [PATCH] /users/:userIdx
+-     * @return BaseResponse<String>
+-     */
+-    @ResponseBody
+-    @PatchMapping("/{userIdx}")
+-    public BaseResponse<String> modifyUserName(@PathVariable("userIdx") int userIdx, @RequestBody User user){
+-        try {
+-            //jwt에서 idx 추출.
+-            int userIdxByJwt = jwtService.getUserIdx();
+-            //userIdx와 접근한 유저가 같은지 확인
+-            if(userIdx != userIdxByJwt){
+-                return new BaseResponse<>(INVALID_USER_JWT);
+-            }
+-            //같다면 유저네임 변경
+-            PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getUserName());
+-            userService.modifyUserName(patchUserReq);
+-
+-            String result = "";
+-        return new BaseResponse<>(result);
+-        } catch (BaseException exception) {
+-            return new BaseResponse<>((exception.getStatus()));
+-        }
+-    }
+-
+-
+-}
+Index: src/main/java/com/example/buserve/config/Constant.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/config/Constant.java b/src/main/java/com/example/buserve/config/Constant.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/config/Constant.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,5 +0,0 @@
+-package com.example.buserve.config;
+-
+-public class Constant {
+-}
+-
+Index: src/main/java/com/example/buserve/src/user/model/PostLoginRes.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/model/PostLoginRes.java b/src/main/java/com/example/buserve/src/user/model/PostLoginRes.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/src/user/model/PostLoginRes.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,14 +0,0 @@
+-package com.example.buserve.src.user.model;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-import lombok.Setter;
+-
+-@Getter
+-@Setter
+-@AllArgsConstructor
+-public class PostLoginRes {
+-
+-    private int userIdx;
+-    private String jwt;
+-}
+Index: src/main/java/com/example/buserve/src/user/model/PostUserReq.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/model/PostUserReq.java b/src/main/java/com/example/buserve/src/user/model/PostUserReq.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/src/user/model/PostUserReq.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,15 +0,0 @@
+-package com.example.buserve.src.user.model;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-import lombok.Setter;
+-
+-@Getter
+-@Setter
+-@AllArgsConstructor
+-public class PostUserReq {
+-    private String UserName;
+-    private String id;
+-    private String email;
+-    private String password;
+-}
+Index: src/main/java/com/example/buserve/src/user/model/PatchUserReq.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/model/PatchUserReq.java b/src/main/java/com/example/buserve/src/user/model/PatchUserReq.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/src/user/model/PatchUserReq.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,13 +0,0 @@
+-package com.example.buserve.src.user.model;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-import lombok.Setter;
+-
+-@Getter
+-@Setter
+-@AllArgsConstructor
+-public class PatchUserReq {
+-    private int userIdx;
+-    private String userName;
+-}
+Index: src/main/java/com/example/buserve/src/WebSecurityConfig.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/WebSecurityConfig.java b/src/main/java/com/example/buserve/src/WebSecurityConfig.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/src/WebSecurityConfig.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,23 +0,0 @@
+-package com.example.buserve.src;
+-
+-import org.springframework.context.annotation.Bean;
+-import org.springframework.context.annotation.Configuration;
+-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+-import org.springframework.security.web.SecurityFilterChain;
+-
+-@Configuration
+-@EnableWebSecurity
+-public class WebSecurityConfig {
+-    @Bean
+-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+-        return http
+-                // Spring Boot에서 설정한 CORS (Cross-Origin Resource Sharing) 설정을 따른다 (config/WebConfig.java 설정 확인)
+-                .cors()
+-                .and()
+-                // CSRF (Cross-Site Request Forgery) 방지를 해제한다
+-                // Session/Cookie의 취약점을 이용하기 때문에 템플릿처럼 OAuth2, JWT 기반일 경우는 비활성화해도 무관하다.
+-                .csrf().disable()
+-                .build();
+-    }
+-}
+Index: src/main/java/com/example/buserve/src/user/model/PostLoginReq.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/model/PostLoginReq.java b/src/main/java/com/example/buserve/src/user/model/PostLoginReq.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/src/user/model/PostLoginReq.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,13 +0,0 @@
+-package com.example.buserve.src.user.model;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-import lombok.Setter;
+-
+-@Getter
+-@Setter
+-@AllArgsConstructor
+-public class PostLoginReq {
+-    private String id;
+-    private String password;
+-}
+Index: src/main/java/com/example/buserve/src/user/model/PostUserRes.java
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/model/PostUserRes.java b/src/main/java/com/example/buserve/src/user/model/PostUserRes.java
+deleted file mode 100644
+--- a/src/main/java/com/example/buserve/src/user/model/PostUserRes.java	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ /dev/null	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
+@@ -1,13 +0,0 @@
+-package com.example.buserve.src.user.model;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-import lombok.Setter;
+-
+-@Getter
+-@Setter
+-@AllArgsConstructor
+-public class PostUserRes {
+-    private String jwt;
+-    private int userIdx;
+-}
+Index: src/main/java/com/example/buserve/src/user/UserSignUpDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/UserSignUpDto.java b/src/main/java/com/example/buserve/src/user/UserSignUpDto.java
+new file mode 100644
+--- /dev/null	(date 1690269411440)
++++ b/src/main/java/com/example/buserve/src/user/UserSignUpDto.java	(date 1690269411440)
+@@ -0,0 +1,15 @@
++package com.example.buserve.src.user;
++
++import lombok.Getter;
++import lombok.NoArgsConstructor;
++
++@NoArgsConstructor
++@Getter
++public class UserSignUpDto {
++
++    private String email;
++    private String password;
++    private String nickname;
++    private int age;
++    private String city;
++}
+Index: src/main/java/com/example/buserve/src/user/SocialType.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/SocialType.java b/src/main/java/com/example/buserve/src/user/SocialType.java
+new file mode 100644
+--- /dev/null	(date 1690269354799)
++++ b/src/main/java/com/example/buserve/src/user/SocialType.java	(date 1690269354799)
+@@ -0,0 +1,5 @@
++package com.example.buserve.src.user;
++
++public enum SocialType {
++    GOOGLE, KAKAO, APPLE
++}
+Index: src/main/java/com/example/buserve/src/user/Role.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/Role.java b/src/main/java/com/example/buserve/src/user/Role.java
+new file mode 100644
+--- /dev/null	(date 1690269332498)
++++ b/src/main/java/com/example/buserve/src/user/Role.java	(date 1690269332498)
+@@ -0,0 +1,13 @@
++package com.example.buserve.src.user;
++
++import lombok.Getter;
++import lombok.RequiredArgsConstructor;
++
++@Getter
++@RequiredArgsConstructor
++public enum Role {
++
++    GUEST("ROLE_GUEST"), USER("ROLE_USER");
++
++    private final String key;
++}
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1690086165591)
++++ b/.idea/misc.xml	(date 1690086165591)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="FrameworkDetectionExcludesConfiguration">
++    <file type="web" url="file://$PROJECT_DIR$" />
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="17" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1690086082802)
++++ b/.idea/vcs.xml	(date 1690086082802)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+--- /dev/null	(date 1690086083148)
++++ b/.idea/.gitignore	(date 1690086083148)
+@@ -0,0 +1,8 @@
++# Default ignored files
++/shelf/
++/workspace.xml
++# Editor-based HTTP Client requests
++/httpRequests/
++# Datasource local storage ignored files
++/dataSources/
++/dataSources.local.xml
+Index: src/main/java/com/example/buserve/src/user/UserRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/UserRepository.java b/src/main/java/com/example/buserve/src/user/UserRepository.java
+new file mode 100644
+--- /dev/null	(date 1690269399193)
++++ b/src/main/java/com/example/buserve/src/user/UserRepository.java	(date 1690269399193)
+@@ -0,0 +1,22 @@
++package com.example.buserve.src.user;
++
++import org.springframework.data.jpa.repository.JpaRepository;
++
++import java.util.Optional;
++
++public interface UserRepository extends JpaRepository<User, Long> {
++
++    Optional<User> findByEmail(String email);
++
++    Optional<User> findByNickname(String nickname);
++
++    Optional<User> findByRefreshToken(String refreshToken);
++
++    /**
++     * 소셜 타입과 소셜의 식별값으로 회원 찾는 메소드
++     * 정보 제공을 동의한 순간 DB에 저장해야하지만, 아직 추가 정보(사는 도시, 나이 등)를 입력받지 않았으므로
++     * 유저 객체는 DB에 있지만, 추가 정보가 빠진 상태이다.
++     * 따라서 추가 정보를 입력받아 회원 가입을 진행할 때 소셜 타입, 식별자로 해당 회원을 찾기 위한 메소드
++     */
++    Optional<User> findBySocialTypeAndSocialId(SocialType socialType, String socialId);
++}
+\ No newline at end of file
+Index: src/main/java/com/example/buserve/src/SecurityConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/SecurityConfig.java b/src/main/java/com/example/buserve/src/SecurityConfig.java
+new file mode 100644
+--- /dev/null	(date 1690466027595)
++++ b/src/main/java/com/example/buserve/src/SecurityConfig.java	(date 1690466027595)
+@@ -0,0 +1,27 @@
++package com.example.buserve.src;
++
++
++import lombok.RequiredArgsConstructor;
++import org.springframework.security.config.annotation.web.builders.HttpSecurity;
++import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
++import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
++
++@RequiredArgsConstructor
++@EnableWebSecurity //
++public class SecurityConfig extends WebSecurityConfigurerAdapter {
++
++    @Override
++    protected void configure(HttpSecurity http) throws Exception {
++        http
++                .csrf().disable()
++                .headers().frameOptions().disable() //
++
++                .and()
++                .logout()
++                .logoutSuccessUrl("/") //
++
++                .and()
++                .oauth2Login() // 로그인 시 페이지
++                .userInfoEndpoint();
++    }
++}
+\ No newline at end of file
+Index: src/main/java/com/example/buserve/src/user/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/buserve/src/user/User.java b/src/main/java/com/example/buserve/src/user/User.java
+new file mode 100644
+--- /dev/null	(date 1690465808684)
++++ b/src/main/java/com/example/buserve/src/user/User.java	(date 1690465808684)
+@@ -0,0 +1,43 @@
++package com.example.buserve.src.user;
++
++
++import lombok.*;
++import org.springframework.security.crypto.password.PasswordEncoder;
++
++import javax.persistence.*;
++
++@Getter
++@NoArgsConstructor(access = AccessLevel.PROTECTED)
++@Entity
++@Builder
++@Table(name = "USERS")
++@AllArgsConstructor
++public class User {
++
++    @Id
++    @GeneratedValue(strategy = GenerationType.IDENTITY)
++    @Column(name = "user_id")
++    private Long id;
++
++    private String email; // 이메일
++    private String nickname; // 닉네임
++    private String imageUrl; // 프로필 이미지
++
++    @Enumerated(EnumType.STRING)
++    private Role role;
++
++    @Enumerated(EnumType.STRING)
++    private SocialType socialType; // KAKAO, APPLE, GOOGLE
++
++    private String socialId; // 로그인한 소셜 타입의 식별자 값, 일반 Token값
++    private String refreshToken; // 리프레시 토큰
++
++    // 유저 권한 설정 메소드
++    public void authorizeUser() {
++        this.role = Role.USER;
++    }
++
++    public void updateRefreshToken(String updateRefreshToken) {
++        this.refreshToken = updateRefreshToken;
++    }
++}
+\ No newline at end of file
+Index: src/main/resources/application.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>server:\r\n  port: 9000\r\n\r\nspring:\r\n  application:\r\n    name: buserve\r\n  profiles:\r\n    active: local
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/application.yml b/src/main/resources/application.yml
+--- a/src/main/resources/application.yml	(revision 547619a07dbd7343dc57f4d6c97580a14dc820a6)
++++ b/src/main/resources/application.yml	(date 1690255965257)
+@@ -5,4 +5,15 @@
+   application:
+     name: buserve
+   profiles:
+-    active: local
+\ No newline at end of file
++    active: local
++    include: oauth
++  security:
++    oauth2:
++      client:
++        registration:
++          google:
++            client-id: 생성된 클라이언트 ID
++            client-secret: 생성된 보안 비밀번호
++            scope:
++              - email
++              - profile
+\ No newline at end of file
+Index: src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+new file mode 100644
+--- /dev/null	(date 1690267619771)
++++ b/src/main/resources/application.properties	(date 1690267619771)
+@@ -0,0 +1,2 @@
++#oauth
++spring.profiles.include = oauth
