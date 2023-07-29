@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/buserve-server.iml" filepath="$PROJECT_DIR$/.idea/buserve-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/buserve-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/buserve-server.main.iml" />
     </modules>
   </component>
 </project>

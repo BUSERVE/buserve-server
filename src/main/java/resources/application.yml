@@ -1,0 +1,28 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 생성된 클라이언트 ID
+            client-secret: 생성된 보안 비밀번호
+            scope:
+              - email
+              - profile
+          kakao:
+            clientId: '{카카오 client-id}'
+            clientSecret: '{카카오 client-secret}'
+            clientAuthenticationMethod: post
+            authorizationGrantType: authorization_code
+            redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+            clientName: Kakao
+          provider:
+            kakao:
+              authorizationUri: https://kauth.kakao.com/oauth/authorize
+              tokenUri: https://kauth.kakao.com/oauth/token
+              userInfoUri: https://kapi.kakao.com/v2/user/me
+              userNameAttribute: id

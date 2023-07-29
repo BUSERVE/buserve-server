@@ -1,6 +1,0 @@
-{
-  "timestamp": 1690088869871,
-  "status": 500,
-  "error": "Internal Server Error",
-  "path": "/api/v1/oauth2/google"
-}
