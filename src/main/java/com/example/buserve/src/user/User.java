@@ -40,4 +40,7 @@ public class User {
     }
 
 
+    public void updateRefreshToken(String updateRefreshToken) {
+        this.refreshToken = updateRefreshToken;
+    }
 }
