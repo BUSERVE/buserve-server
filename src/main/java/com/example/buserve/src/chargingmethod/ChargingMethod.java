@@ -1,15 +1,15 @@
 package com.example.buserve.src.chargingmethod;
 
 import com.example.buserve.src.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
 public class ChargingMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

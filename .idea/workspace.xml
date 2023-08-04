@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c80f55cc-b1a5-4839-aec6-17395bfb1348" name="Changes" comment="fix: profiles가 인식이 되지 않던 버그 수정">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/chargingmethod/AmountDto.java" afterDir="false" />
+    <list default="true" id="c80f55cc-b1a5-4839-aec6-17395bfb1348" name="Changes" comment="feat: 유저와 충전수단 연관관계 설정">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/configure/DatabaseSeeder.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/configure/WebSecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
@@ -14,19 +14,9 @@
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application-dev.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/resources/main/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/User$UserBuilder.class.uniqueId1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/User.class.uniqueId3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/UserRepository.class.uniqueId0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/UserService.class.uniqueId2" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/chargingmethod/BusMoneyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/chargingmethod/BusMoneyController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/chargingmethod/ChargingMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/chargingmethod/ChargingMethod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/chargingmethod/ChargingMethodController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/chargingmethod/ChargingMethodController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/chargingmethod/ChargingMethodRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/chargingmethod/ChargingMethodRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/chargingmethod/ChargingMethodService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/chargingmethod/ChargingMethodService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/buserve/src/user/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,7 +208,7 @@
       <workItem from="1690951492610" duration="144000" />
       <workItem from="1690951653859" duration="3367000" />
       <workItem from="1691116372098" duration="88000" />
-      <workItem from="1691116476379" duration="11721000" />
+      <workItem from="1691116476379" duration="12400000" />
     </task>
     <task id="LOCAL-00001" summary="feat : .idea 관련파일">
       <created>1690468224295</created>
@@ -288,7 +278,15 @@
       <option name="project" value="LOCAL" />
       <updated>1691133985983</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="feat: 유저와 충전수단 연관관계 설정">
+      <option name="closed" value="true" />
+      <created>1691138096545</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1691138096545</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -314,7 +312,8 @@
     <MESSAGE value="build: 자동 재배포 CI/CD 설정 추가" />
     <MESSAGE value="feat: 충전수단 및 버정머니 구현" />
     <MESSAGE value="fix: profiles가 인식이 되지 않던 버그 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: profiles가 인식이 되지 않던 버그 수정" />
+    <MESSAGE value="feat: 유저와 충전수단 연관관계 설정" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 유저와 충전수단 연관관계 설정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
