@@ -24,16 +24,16 @@ public class BusMoneyController {
     }
 
     @PostMapping("/charge")
-    public ResponseEntity<Void> chargeBusMoney(Principal principal, @RequestParam int amount) {
+    public ResponseEntity<Void> chargeBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
         Long userId = getUserIdFromPrincipal(principal);
-        userService.chargeBusMoney(userId, amount);
+        userService.chargeBusMoney(userId, amountDto.getAmount());
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/use")
-    public ResponseEntity<Void> useBusMoney(Principal principal, @RequestParam int amount) {
+    public ResponseEntity<Void> useBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
         Long userId = getUserIdFromPrincipal(principal);
-        userService.useBusMoney(userId, amount);
+        userService.useBusMoney(userId, amountDto.getAmount());
         return ResponseEntity.ok().build();
     }
 

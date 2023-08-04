@@ -10,7 +10,7 @@ server:
 spring:
   profiles:
     include: oauth
-    
+
   security:
     oauth2:
       client:

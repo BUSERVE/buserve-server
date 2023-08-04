@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -17,23 +18,34 @@ public class ChargingMethodController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ChargingMethod>> getAllChargingMethods() {
-        return ResponseEntity.ok(chargingMethodService.getAllChargingMethods());
+    public ResponseEntity<List<ChargingMethod>> getAllChargingMethods(Principal principal) {
+        Long userId = getUserIdFromPrincipal(principal);
+        return ResponseEntity.ok(chargingMethodService.getAllChargingMethods(userId));
     }
 
     @GetMapping("/{method_id}")
-    public ResponseEntity<ChargingMethod> getChargingMethod(@PathVariable Long method_id) {
-        return ResponseEntity.ok(chargingMethodService.getChargingMethod(method_id));
+    public ResponseEntity<ChargingMethod> getChargingMethod(Principal principal, @PathVariable Long method_id) {
+        Long userId = getUserIdFromPrincipal(principal);
+        return ResponseEntity.ok(chargingMethodService.getChargingMethod(userId, method_id));
     }
 
     @PostMapping
-    public ResponseEntity<ChargingMethod> addChargingMethod(@RequestBody ChargingMethod chargingMethod) {
-        return ResponseEntity.ok(chargingMethodService.addChargingMethod(chargingMethod));
+    public ResponseEntity<ChargingMethod> addChargingMethod(Principal principal, @RequestBody ChargingMethod chargingMethod) {
+        Long userId = getUserIdFromPrincipal(principal);
+        return ResponseEntity.ok(chargingMethodService.addChargingMethod(userId, chargingMethod));
     }
 
     @DeleteMapping("/{method_id}")
-    public ResponseEntity<Void> deleteChargingMethod(@PathVariable Long method_id) {
-        chargingMethodService.deleteChargingMethod(method_id);
+    public ResponseEntity<Void> deleteChargingMethod(Principal principal, @PathVariable Long method_id) {
+        Long userId = getUserIdFromPrincipal(principal);
+        chargingMethodService.deleteChargingMethod(userId, method_id);
         return ResponseEntity.ok().build();
+    }
+
+    private Long getUserIdFromPrincipal(Principal principal) {
+        // principal에서 사용자 ID를 추출하는 로직
+        // 예를 들어, 사용자 이름을 ID로 사용하거나 별도의 서비스를 호출하여 ID를 가져올 수 있습니다.
+        // 임시로 UserId 1L 반환
+        return 1L;
     }
 }

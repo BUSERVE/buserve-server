@@ -1,8 +1,11 @@
 package com.example.buserve.src.user;
 
+import com.example.buserve.src.chargingmethod.ChargingMethod;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,6 +38,9 @@ public class User {
     private String refreshToken; // 리프레시 토큰
 
     private int busMoney; // 버정머니
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChargingMethod> chargingMethods = new ArrayList<>(); // 충전 수단 리스트
 
     // 유저 권한 설정 메소드
     public void authorizeUser() {

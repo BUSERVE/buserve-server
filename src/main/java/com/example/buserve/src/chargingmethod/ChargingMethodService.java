@@ -1,33 +1,46 @@
 package com.example.buserve.src.chargingmethod;
 
+import com.example.buserve.src.user.User;
+import com.example.buserve.src.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ChargingMethodService {
     private final ChargingMethodRepository chargingMethodRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    public ChargingMethodService(ChargingMethodRepository chargingMethodRepository) {
-        this.chargingMethodRepository = chargingMethodRepository;
+    public List<ChargingMethod> getAllChargingMethods(Long userId) {
+        // 사용자 ID를 기반으로 충전 수단을 찾습니다.
+        return chargingMethodRepository.findByUserId(userId);
     }
 
-    public List<ChargingMethod> getAllChargingMethods() {
-        return chargingMethodRepository.findAll();
+    public ChargingMethod getChargingMethod(Long userId, Long id) {
+        // 사용자 ID와 충전 수단 ID를 기반으로 충전 수단을 찾습니다.
+        return chargingMethodRepository.findByUserIdAndId(userId, id)
+                .orElseThrow(() -> new IllegalArgumentException("Charging method not found"));
     }
 
-    public ChargingMethod getChargingMethod(Long id) {
-        return chargingMethodRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Charging method not found"));
-    }
+    public ChargingMethod addChargingMethod(Long userId, ChargingMethod chargingMethod) {
+        // 사용자를 찾습니다.
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-    public ChargingMethod addChargingMethod(ChargingMethod chargingMethod) {
+        // 사용자와 충전 수단을 연결합니다.
+        chargingMethod.setUser(user);
+
         return chargingMethodRepository.save(chargingMethod);
     }
 
-    public void deleteChargingMethod(Long id) {
-        chargingMethodRepository.deleteById(id);
+
+    public void deleteChargingMethod(Long userId, Long id) {
+        // 먼저 사용자 ID와 일치하는 충전 수단이 있는지 확인합니다.
+        ChargingMethod chargingMethod = getChargingMethod(userId, id);
+        chargingMethodRepository.delete(chargingMethod);
     }
 }
 
