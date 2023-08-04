@@ -1,12 +1,16 @@
-  server:
-    port: 9000
-    servlet:
-      context-path: /
-      encoding:
-        charset: UTF-8
-        enabled: true
-        force: true
+server:
+  port: 9000
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
+spring:
+  profiles:
+    include: oauth
+    
   security:
     oauth2:
       client:
@@ -28,12 +32,12 @@
               - profile_image
               - account_email
             clientName: Kakao
-          provider:
-            kakao:
-              authorizationUri: https://kauth.kakao.com/oauth/authorize
-              tokenUri: https://kauth.kakao.com/oauth/token
-              userInfoUri: https://kapi.kakao.com/v2/user/me
-              userNameAttribute: id
+        provider:
+          kakao:
+            authorizationUri: https://kauth.kakao.com/oauth/authorize
+            tokenUri: https://kauth.kakao.com/oauth/token
+            userInfoUri: https://kapi.kakao.com/v2/user/me
+            userNameAttribute: id
 
 
   # H2 Setting Info (H2 Console에 접속하기 위한 설정정보 입력)
@@ -46,8 +50,8 @@
   datasource:
     driver-class-name: org.h2.Driver  # Database를 H2로 사용하겠다.
     url: jdbc:h2:~/test  # H2 접속 정보
-    username: hs  # H2 접속 시 입력할 username 정보 (원하는 것으로 입력)
-    password: khsoo2580 # H2 접속 시 입력할 password 정보 (원하는 것으로 입력)
+    username: sa  # H2 접속 시 입력할 username 정보 (원하는 것으로 입력)
+    password:  # H2 접속 시 입력할 password 정보 (원하는 것으로 입력)
 
   jpa:
     hibernate:
