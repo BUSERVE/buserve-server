@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c80f55cc-b1a5-4839-aec6-17395bfb1348" name="Changes" comment="build: 배포용 설정 추가">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
+    <list default="true" id="c80f55cc-b1a5-4839-aec6-17395bfb1348" name="Changes" comment="feat: Api 응답 방식 정의, 버정머니 응답 수정, 임시로 /api 요청 가능하도록 인증 설정 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,24 +91,24 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/JYP/IdeaProjects/buserve-server/gradle/wrapper",
+    "last_opened_file_path": "C:/Users/JYP/IdeaProjects/buserve-server/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.deploy.options",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "spring.configuration.checksum": "fc92b92f6bb437e8a00cdb056f136010",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\JYP\IdeaProjects\buserve-server\src\main\resources" />
       <recent name="C:\Users\JYP\IdeaProjects\buserve-server\gradle\wrapper" />
       <recent name="C:\Users\JYP\IdeaProjects\buserve-server" />
       <recent name="C:\Users\MKITS\Desktop\buserve-server\gradle\wrapper" />
       <recent name="C:\Users\MKITS\Desktop\buserve-server" />
-      <recent name="C:\Users\MKITS\Desktop\buserve-server\src" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.BuserveApplication">
@@ -131,7 +131,7 @@
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
-      <ForceTestExec>false</ForceTestExec>
+      <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="buserve-server [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -153,7 +153,7 @@
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
-      <ForceTestExec>false</ForceTestExec>
+      <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="BuserveApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
@@ -163,6 +163,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Gradle.buserve-server [build]" />
+      <item itemvalue="Gradle.buserve-server [dependencies]" />
+      <item itemvalue="Spring Boot.BuserveApplication" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.buserve-server [build]" />
@@ -186,6 +191,14 @@
       <workItem from="1690698220501" duration="1106000" />
       <workItem from="1690700252079" duration="708000" />
       <workItem from="1690772857060" duration="3933000" />
+      <workItem from="1690891814206" duration="286000" />
+      <workItem from="1690892116191" duration="2728000" />
+      <workItem from="1690947301973" duration="877000" />
+      <workItem from="1690950391684" duration="986000" />
+      <workItem from="1690951492610" duration="144000" />
+      <workItem from="1690951653859" duration="3367000" />
+      <workItem from="1691116372098" duration="88000" />
+      <workItem from="1691116476379" duration="15550000" />
     </task>
     <task id="LOCAL-00001" summary="feat : .idea 관련파일">
       <created>1690468224295</created>
@@ -231,7 +244,55 @@
       <option name="project" value="LOCAL" />
       <updated>1690781853917</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="build: 자동 재배포 CI/CD 설정 추가">
+      <option name="closed" value="true" />
+      <created>1690783806055</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1690783806055</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: 충전수단 및 버정머니 구현">
+      <option name="closed" value="true" />
+      <created>1691131642239</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1691131642239</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fix: profiles가 인식이 되지 않던 버그 수정">
+      <option name="closed" value="true" />
+      <created>1691133985983</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1691133985983</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: 유저와 충전수단 연관관계 설정">
+      <option name="closed" value="true" />
+      <created>1691138096545</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1691138096545</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat: 유저, 충전수단 목업 데이터 생성">
+      <option name="closed" value="true" />
+      <created>1691138887844</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1691138887844</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat: Api 응답 방식 정의, 버정머니 응답 수정, 임시로 /api 요청 가능하도록 인증 설정 수정">
+      <option name="closed" value="true" />
+      <created>1691141824534</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1691141824534</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -254,6 +315,23 @@
     <MESSAGE value="feat : User 기능 구현" />
     <MESSAGE value="refactor: gradle-wrapper 파일의 distributionUrl 수정" />
     <MESSAGE value="build: 배포용 설정 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="build: 배포용 설정 추가" />
+    <MESSAGE value="build: 자동 재배포 CI/CD 설정 추가" />
+    <MESSAGE value="feat: 충전수단 및 버정머니 구현" />
+    <MESSAGE value="fix: profiles가 인식이 되지 않던 버그 수정" />
+    <MESSAGE value="feat: 유저와 충전수단 연관관계 설정" />
+    <MESSAGE value="feat: 유저, 충전수단 목업 데이터 생성" />
+    <MESSAGE value="feat: Api 응답 방식 정의, 버정머니 응답 수정, 임시로 /api 요청 가능하도록 인증 설정 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Api 응답 방식 정의, 버정머니 응답 수정, 임시로 /api 요청 가능하도록 인증 설정 수정" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/buserve/src/BuserveApplication.java</url>
+          <line>6</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

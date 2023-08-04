@@ -29,4 +29,22 @@ public class UserService {
                 .build();
 
     }
+
+    public int getBusMoney(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return user.getBusMoney();
+    }
+
+    @Transactional
+    public void chargeBusMoney(Long userId, int amount) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.chargeBusMoney(amount);
+    }
+
+    @Transactional
+    public void useBusMoney(Long userId, int amount) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.useBusMoney(amount);
+    }
+
 }
