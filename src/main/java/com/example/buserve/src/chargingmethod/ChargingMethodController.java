@@ -1,6 +1,8 @@
 package com.example.buserve.src.chargingmethod;
 
+import com.example.buserve.src.configure.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +20,12 @@ public class ChargingMethodController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ChargingMethod>> getAllChargingMethods(Principal principal) {
+    public ApiResponse<List<ChargingMethod>> getAllChargingMethods(Principal principal) {
         Long userId = getUserIdFromPrincipal(principal);
-        return ResponseEntity.ok(chargingMethodService.getAllChargingMethods(userId));
+        List<ChargingMethod> chargingMethods = chargingMethodService.getAllChargingMethods(userId);
+        return new ApiResponse<>(chargingMethods);
     }
+
 
     @GetMapping("/{method_id}")
     public ResponseEntity<ChargingMethod> getChargingMethod(Principal principal, @PathVariable Long method_id) {

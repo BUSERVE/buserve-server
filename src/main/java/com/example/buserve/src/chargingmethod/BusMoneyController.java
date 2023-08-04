@@ -1,7 +1,9 @@
 package com.example.buserve.src.chargingmethod;
 
+import com.example.buserve.src.configure.ApiResponse;
 import com.example.buserve.src.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,23 +20,25 @@ public class BusMoneyController {
     }
 
     @GetMapping
-    public ResponseEntity<Integer> getBusMoney(Principal principal) {
+    public ApiResponse<Integer> getBusMoney(Principal principal) {
         Long userId = getUserIdFromPrincipal(principal); // 현재 로그인한 사용자 ID 획득
-        return ResponseEntity.ok(userService.getBusMoney(userId));
+        return new ApiResponse<>(userService.getBusMoney(userId));
     }
 
     @PostMapping("/charge")
-    public ResponseEntity<Void> chargeBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
+    public ApiResponse<Integer> chargeBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
         Long userId = getUserIdFromPrincipal(principal);
         userService.chargeBusMoney(userId, amountDto.getAmount());
-        return ResponseEntity.ok().build();
+
+        return new ApiResponse<>(userService.getBusMoney(userId));
     }
 
     @PostMapping("/use")
-    public ResponseEntity<Void> useBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
+    public ApiResponse<Integer> useBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
         Long userId = getUserIdFromPrincipal(principal);
         userService.useBusMoney(userId, amountDto.getAmount());
-        return ResponseEntity.ok().build();
+
+        return new ApiResponse<>(userService.getBusMoney(userId));
     }
 
     // 로그인한 사용자의 ID를 획득하는 메서드 (구현 필요)
