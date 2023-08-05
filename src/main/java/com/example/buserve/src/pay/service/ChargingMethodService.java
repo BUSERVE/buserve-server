@@ -1,9 +1,10 @@
-package com.example.buserve.src.chargingmethod;
+package com.example.buserve.src.pay.service;
 
+import com.example.buserve.src.pay.entity.ChargingMethod;
+import com.example.buserve.src.pay.repository.ChargingMethodRepository;
 import com.example.buserve.src.user.User;
 import com.example.buserve.src.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

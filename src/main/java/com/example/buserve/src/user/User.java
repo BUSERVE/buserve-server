@@ -1,8 +1,8 @@
 package com.example.buserve.src.user;
 
-import com.example.buserve.src.chargingmethod.ChargingMethod;
+import com.example.buserve.src.pay.entity.ChargingMethod;
 import lombok.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

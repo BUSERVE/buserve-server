@@ -1,4 +1,4 @@
-package com.example.buserve.src.chargingmethod;
+package com.example.buserve.src.pay.entity;
 
 import com.example.buserve.src.user.User;
 import lombok.*;

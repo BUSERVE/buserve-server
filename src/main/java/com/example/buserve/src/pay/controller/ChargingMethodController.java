@@ -1,8 +1,9 @@
-package com.example.buserve.src.chargingmethod;
+package com.example.buserve.src.pay.controller;
 
-import com.example.buserve.src.configure.ApiResponse;
+import com.example.buserve.src.pay.entity.ChargingMethod;
+import com.example.buserve.src.pay.service.ChargingMethodService;
+import com.example.buserve.src.common.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class ChargingMethodController {
     public ApiResponse<List<ChargingMethod>> getAllChargingMethods(Principal principal) {
         Long userId = getUserIdFromPrincipal(principal);
         List<ChargingMethod> chargingMethods = chargingMethodService.getAllChargingMethods(userId);
-        return new ApiResponse<>(chargingMethods);
+        return ApiResponse.success(chargingMethods);
     }
 
 

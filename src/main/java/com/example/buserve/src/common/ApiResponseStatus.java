@@ -1,4 +1,4 @@
-package com.example.buserve.src.configure;
+package com.example.buserve.src.common;
 
 import lombok.Getter;
 

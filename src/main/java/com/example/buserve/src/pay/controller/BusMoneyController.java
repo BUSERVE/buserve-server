@@ -1,10 +1,9 @@
-package com.example.buserve.src.chargingmethod;
+package com.example.buserve.src.pay.controller;
 
-import com.example.buserve.src.configure.ApiResponse;
+import com.example.buserve.src.pay.dto.AmountDto;
+import com.example.buserve.src.common.ApiResponse;
 import com.example.buserve.src.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -20,25 +19,25 @@ public class BusMoneyController {
     }
 
     @GetMapping
-    public ApiResponse<Integer> getBusMoney(Principal principal) {
+    public ApiResponse<AmountDto> getBusMoney(Principal principal) {
         Long userId = getUserIdFromPrincipal(principal); // 현재 로그인한 사용자 ID 획득
-        return new ApiResponse<>(userService.getBusMoney(userId));
+        int currentBusMoney = userService.getBusMoney(userId);
+        return ApiResponse.success(new AmountDto(currentBusMoney));
     }
 
     @PostMapping("/charge")
-    public ApiResponse<Integer> chargeBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
+    public ApiResponse<AmountDto> chargeBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
         Long userId = getUserIdFromPrincipal(principal);
         userService.chargeBusMoney(userId, amountDto.getAmount());
-
-        return new ApiResponse<>(userService.getBusMoney(userId));
+        int changedMoney = userService.getBusMoney(userId);
+        return ApiResponse.success(new AmountDto(changedMoney));
     }
 
     @PostMapping("/use")
-    public ApiResponse<Integer> useBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
+    public ApiResponse<AmountDto> useBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
         Long userId = getUserIdFromPrincipal(principal);
         userService.useBusMoney(userId, amountDto.getAmount());
-
-        return new ApiResponse<>(userService.getBusMoney(userId));
+        return ApiResponse.success(new AmountDto(userService.getBusMoney(userId)));
     }
 
     // 로그인한 사용자의 ID를 획득하는 메서드 (구현 필요)

@@ -1,7 +1,7 @@
 package com.example.buserve.src.configure;
 
-import com.example.buserve.src.chargingmethod.ChargingMethod;
-import com.example.buserve.src.chargingmethod.ChargingMethodRepository;
+import com.example.buserve.src.pay.entity.ChargingMethod;
+import com.example.buserve.src.pay.repository.ChargingMethodRepository;
 import com.example.buserve.src.user.Role;
 import com.example.buserve.src.user.SocialType;
 import com.example.buserve.src.user.User;
