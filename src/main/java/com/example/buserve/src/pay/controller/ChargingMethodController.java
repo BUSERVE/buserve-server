@@ -1,10 +1,10 @@
 package com.example.buserve.src.pay.controller;
 
+import com.example.buserve.src.pay.dto.ChargingMethodInfoDto;
 import com.example.buserve.src.pay.entity.ChargingMethod;
 import com.example.buserve.src.pay.service.ChargingMethodService;
 import com.example.buserve.src.common.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -21,30 +21,36 @@ public class ChargingMethodController {
     }
 
     @GetMapping
-    public ApiResponse<List<ChargingMethod>> getAllChargingMethods(Principal principal) {
+    public ApiResponse<List<ChargingMethodInfoDto>> getAllChargingMethods(Principal principal) {
         Long userId = getUserIdFromPrincipal(principal);
         List<ChargingMethod> chargingMethods = chargingMethodService.getAllChargingMethods(userId);
-        return ApiResponse.success(chargingMethods);
+        List<ChargingMethodInfoDto> chargingMethodsDto = chargingMethodService.convertToDto(chargingMethods);
+        return ApiResponse.success(chargingMethodsDto);
     }
 
 
     @GetMapping("/{method_id}")
-    public ResponseEntity<ChargingMethod> getChargingMethod(Principal principal, @PathVariable Long method_id) {
+    public ApiResponse<ChargingMethodInfoDto> getChargingMethod(Principal principal, @PathVariable Long method_id) {
         Long userId = getUserIdFromPrincipal(principal);
-        return ResponseEntity.ok(chargingMethodService.getChargingMethod(userId, method_id));
+        return ApiResponse.success(chargingMethodService.convertToDto(chargingMethodService.getChargingMethod(userId, method_id)));
     }
 
     @PostMapping
-    public ResponseEntity<ChargingMethod> addChargingMethod(Principal principal, @RequestBody ChargingMethod chargingMethod) {
+    public ApiResponse<ChargingMethodInfoDto> addChargingMethod(Principal principal, @RequestBody ChargingMethod chargingMethod) {
         Long userId = getUserIdFromPrincipal(principal);
-        return ResponseEntity.ok(chargingMethodService.addChargingMethod(userId, chargingMethod));
+        ChargingMethod newChargingMethod = chargingMethodService.addChargingMethod(userId, chargingMethod);
+        ChargingMethodInfoDto chargingMethodInfoDto = chargingMethodService.convertToDto(newChargingMethod);
+        return ApiResponse.success(chargingMethodInfoDto);
     }
 
     @DeleteMapping("/{method_id}")
-    public ResponseEntity<Void> deleteChargingMethod(Principal principal, @PathVariable Long method_id) {
+    public ApiResponse<List<ChargingMethodInfoDto>> deleteChargingMethod(Principal principal, @PathVariable Long method_id) {
         Long userId = getUserIdFromPrincipal(principal);
         chargingMethodService.deleteChargingMethod(userId, method_id);
-        return ResponseEntity.ok().build();
+
+        List<ChargingMethod> remainChargingMethods = chargingMethodService.getAllChargingMethods(userId);
+        List<ChargingMethodInfoDto> remainChargingMethodsDto = chargingMethodService.convertToDto(remainChargingMethods);
+        return ApiResponse.success(remainChargingMethodsDto);
     }
 
     private Long getUserIdFromPrincipal(Principal principal) {

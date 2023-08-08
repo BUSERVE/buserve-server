@@ -1,5 +1,6 @@
 package com.example.buserve.src.pay.service;
 
+import com.example.buserve.src.pay.dto.ChargingMethodInfoDto;
 import com.example.buserve.src.pay.entity.ChargingMethod;
 import com.example.buserve.src.pay.repository.ChargingMethodRepository;
 import com.example.buserve.src.user.User;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +44,16 @@ public class ChargingMethodService {
         // 먼저 사용자 ID와 일치하는 충전 수단이 있는지 확인합니다.
         ChargingMethod chargingMethod = getChargingMethod(userId, id);
         chargingMethodRepository.delete(chargingMethod);
+    }
+
+    public List<ChargingMethodInfoDto> convertToDto(List<ChargingMethod> chargingMethods) {
+        return chargingMethods.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    public ChargingMethodInfoDto convertToDto(ChargingMethod chargingMethod) {
+        return new ChargingMethodInfoDto(chargingMethod.getId(), chargingMethod.getName(), chargingMethod.getDetails());
     }
 }
 
