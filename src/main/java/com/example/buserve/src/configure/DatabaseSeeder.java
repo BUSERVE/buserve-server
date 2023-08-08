@@ -22,7 +22,6 @@ public class DatabaseSeeder {
                     .nickname("User1")
                     .role(Role.USER)
                     .socialType(SocialType.GOOGLE)
-                    .socialId("google-id-1")
                     .busMoney(10000)
                     .build();
             userRepository.save(user1);
@@ -39,7 +38,6 @@ public class DatabaseSeeder {
                     .nickname("User2")
                     .role(Role.USER)
                     .socialType(SocialType.KAKAO)
-                    .socialId("kakao-id-1")
                     .busMoney(2000)
                     .build();
             userRepository.save(user2);
