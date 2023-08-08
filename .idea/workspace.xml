@@ -73,8 +73,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -205,6 +205,7 @@
       <workItem from="1690626296635" duration="382000" />
       <workItem from="1690626693846" duration="1405000" />
       <workItem from="1690637885390" duration="1995000" />
+      <workItem from="1691403098628" duration="1918000" />
     </task>
     <task id="LOCAL-00001" summary="feat : .idea 관련파일">
       <created>1690468224295</created>
