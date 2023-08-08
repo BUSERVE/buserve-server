@@ -4,6 +4,7 @@ import com.example.buserve.src.pay.entity.ChargingMethod;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,22 +21,35 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name ="EMAIL", nullable = false, unique = true)
     private String email; // 이메일
 
-    @Column(nullable = false)
+    @Column(name = "NICKNAME",nullable = false)
     private String nickname; // 닉네임
 
+    @Column(name = "PROFILE_IMAGE_URL")
     private String imageUrl; // 프로필 이미지
 
+    @Column(name = "ROLE")
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "SOCIALTYPE")
     @Enumerated(EnumType.STRING)
     private SocialType socialType; // KAKAO, APPLE, GOOGLE
 
-    private String socialId; // 로그인한 소셜 타입의 식별자 값 (일반 로그인인 경우 null)
-    private String refreshToken; // 리프레시 토큰
+    public User(@NotNull String email,
+                @NotNull String nickname,
+                @NotNull String imageUrl,
+                @NotNull Role role,
+                @NotNull SocialType socialType)
+    {
+        this.email = email;
+        this.nickname = nickname;
+        this.imageUrl = imageUrl;
+        this.role = role;
+        this.socialType = socialType;
+    }
 
     private int busMoney; // 버정머니
 
@@ -47,10 +61,6 @@ public class User {
         this.role = Role.USER;
     }
 
-
-    public void updateRefreshToken(String updateRefreshToken) {
-        this.refreshToken = updateRefreshToken;
-    }
 
     // 버정머니 충전 메서드
     public void chargeBusMoney(int amount) {
