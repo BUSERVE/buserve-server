@@ -30,8 +30,8 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_SEQ")
-    private Long userSeq;
+    @Column(name = "USER_ID")
+    private Long userId;
 
     @Column(name ="EMAIL", nullable = false, unique = true)
     private String email; // 이메일

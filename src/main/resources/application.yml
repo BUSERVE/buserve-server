@@ -40,10 +40,6 @@ spring:
             userNameAttribute: id
 
 
-<<<<<<< HEAD:src/main/java/resources/application.yml
-
-=======
->>>>>>> 2d1f4c74727f83a0b5d9df79160098e856f6745d:src/main/resources/application.yml
   # H2 Setting Info (H2 Console에 접속하기 위한 설정정보 입력)
   h2:
     console:
