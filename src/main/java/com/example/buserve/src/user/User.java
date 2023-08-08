@@ -11,14 +11,12 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.persistence.*;
-<<<<<<< HEAD
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Map;
-=======
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> 2d1f4c74727f83a0b5d9df79160098e856f6745d
+
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -73,12 +71,6 @@ public class User {
         this.role = Role.USER;
     }
 
-<<<<<<< HEAD
-=======
-
-    public void updateRefreshToken(String updateRefreshToken) {
-        this.refreshToken = updateRefreshToken;
-    }
 
     // 버정머니 충전 메서드
     public void chargeBusMoney(int amount) {
@@ -95,5 +87,4 @@ public class User {
         }
         this.busMoney -= amount;
     }
->>>>>>> 2d1f4c74727f83a0b5d9df79160098e856f6745d
 }

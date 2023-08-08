@@ -7,7 +7,6 @@ import com.example.buserve.src.user.SocialType;
 import com.example.buserve.src.user.User;
 import com.example.buserve.src.user.UserRepository;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 
@@ -22,7 +21,6 @@ public class DatabaseSeeder {
                     .nickname("User1")
                     .role(Role.USER)
                     .socialType(SocialType.GOOGLE)
-                    .socialId("google-id-1")
                     .busMoney(10000)
                     .build();
             userRepository.save(user1);
@@ -39,7 +37,6 @@ public class DatabaseSeeder {
                     .nickname("User2")
                     .role(Role.USER)
                     .socialType(SocialType.KAKAO)
-                    .socialId("kakao-id-1")
                     .busMoney(2000)
                     .build();
             userRepository.save(user2);
