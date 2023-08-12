@@ -24,7 +24,7 @@ jobs:
             name: buserve-server
             app: java@17
             options:
-              ports: 8080
+              ports: 9000
               env:
                 - name: DB_PASSWORD
                   value: cu6q2blk9tsv2h
