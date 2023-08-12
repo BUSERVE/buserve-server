@@ -31,7 +31,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     private static final String API_VERSION = "V1";
     private static final String API_DESCRIPTION = "Buserve API TEST";
     @Value("${swagger.api-url}")
-    private static final String API_URL = "http://localhost:9000/";
+    private String API_URL;
 
     @Bean
     public Docket api() {
