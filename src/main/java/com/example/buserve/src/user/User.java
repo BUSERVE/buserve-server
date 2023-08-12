@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Builder
 @Table(name = "USERS")
 @AllArgsConstructor
 public class User {
@@ -38,6 +37,15 @@ public class User {
     @Enumerated(EnumType.STRING)
     private SocialType socialType; // KAKAO, APPLE, GOOGLE
 
+    private int busMoney; // 버정머니
+
+    @OneToOne
+    @JoinColumn(name = "primary_charging_method_id")
+    private ChargingMethod primaryChargingMethod; // 기본 충전 수단
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChargingMethod> chargingMethods = new ArrayList<>(); // 충전 수단 리스트
+
     public User(@NotNull String email,
                 @NotNull String nickname,
                 @NotNull String imageUrl,
@@ -51,10 +59,15 @@ public class User {
         this.socialType = socialType;
     }
 
-    private int busMoney; // 버정머니
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ChargingMethod> chargingMethods = new ArrayList<>(); // 충전 수단 리스트
+    @Builder
+    public User(String email, String nickname, Role role, SocialType socialType, int busMoney) {
+        this.email = email;
+        this.nickname = nickname;
+        this.role = role;
+        this.socialType = socialType;
+        this.busMoney = busMoney;
+        this.chargingMethods = new ArrayList<>();
+    }
 
     // 유저 권한 설정 메소드
     public void authorizeUser() {
@@ -76,5 +89,31 @@ public class User {
             throw new IllegalArgumentException("amount must be positive and less than busMoney");
         }
         this.busMoney -= amount;
+    }
+
+    public void setPrimaryChargingMethod(ChargingMethod chargingMethod) {
+        if (this.primaryChargingMethod != null) {
+            this.primaryChargingMethod.setPrimary(false);  // 기존 주요 충전수단을 비활성화
+        }
+        this.primaryChargingMethod = chargingMethod;
+        chargingMethod.setPrimary(true);  // 새로운 주요 충전수단을 활성화
+    }
+
+
+    public ChargingMethod getPrimaryChargingMethod() {
+        return this.primaryChargingMethod;
+    }
+
+    public void removePrimaryChargingMethod() {
+        if (this.primaryChargingMethod != null) {
+            this.primaryChargingMethod.setPrimary(false);
+            this.primaryChargingMethod = null;
+        }
+
+        // 다른 충전수단들 중 하나를 주요 충전수단으로 설정
+        if (!this.chargingMethods.isEmpty()) {
+            ChargingMethod newPrimary = this.chargingMethods.get(this.chargingMethods.size() - 1); // 가장 최근에 추가된 충전수단을 가져옵니다.
+            this.setPrimaryChargingMethod(newPrimary);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.buserve.src.user;
 
+import com.example.buserve.src.pay.entity.ChargingMethod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +39,18 @@ public class UserService {
     @Transactional
     public void chargeBusMoney(Long userId, int amount) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        ChargingMethod primaryChargingMethod = user.getPrimaryChargingMethod();
+        if (primaryChargingMethod == null) {
+            throw new IllegalArgumentException("No primary charging method set for the user.");
+        }
+
+        // 이곳에서 주요 충전수단을 사용하여 실제 금액 충전 로직을 구현합니다.
+        // 예: paymentService.charge(primaryChargingMethod, amount);
+
         user.chargeBusMoney(amount);
     }
+
 
     @Transactional
     public void useBusMoney(Long userId, int amount) {

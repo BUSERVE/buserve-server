@@ -12,7 +12,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/api/**", "/h2-console/**").permitAll() // 임시로 /api 이후의 엔드포인트에 대해 허용
+                .antMatchers("/api/**", "/h2-console/**", "/swagger-ui.html", "/v2/api-docs", "/swagger-resources/**", "/webjars/**")
+                .permitAll() // /api, /h2-console, 스웨거 관련 엔드포인트에 대해 허용
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

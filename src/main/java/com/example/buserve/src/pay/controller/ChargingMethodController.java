@@ -1,15 +1,19 @@
 package com.example.buserve.src.pay.controller;
 
+import com.example.buserve.src.pay.dto.AddChargingMethodDto;
 import com.example.buserve.src.pay.dto.ChargingMethodInfoDto;
 import com.example.buserve.src.pay.entity.ChargingMethod;
 import com.example.buserve.src.pay.service.ChargingMethodService;
 import com.example.buserve.src.common.ApiResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
 
+@Api(tags = {"충전수단 관련 API"})
 @RestController
 @RequestMapping("/api/charging-methods")
 public class ChargingMethodController {
@@ -20,6 +24,7 @@ public class ChargingMethodController {
         this.chargingMethodService = chargingMethodService;
     }
 
+    @ApiOperation(value = "사용자의 전체 충전수단 조회 API")
     @GetMapping
     public ApiResponse<List<ChargingMethodInfoDto>> getAllChargingMethods(Principal principal) {
         Long userId = getUserIdFromPrincipal(principal);
@@ -28,21 +33,24 @@ public class ChargingMethodController {
         return ApiResponse.success(chargingMethodsDto);
     }
 
-
-    @GetMapping("/{method_id}")
-    public ApiResponse<ChargingMethodInfoDto> getChargingMethod(Principal principal, @PathVariable Long method_id) {
-        Long userId = getUserIdFromPrincipal(principal);
-        return ApiResponse.success(chargingMethodService.convertToDto(chargingMethodService.getChargingMethod(userId, method_id)));
-    }
-
+    @ApiOperation(value = "충전수단 추가 API")
     @PostMapping
-    public ApiResponse<ChargingMethodInfoDto> addChargingMethod(Principal principal, @RequestBody ChargingMethod chargingMethod) {
+    public ApiResponse<ChargingMethodInfoDto> addChargingMethod(Principal principal, @RequestBody AddChargingMethodDto addChargingMethodDto) {
         Long userId = getUserIdFromPrincipal(principal);
+
+        // DTO에서 ChargingMethod 엔터티를 생성합니다.
+        ChargingMethod chargingMethod = ChargingMethod.builder()
+                .name(addChargingMethodDto.getName())
+                .details(addChargingMethodDto.getDetails())
+                .build();
+
         ChargingMethod newChargingMethod = chargingMethodService.addChargingMethod(userId, chargingMethod);
         ChargingMethodInfoDto chargingMethodInfoDto = chargingMethodService.convertToDto(newChargingMethod);
         return ApiResponse.success(chargingMethodInfoDto);
     }
 
+
+    @ApiOperation(value = "충전수단 삭제 API")
     @DeleteMapping("/{method_id}")
     public ApiResponse<List<ChargingMethodInfoDto>> deleteChargingMethod(Principal principal, @PathVariable Long method_id) {
         Long userId = getUserIdFromPrincipal(principal);
@@ -51,6 +59,26 @@ public class ChargingMethodController {
         List<ChargingMethod> remainChargingMethods = chargingMethodService.getAllChargingMethods(userId);
         List<ChargingMethodInfoDto> remainChargingMethodsDto = chargingMethodService.convertToDto(remainChargingMethods);
         return ApiResponse.success(remainChargingMethodsDto);
+    }
+
+    @ApiOperation(value = "주요 충전수단 변경 API", tags = {"충전수단 관련 API"})
+    @PutMapping("/primary/{method_id}")
+    public ApiResponse<ChargingMethodInfoDto> setPrimaryChargingMethod(Principal principal, @PathVariable Long method_id) {
+        Long userId = getUserIdFromPrincipal(principal);
+        chargingMethodService.setPrimaryChargingMethod(userId, method_id);
+
+        ChargingMethod primaryChargingMethod = chargingMethodService.getPrimaryChargingMethod(userId);
+        ChargingMethodInfoDto primaryChargingMethodInfoDto = chargingMethodService.convertToDto(primaryChargingMethod);
+        return ApiResponse.success(primaryChargingMethodInfoDto);
+    }
+
+    @ApiOperation(value = "주요 충전수단 조회 API", tags = {"충전수단 관련 API"})
+    @GetMapping("/primary")
+    public ApiResponse<ChargingMethodInfoDto> getPrimaryChargingMethod(Principal principal) {
+        Long userId = getUserIdFromPrincipal(principal);
+        ChargingMethod primaryChargingMethod = chargingMethodService.getPrimaryChargingMethod(userId);
+        ChargingMethodInfoDto primaryChargingMethodInfoDto = chargingMethodService.convertToDto(primaryChargingMethod);
+        return ApiResponse.success(primaryChargingMethodInfoDto);
     }
 
     private Long getUserIdFromPrincipal(Principal principal) {

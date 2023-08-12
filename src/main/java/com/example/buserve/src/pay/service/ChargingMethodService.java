@@ -8,6 +8,7 @@ import com.example.buserve.src.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,20 @@ public class ChargingMethodService {
     }
 
     public ChargingMethodInfoDto convertToDto(ChargingMethod chargingMethod) {
-        return new ChargingMethodInfoDto(chargingMethod.getId(), chargingMethod.getName(), chargingMethod.getDetails());
+        return new ChargingMethodInfoDto(chargingMethod.getId(), chargingMethod.getName(), chargingMethod.getDetails(), chargingMethod.isPrimary());
+    }
+
+    @Transactional
+    public void setPrimaryChargingMethod(Long userId, Long chargingMethodId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        ChargingMethod chargingMethod = chargingMethodRepository.findById(chargingMethodId).orElseThrow(() -> new RuntimeException("Charging method not found"));
+
+        user.setPrimaryChargingMethod(chargingMethod);
+    }
+
+    public ChargingMethod getPrimaryChargingMethod(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getPrimaryChargingMethod();
     }
 }
 

@@ -3,11 +3,14 @@ package com.example.buserve.src.pay.controller;
 import com.example.buserve.src.pay.dto.AmountDto;
 import com.example.buserve.src.common.ApiResponse;
 import com.example.buserve.src.user.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+@Api(tags = {"버스머니 관련 API"})
 @RestController
 @RequestMapping("/api/bus-money")
 public class BusMoneyController {
@@ -18,6 +21,7 @@ public class BusMoneyController {
         this.userService = userService;
     }
 
+    @ApiOperation(value = "사용자의 버스머니 조회 API")
     @GetMapping
     public ApiResponse<AmountDto> getBusMoney(Principal principal) {
         Long userId = getUserIdFromPrincipal(principal); // 현재 로그인한 사용자 ID 획득
@@ -25,19 +29,13 @@ public class BusMoneyController {
         return ApiResponse.success(new AmountDto(currentBusMoney));
     }
 
+    @ApiOperation(value = "사용자의 버스머니 충전 API")
     @PostMapping("/charge")
     public ApiResponse<AmountDto> chargeBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
         Long userId = getUserIdFromPrincipal(principal);
         userService.chargeBusMoney(userId, amountDto.getAmount());
         int changedMoney = userService.getBusMoney(userId);
         return ApiResponse.success(new AmountDto(changedMoney));
-    }
-
-    @PostMapping("/use")
-    public ApiResponse<AmountDto> useBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
-        Long userId = getUserIdFromPrincipal(principal);
-        userService.useBusMoney(userId, amountDto.getAmount());
-        return ApiResponse.success(new AmountDto(userService.getBusMoney(userId)));
     }
 
     // 로그인한 사용자의 ID를 획득하는 메서드 (구현 필요)

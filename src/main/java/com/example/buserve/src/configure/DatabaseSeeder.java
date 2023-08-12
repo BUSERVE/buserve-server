@@ -28,10 +28,19 @@ public class DatabaseSeeder {
 
             ChargingMethod method1 = ChargingMethod.builder()
                     .name("신한은행")
-                    .details("1234")
+                    .details("1111-1111-1111")
                     .user(user1)
                     .build();
+            method1.setUser(user1);
             chargingMethodRepository.save(method1);
+            userRepository.save(user1);
+
+            ChargingMethod method2 = ChargingMethod.builder()
+                    .name("신한은행")
+                    .details("2222-2222-2222")
+                    .user(user1)
+                    .build();
+            chargingMethodRepository.save(method2);
 
             User user2 = User.builder()
                     .email("user2@example.com")
@@ -42,12 +51,12 @@ public class DatabaseSeeder {
                     .build();
             userRepository.save(user2);
 
-            ChargingMethod method2 = ChargingMethod.builder()
+            ChargingMethod method3 = ChargingMethod.builder()
                     .name("우리은행")
-                    .details("6798")
+                    .details("3333-3333-3333")
                     .user(user2)
                     .build();
-            chargingMethodRepository.save(method2);
+            chargingMethodRepository.save(method3);
         };
     }
 }
