@@ -9,9 +9,7 @@ server:
 
 spring:
   profiles:
-    group:
-      dev:
-        - oauth
+    include: oauth
 
   security:
     oauth2:

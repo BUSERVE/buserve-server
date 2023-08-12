@@ -1,5 +1,6 @@
-package com.example.buserve.src.chargingmethod;
+package com.example.buserve.src.pay.repository;
 
+import com.example.buserve.src.pay.entity.ChargingMethod;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
