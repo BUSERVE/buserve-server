@@ -1,5 +1,6 @@
 package com.example.buserve.src.configure;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -29,6 +30,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     private static final String SERVICE_NAME = "Buserve";
     private static final String API_VERSION = "V1";
     private static final String API_DESCRIPTION = "Buserve API TEST";
+    @Value("${swagger.api-url}")
     private static final String API_URL = "http://localhost:9000/";
 
     @Bean

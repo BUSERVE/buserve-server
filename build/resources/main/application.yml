@@ -60,3 +60,5 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
 
+swagger:
+  api-url: http://localhost:9000/
