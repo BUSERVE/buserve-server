@@ -1,5 +1,6 @@
 package com.example.buserve.src.pay.controller;
 
+import com.example.buserve.src.common.ApiResponseStatus;
 import com.example.buserve.src.pay.dto.AmountDto;
 import com.example.buserve.src.common.ApiResponse;
 import com.example.buserve.src.user.UserService;
@@ -19,6 +20,11 @@ public class BusMoneyController {
     @Autowired
     public BusMoneyController(UserService userService) {
         this.userService = userService;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ApiResponse<?> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ApiResponse.error(ApiResponseStatus.REQUEST_ERROR);
     }
 
     @ApiOperation(value = "사용자의 버스머니 조회 API")

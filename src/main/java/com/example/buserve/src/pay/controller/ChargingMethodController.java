@@ -1,5 +1,6 @@
 package com.example.buserve.src.pay.controller;
 
+import com.example.buserve.src.common.ApiResponseStatus;
 import com.example.buserve.src.pay.dto.AddChargingMethodDto;
 import com.example.buserve.src.pay.dto.ChargingMethodInfoDto;
 import com.example.buserve.src.pay.entity.ChargingMethod;
@@ -22,6 +23,11 @@ public class ChargingMethodController {
     @Autowired
     public ChargingMethodController(ChargingMethodService chargingMethodService) {
         this.chargingMethodService = chargingMethodService;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ApiResponse<?> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ApiResponse.error(ApiResponseStatus.REQUEST_ERROR);
     }
 
     @ApiOperation(value = "사용자의 전체 충전수단 조회 API")
