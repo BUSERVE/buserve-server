@@ -4,6 +4,8 @@ import com.example.buserve.src.bus.entity.*;
 import com.example.buserve.src.bus.repository.*;
 import com.example.buserve.src.pay.entity.ChargingMethod;
 import com.example.buserve.src.pay.repository.ChargingMethodRepository;
+import com.example.buserve.src.reservation.entity.Reservation;
+import com.example.buserve.src.reservation.repository.ReservationRepository;
 import com.example.buserve.src.user.Role;
 import com.example.buserve.src.user.SocialType;
 import com.example.buserve.src.user.User;
@@ -27,11 +29,12 @@ public class DatabaseSeeder {
             RouteStopRepository routeStopRepository,
             UserRepository userRepository,
             ChargingMethodRepository chargingMethodRepository,
-            SeatRepository seatRepository) {
+            SeatRepository seatRepository,
+            ReservationRepository reservationRepository) {
 
         return args -> {
             seedUsersAndChargingMethods(userRepository, chargingMethodRepository);
-            seedBusStopsAndRoutes(busRepository, routeRepository, stopRepository, routeStopRepository, seatRepository);
+            seedBusStopsAndRoutesAndReservations(busRepository, routeRepository, stopRepository, routeStopRepository, seatRepository, userRepository, reservationRepository);
         };
     }
 
@@ -77,13 +80,15 @@ public class DatabaseSeeder {
                 .build();
         chargingMethodRepository.save(method3);
     }
-    private void seedBusStopsAndRoutes(
+    private void seedBusStopsAndRoutesAndReservations(
             BusRepository busRepository,
             RouteRepository routeRepository,
             StopRepository stopRepository,
             RouteStopRepository routeStopRepository,
-            SeatRepository seatRepository) {
-
+            SeatRepository seatRepository,
+            UserRepository userRepository,
+            ReservationRepository reservationRepository)
+    {
         // Creating Route
         Route route1 = new Route("9802");
         routeRepository.save(route1);
@@ -111,5 +116,14 @@ public class DatabaseSeeder {
         Bus bus2 = new Bus(20, LocalTime.of(5, 30), route1);
         busRepository.save(bus2);
         seatRepository.saveAll(bus2.getSeats());
+
+        // Creating Reservation
+        User user1 = userRepository.findByEmail("user1@example.com").get();
+
+        Reservation reservation1 = new Reservation(user1, bus1, bus1.getSeats().get(5), routeStop1, LocalDateTime.of(2023, 8, 15, 7, 0));
+        reservationRepository.save(reservation1);
+
+        Reservation reservation2 = new Reservation(user1, bus2, bus2.getSeats().get(10), routeStop2, LocalDateTime.of(2023, 8, 15, 7, 30));
+        reservationRepository.save(reservation2);
     }
 }
