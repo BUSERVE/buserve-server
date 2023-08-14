@@ -2,7 +2,6 @@ package com.example.buserve.src.bus.controller;
 
 import com.example.buserve.src.bus.DTO.RouteDTO;
 import com.example.buserve.src.bus.entity.Route;
-import com.example.buserve.src.bus.entity.RouteStop;
 import com.example.buserve.src.bus.entity.Stop;
 import com.example.buserve.src.bus.service.RouteService;
 import io.swagger.annotations.Api;
@@ -24,8 +23,8 @@ public class RouteController {
 
     @GetMapping
     public List<Route> searchRoutes(@RequestParam String routeName){
-        List<Route> route = routeService.searchRoutes(routeName);
-        return route;
+        return routeService.searchRoutes(routeName);
+
     }
 
     @GetMapping("/{route_id}/stops/{stop_id}/buses")
