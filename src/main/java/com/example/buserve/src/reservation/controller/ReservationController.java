@@ -21,7 +21,7 @@ public class ReservationController {
 
     private final ReservationService reservationService;
 
-    @ApiOperation(value = "예약 내역 조회")
+    @ApiOperation(value = "예약 내역 조회", notes = "사용자의 예약 내역을 최근순으로 조회한다.")
     @GetMapping
     public ApiResponse<List<ReservationResponseDto>> getReservations(Principal principal) {
         Long userId = getUserIdFromPrincipal(principal);

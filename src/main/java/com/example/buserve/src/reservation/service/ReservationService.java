@@ -18,6 +18,7 @@ public class ReservationService {
     public List<ReservationResponseDto> getReservations(Long userId) {
         List<Reservation> reservations = reservationRepository.findAllByUserId(userId);
         return reservations.stream()
+                .sorted((r1, r2) -> r2.getExpectedArrivalTime().compareTo(r1.getExpectedArrivalTime()))  // 최근순 정렬
                 .map(reservation -> new ReservationResponseDto(
                         reservation.getDepartureStop().getRoute().getRouteName(),
                         reservation.getDepartureStop().getStop().getStopName(),
