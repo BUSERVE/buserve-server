@@ -1,6 +1,5 @@
 package com.example.buserve.src.bus.service;
 
-import com.example.buserve.src.bus.dto.SeatDto;
 import com.example.buserve.src.bus.entity.Seat;
 import com.example.buserve.src.bus.repository.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;

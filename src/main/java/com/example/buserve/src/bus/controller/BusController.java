@@ -1,6 +1,5 @@
 package com.example.buserve.src.bus.controller;
 
-import com.example.buserve.src.bus.dto.SeatDto;
 import com.example.buserve.src.bus.service.BusService;
 import com.example.buserve.src.common.ApiResponse;
 import com.example.buserve.src.common.ApiResponseStatus;

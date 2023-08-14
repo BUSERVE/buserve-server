@@ -1,7 +1,6 @@
 package com.example.buserve.src.bus.service;
 
 import com.example.buserve.src.bus.DTO.RouteDTO;
-import com.example.buserve.src.bus.DTO.SeatDTO;
 import com.example.buserve.src.bus.entity.Route;
 import com.example.buserve.src.bus.entity.RouteStop;
 import com.example.buserve.src.bus.entity.Seat;

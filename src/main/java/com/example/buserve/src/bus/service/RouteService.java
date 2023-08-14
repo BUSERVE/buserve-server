@@ -1,7 +1,6 @@
 package com.example.buserve.src.bus.service;
 
 import com.example.buserve.src.bus.DTO.RouteDTO;
-import com.example.buserve.src.bus.DTO.SeatDTO;
 import com.example.buserve.src.bus.entity.Route;
 import com.example.buserve.src.bus.entity.RouteStop;
 import com.example.buserve.src.bus.entity.Seat;
@@ -9,7 +8,6 @@ import com.example.buserve.src.bus.entity.Stop;
 import com.example.buserve.src.bus.repository.RouteRepository;
 import com.example.buserve.src.bus.repository.RouteStopRepository;
 import com.example.buserve.src.bus.repository.SeatRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
