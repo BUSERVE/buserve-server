@@ -1,6 +1,7 @@
 package com.example.buserve.src.user;
 
 import com.example.buserve.src.pay.entity.ChargingMethod;
+import com.example.buserve.src.reservation.entity.Reservation;
 import lombok.*;
 
 import javax.persistence.*;
@@ -46,6 +47,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChargingMethod> chargingMethods = new ArrayList<>(); // 충전 수단 리스트
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations = new ArrayList<>();
+
     public User(@NotNull String email,
                 @NotNull String nickname,
                 @NotNull String imageUrl,
@@ -67,6 +71,7 @@ public class User {
         this.socialType = socialType;
         this.busMoney = busMoney;
         this.chargingMethods = new ArrayList<>();
+        this.reservations = new ArrayList<>();
     }
 
     // 유저 권한 설정 메소드
@@ -115,5 +120,9 @@ public class User {
             ChargingMethod newPrimary = this.chargingMethods.get(this.chargingMethods.size() - 1); // 가장 최근에 추가된 충전수단을 가져옵니다.
             this.setPrimaryChargingMethod(newPrimary);
         }
+    }
+
+    public void addReservation(Reservation reservation) {
+        this.reservations.add(reservation);
     }
 }

@@ -24,4 +24,18 @@ public class Seat {
         this.bus = bus;
         this.isAvailable = true;
     }
+
+    public void reserveSeat() {
+        if (!this.isAvailable) {
+            throw new IllegalStateException("이미 예약된 좌석입니다.");
+        }
+        this.isAvailable = false;
+    }
+
+    public void cancelReservation() {
+        if (this.isAvailable) {
+            throw new IllegalStateException("이미 예약 가능한 좌석입니다.");
+        }
+        this.isAvailable = true;
+    }
 }
