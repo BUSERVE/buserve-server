@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface SeatRepository extends JpaRepository<Seat, Long> {
 
+    List<Seat> findByBus(Bus bus);
     List<Seat> findByBusId(Long busId);
 }
