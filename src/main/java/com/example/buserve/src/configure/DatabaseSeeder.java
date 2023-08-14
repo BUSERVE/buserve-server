@@ -120,10 +120,10 @@ public class DatabaseSeeder {
         // Creating Reservation
         User user1 = userRepository.findByEmail("user1@example.com").get();
 
-        Reservation reservation1 = new Reservation(user1, bus1, bus1.getSeats().get(5), routeStop1, LocalDateTime.of(2023, 8, 15, 7, 0));
+        Reservation reservation1 = new Reservation(user1, bus1.getSeats().get(5), stop1, LocalDateTime.of(2023, 8, 15, 7, 0));
         reservationRepository.save(reservation1);
 
-        Reservation reservation2 = new Reservation(user1, bus2, bus2.getSeats().get(10), routeStop2, LocalDateTime.of(2023, 8, 15, 7, 30));
+        Reservation reservation2 = new Reservation(user1, bus2.getSeats().get(10), stop2, LocalDateTime.of(2023, 8, 15, 7, 30));
         reservationRepository.save(reservation2);
     }
 }
