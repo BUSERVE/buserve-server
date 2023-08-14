@@ -1,10 +1,7 @@
 package com.example.buserve.src.configure;
 
 import com.example.buserve.src.bus.entity.*;
-import com.example.buserve.src.bus.repository.BusRepository;
-import com.example.buserve.src.bus.repository.RouteRepository;
-import com.example.buserve.src.bus.repository.RouteStopRepository;
-import com.example.buserve.src.bus.repository.StopRepository;
+import com.example.buserve.src.bus.repository.*;
 import com.example.buserve.src.pay.entity.ChargingMethod;
 import com.example.buserve.src.pay.repository.ChargingMethodRepository;
 import com.example.buserve.src.user.Role;
@@ -29,11 +26,12 @@ public class DatabaseSeeder {
             StopRepository stopRepository,
             RouteStopRepository routeStopRepository,
             UserRepository userRepository,
-            ChargingMethodRepository chargingMethodRepository) {
+            ChargingMethodRepository chargingMethodRepository,
+            SeatRepository seatRepository) {
 
         return args -> {
             seedUsersAndChargingMethods(userRepository, chargingMethodRepository);
-            seedBusStopsAndRoutes(busRepository, routeRepository, stopRepository, routeStopRepository);
+            seedBusStopsAndRoutes(busRepository, routeRepository, stopRepository, routeStopRepository, seatRepository);
         };
     }
 
@@ -83,7 +81,8 @@ public class DatabaseSeeder {
             BusRepository busRepository,
             RouteRepository routeRepository,
             StopRepository stopRepository,
-            RouteStopRepository routeStopRepository) {
+            RouteStopRepository routeStopRepository,
+            SeatRepository seatRepository) {
 
         // Creating Route
         Route route1 = new Route("9802");
@@ -107,8 +106,10 @@ public class DatabaseSeeder {
         // Creating Bus
         Bus bus1 = new Bus(20, LocalTime.of(5, 0), route1);
         busRepository.save(bus1);
+        seatRepository.saveAll(bus1.getSeats());
 
         Bus bus2 = new Bus(20, LocalTime.of(5, 30), route1);
         busRepository.save(bus2);
+        seatRepository.saveAll(bus2.getSeats());
     }
 }
