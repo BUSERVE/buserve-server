@@ -1,6 +1,6 @@
 package com.example.buserve.src.bus.controller;
 
-import com.example.buserve.src.bus.DTO.RouteDTO;
+import com.example.buserve.src.bus.DTO.RouteDto;
 import com.example.buserve.src.bus.entity.Route;
 import com.example.buserve.src.bus.entity.Stop;
 import com.example.buserve.src.bus.service.RouteService;
@@ -28,7 +28,7 @@ public class RouteController {
     }
 
     @GetMapping("/{route_id}/stops/{stop_id}/buses")
-    public RouteDTO getRouteInfo(
+    public RouteDto getRouteInfo(
             @PathVariable("route_id") Route routeId,
             @PathVariable("stop_id") Stop stopId) {
         return routeService.getRouteInfo(routeId, stopId);

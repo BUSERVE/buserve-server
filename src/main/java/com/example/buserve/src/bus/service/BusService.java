@@ -1,5 +1,6 @@
 package com.example.buserve.src.bus.service;
 
+import com.example.buserve.src.bus.DTO.SeatDto;
 import com.example.buserve.src.bus.entity.Seat;
 import com.example.buserve.src.bus.repository.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class BusService {
     public List<SeatDto> getSeatsForBus(Long busId) {
         List<Seat> seats = seatRepository.findByBusId(busId);
         return seats.stream()
-                .map(seat -> new SeatDto(seat.getId(), seat.getSeatNumber(), seat.isAvailable()))
+                .map(seat -> new SeatDto( seat.getSeatNumber(), seat.isAvailable()))
                 .collect(Collectors.toList());
     }
 }

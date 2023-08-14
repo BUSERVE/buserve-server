@@ -10,8 +10,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RouteDTO {
+public class RouteDto {
     private Long id;
     private LocalTime expectedArrivalTime;
-    private List<SeatDTO> seats;
+    private List<SeatDto> seats;
 }
