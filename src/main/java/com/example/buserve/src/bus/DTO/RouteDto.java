@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class RouteDto {
-    private Long id;
+    private String id;
     private LocalTime expectedArrivalTime;
     private List<SeatDto> seats;
 }

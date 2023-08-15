@@ -89,7 +89,7 @@ public class DatabaseSeeder {
             ReservationRepository reservationRepository)
     {
         // Creating Route
-        Route route1 = new Route("9802");
+        Route route1 = new Route("ICB1", "9802");
         routeRepository.save(route1);
 
         // Creating Stops
