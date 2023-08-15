@@ -15,12 +15,12 @@ public class Stop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String stopName;    // 정류장 이름
-    private int stopNumber;  // 정류장 번호
+    private String stopNumber;  // 정류장 번호
 
     @OneToMany(mappedBy = "stop")
     private List<RouteStop> routeStops = new ArrayList<>();
 
-    public Stop(String stopName, int stopNumber) {
+    public Stop(String stopName, String stopNumber) {
         this.stopName = stopName;
         this.stopNumber = stopNumber;
     }

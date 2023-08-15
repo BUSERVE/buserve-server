@@ -8,11 +8,20 @@ import com.example.buserve.src.user.Role;
 import com.example.buserve.src.user.SocialType;
 import com.example.buserve.src.user.User;
 import com.example.buserve.src.user.UserRepository;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -82,26 +91,70 @@ public class DatabaseSeeder {
             RouteRepository routeRepository,
             StopRepository stopRepository,
             RouteStopRepository routeStopRepository,
-            SeatRepository seatRepository) {
+            SeatRepository seatRepository) throws IOException, ParseException {
 
         // Creating Route
-        Route route1 = new Route("9802");
+        Route route1 = new Route("9100");
         routeRepository.save(route1);
+        Route route2 = new Route("9200");
+        routeRepository.save(route2);
+        Route route3 = new Route("9700");
+        routeRepository.save(route3);
+        Route route4 = new Route("9802");
+        routeRepository.save(route4);
 
         // Creating Stops
-        Stop stop1 = new Stop("공단사거리", 89074);
-        stopRepository.save(stop1);
+//        Stop stop1 = new Stop("공단사거리", 89074);
+//        stopRepository.save(stop1);
+//
+//        Stop stop2 = new Stop("검단지식산업센타", 89054);
+//        stopRepository.save(stop2);
 
-        Stop stop2 = new Stop("검단지식산업센타", 89054);
-        stopRepository.save(stop2);
+
+
+        // test
+        String key = "lF8UEJMTnm7SpZKEcgBRzazgp0JNAxAwLEu9H%2BG844NuHoC4DZS8qbdDNpM1WoBTq1jimtK%2BW2P6N4kksiuwBQ%3D%3D";
+        String cityCode = "23";
+
+        String endPoint = "http://apis.data.go.kr/1613000/BusRouteInfoInqireService/";
+        String details = "getRouteAcctoThrghSttnList";
+        String routeId = "ICB165000303";
+        URL url = new URL(endPoint + details + "?serviceKey=" + key
+                + "&cityCode=" + cityCode + "&numOfRows=100"
+                + "&routeId=" + routeId + "&_type=json");
+
+        BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+        String result = bf.readLine();
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+        JSONObject parseItems = (JSONObject) ((JSONObject) ((JSONObject) jsonObject.get("response")).get("body")).get("items");
+        JSONArray array = (JSONArray) parseItems.get("item");
+
+        for (int i = 0; i < array.size(); i++) {
+            jsonObject = (JSONObject) array.get(i);
+            String routeid = jsonObject.get("routeid").toString();      // 노선 ID
+            String nodeid = jsonObject.get("nodeid").toString();        // 정류소 ID
+            String nodeno = jsonObject.get("nodeno").toString();        // 정류소 번호
+            String nodenm = jsonObject.get("nodenm").toString();        // 정류소 명
+            String gpslati = jsonObject.get("gpslati").toString();      // 정류소 Y좌표
+            String gpslong = jsonObject.get("gpslong").toString();      // 정류소 X좌표
+            String nodeord = jsonObject.get("nodeord").toString();      // 정류소 순번
+            String updowncd = jsonObject.get("updowncd").toString();    // 상하행 [0: 상행 1: 하행]
+
+            // DB 추가
+            Stop stop = new Stop(nodenm, nodeno);
+            stopRepository.save(stop);
+        }
+
 
 
         // Linking Stops to Route via RouteStop
-        RouteStop routeStop1 = new RouteStop(route1, stop1, 1, LocalTime.of(0, 0),Direction.UPWARD);
-        routeStopRepository.save(routeStop1);
-
-        RouteStop routeStop2 = new RouteStop(route1, stop2, 2, LocalTime.of(0, 5), Direction.UPWARD);
-        routeStopRepository.save(routeStop2);
+//        RouteStop routeStop1 = new RouteStop(route1, stop1, 1, LocalTime.of(0, 0),Direction.UPWARD);
+//        routeStopRepository.save(routeStop1);
+//
+//        RouteStop routeStop2 = new RouteStop(route1, stop2, 2, LocalTime.of(0, 5), Direction.UPWARD);
+//        routeStopRepository.save(routeStop2);
 
         // Creating Bus
         Bus bus1 = new Bus(20, LocalTime.of(5, 0), route1);

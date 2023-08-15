@@ -25,6 +25,10 @@ public class RouteService {
         return routeRepository.findByRouteName(routeName);
     }
 
+    public void saveRoute(Route route) {
+        routeRepository.save(route);
+    }
+
     @Autowired
     public RouteService(RouteRepository routeRepository, RouteStopRepository routeStopRepository, SeatRepository seatRepository) {
         this.routeRepository = routeRepository;
@@ -50,6 +54,4 @@ public class RouteService {
 
         return routeDTO;
     }
-
-
 }
