@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface StopRepository extends JpaRepository<Stop, Long> {
+public interface StopRepository extends JpaRepository<Stop, String> {
 }
 
 

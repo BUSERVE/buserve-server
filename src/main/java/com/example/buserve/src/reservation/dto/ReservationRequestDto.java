@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 @Data
 public class ReservationRequestDto {
     private Long seatId;
-    private Long stopId;
+    private String stopId;
 
     @Pattern(regexp = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$", message = "expectedArrivalTime 는 HH:mm 포맷으로 입력해야 합니다.")
     @ApiModelProperty(example = "07:30")
