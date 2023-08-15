@@ -1,11 +1,14 @@
 package com.example.buserve.src.bus.controller;
 
 import com.example.buserve.src.bus.DTO.RouteDto;
+import com.example.buserve.src.bus.DTO.StopDto;
 import com.example.buserve.src.bus.entity.Route;
 import com.example.buserve.src.bus.entity.Stop;
 import com.example.buserve.src.bus.service.RouteService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,22 +19,28 @@ import java.util.List;
 public class RouteController {
     private final RouteService routeService;
 
+
     @Autowired
     public RouteController(RouteService routeService){
+
         this.routeService = routeService;
     }
 
-    @GetMapping
+
+    @ApiOperation(value = "버스 노선 목록 조회")
+    @GetMapping("/search")
     public List<Route> searchRoutes(@RequestParam String routeName){
         return routeService.searchRoutes(routeName);
-
     }
 
-    @GetMapping("/{route_id}/stops/{stop_id}/buses")
-    public RouteDto getRouteInfo(
-            @PathVariable("route_id") Route routeId,
-            @PathVariable("stop_id") Stop stopId) {
-        return routeService.getRouteInfo(routeId, stopId);
+    @ApiOperation(value = "버스 정류장 조회")
+    @GetMapping("/{route_id}/stops")
+    public ResponseEntity<List<StopDto>> getStopsByRouteName(@PathVariable String routeName){
+        List<StopDto> stops = routeService.getStopsByRoute(routeName);
+        if (stops != null && !stops.isEmpty()) {
+            return ResponseEntity.ok(stops);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-
 }

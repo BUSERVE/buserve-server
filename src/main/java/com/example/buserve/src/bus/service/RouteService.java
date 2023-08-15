@@ -2,6 +2,7 @@ package com.example.buserve.src.bus.service;
 
 import com.example.buserve.src.bus.DTO.RouteDto;
 import com.example.buserve.src.bus.DTO.SeatDto;
+import com.example.buserve.src.bus.DTO.StopDto;
 import com.example.buserve.src.bus.entity.Route;
 import com.example.buserve.src.bus.entity.RouteStop;
 import com.example.buserve.src.bus.entity.Seat;
@@ -21,16 +22,18 @@ public class RouteService {
     private final RouteStopRepository routeStopRepository;
     private final SeatRepository seatRepository;
 
-    public List<Route> searchRoutes(String routeName) {
-        return routeRepository.findByRouteName(routeName);
-    }
-
     @Autowired
     public RouteService(RouteRepository routeRepository, RouteStopRepository routeStopRepository, SeatRepository seatRepository) {
         this.routeRepository = routeRepository;
         this.routeStopRepository = routeStopRepository;
         this.seatRepository = seatRepository;
     }
+
+    public List<Route> searchRoutes(String routeName) {
+        return routeRepository.findAllByRouteName(routeName);
+    }
+
+
 
     public RouteDto getRouteInfo(Route routeId, Stop stopId) {
         RouteStop routeStop = routeStopRepository.findByRouteIdAndStopId(routeId, stopId);
@@ -51,5 +54,17 @@ public class RouteService {
         return routeDTO;
     }
 
+    public List<StopDto> getStopsByRoute(String routeName) {
+        Route route = routeRepository.findByRouteName(routeName);
+        if (route == null) {
+            return null;
+        }
+
+        List<StopDto> stops = route.getRouteStops().stream()
+                .map(routeStop -> new StopDto(routeStop.getStop().getStopName(), routeStop.getStop().getStopNumber()))
+                .collect(Collectors.toList());
+
+        return stops;
+    }
 
 }
