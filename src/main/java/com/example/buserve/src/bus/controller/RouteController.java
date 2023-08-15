@@ -1,9 +1,7 @@
 package com.example.buserve.src.bus.controller;
 
-import com.example.buserve.src.bus.DTO.RouteDto;
 import com.example.buserve.src.bus.DTO.StopDto;
 import com.example.buserve.src.bus.entity.Route;
-import com.example.buserve.src.bus.entity.Stop;
 import com.example.buserve.src.bus.service.RouteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +33,7 @@ public class RouteController {
 
     @ApiOperation(value = "버스 정류장 조회")
     @GetMapping("/{route_id}/stops")
-    public ResponseEntity<List<StopDto>> getStopsByRouteName(@PathVariable String routeName){
+    public ResponseEntity<List<StopDto>> getStopsByRouteName(@PathVariable("route_id") String routeName){
         List<StopDto> stops = routeService.getStopsByRoute(routeName);
         if (stops != null && !stops.isEmpty()) {
             return ResponseEntity.ok(stops);
