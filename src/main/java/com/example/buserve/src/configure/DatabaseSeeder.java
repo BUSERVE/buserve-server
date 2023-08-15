@@ -89,8 +89,14 @@ public class DatabaseSeeder {
             ReservationRepository reservationRepository)
     {
         // Creating Route
-        Route route1 = new Route("ICB1", "9802");
+        Route route1 = new Route("ICB165000160", "9100");
         routeRepository.save(route1);
+        Route route2 = new Route("ICB165000161", "9200");
+        routeRepository.save(route2);
+        Route route3 = new Route("ICB165000162", "9300");
+        routeRepository.save(route3);
+        Route route4 = new Route("ICB165000303", "9802");
+        routeRepository.save(route4);
 
         // Creating Stops
         Stop stop1 = new Stop("공단사거리", 89074);
