@@ -39,7 +39,6 @@ public class RouteService {
         List<StopDto> stops = route.getRouteStops().stream()
                 .map(routeStop -> new StopDto(routeStop.getStop().getStopName(), routeStop.getStop().getStopNumber()))
                 .collect(Collectors.toList());
-
         return stops;
     }
 

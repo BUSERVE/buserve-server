@@ -37,6 +37,7 @@ public class User {
     @Column(name = "SOCIALTYPE")
     @Enumerated(EnumType.STRING)
     private SocialType socialType; // KAKAO, APPLE, GOOGLE
+    private String provider;
 
     private int busMoney; // 버정머니
 
@@ -50,25 +51,13 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<>();
 
-    public User(@NotNull String email,
-                @NotNull String nickname,
-                @NotNull String imageUrl,
-                @NotNull Role role,
-                @NotNull SocialType socialType)
-    {
-        this.email = email;
-        this.nickname = nickname;
-        this.imageUrl = imageUrl;
-        this.role = role;
-        this.socialType = socialType;
-    }
 
     @Builder
-    public User(String email, String nickname, Role role, SocialType socialType, int busMoney) {
+    public User(String email, String nickname, Role role, String provider, int busMoney) {
         this.email = email;
         this.nickname = nickname;
         this.role = role;
-        this.socialType = socialType;
+        this.provider = provider;
         this.busMoney = busMoney;
         this.chargingMethods = new ArrayList<>();
         this.reservations = new ArrayList<>();

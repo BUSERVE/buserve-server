@@ -43,7 +43,7 @@ public class DatabaseSeeder {
                 .email("user1@example.com")
                 .nickname("User1")
                 .role(Role.USER)
-                .socialType(SocialType.GOOGLE)
+                .provider("GOOGLE")
                 .busMoney(10000)
                 .build();
         userRepository.save(user1);
@@ -68,7 +68,6 @@ public class DatabaseSeeder {
                 .email("user2@example.com")
                 .nickname("User2")
                 .role(Role.USER)
-                .socialType(SocialType.KAKAO)
                 .busMoney(2000)
                 .build();
         userRepository.save(user2);
