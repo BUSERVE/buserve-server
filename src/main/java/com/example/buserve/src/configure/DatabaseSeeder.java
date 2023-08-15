@@ -99,10 +99,9 @@ public class DatabaseSeeder {
         routeRepository.save(route4);
 
         // Creating Stops
-        Stop stop1 = new Stop("id1", "공단사거리", 89074);
+        Stop stop1 = new Stop("id1", "공단사거리", "89074");
         stopRepository.save(stop1);
-
-        Stop stop2 = new Stop("id2", "검단지식산업센타", 89054);
+        Stop stop2 = new Stop("id2", "검단지식산업센타", "89054");
         stopRepository.save(stop2);
 
 

@@ -16,12 +16,12 @@ public class Stop {
     @Id
     private String id;
     private String stopName;    // 정류장 이름
-    private int stopNumber;  // 정류장 번호
+    private String stopNumber;  // 정류장 번호
 
     @OneToMany(mappedBy = "stop")
     private List<RouteStop> routeStops = new ArrayList<>();
 
-    public Stop(String id, String stopName, int stopNumber) {
+    public Stop(String id, String stopName, String stopNumber) {
         this.id = id;
         this.stopName = stopName;
         this.stopNumber = stopNumber;
