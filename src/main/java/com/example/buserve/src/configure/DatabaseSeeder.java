@@ -29,6 +29,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
 @Configuration
 public class DatabaseSeeder {
@@ -143,24 +144,20 @@ public class DatabaseSeeder {
                 String gpslong = jsonObject.get("gpslong").toString();      // 정류소 X좌표
                 String nodeord = jsonObject.get("nodeord").toString();      // 정류소 순번
                 String updowncd = jsonObject.get("updowncd").toString();    // 상하행 [0: 상행 1: 하행]
+                Direction updown;
+                if (updowncd.equals("0")) { updown = Direction.UPWARD; } else { updown = Direction.DOWNWARD; }
 
                 // DB 추가
                 Stop stop = new Stop(nodeid, nodenm, nodeno);
                 stopRepository.save(stop);
 
-                RouteStop routeStop = new RouteStop(route, stop, Integer.parseInt(nodeord), LocalTime.of(0, 5), Direction.UPWARD);
+                // Creating RouteStop
+                RouteStop routeStop = new RouteStop(route, stop, Integer.parseInt(nodeord), LocalTime.of(0, 5), updown);
                 routeStopRepository.save(routeStop);
             }
         }
 
 
-//        // Linking Stops to Route via RouteStop
-//        RouteStop routeStop1 = new RouteStop(route1, stop1, 1, LocalTime.of(0, 0),Direction.UPWARD);
-//        routeStopRepository.save(routeStop1);
-//
-//        RouteStop routeStop2 = new RouteStop(route1, stop2, 2, LocalTime.of(0, 5), Direction.UPWARD);
-//        routeStopRepository.save(routeStop2);
-//
 //        // Creating Bus
 //        Bus bus1 = new Bus(20, LocalTime.of(5, 0), route1);
 //        busRepository.save(bus1);
