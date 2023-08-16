@@ -34,6 +34,9 @@ public class Reservation {
 
     private LocalDateTime expectedArrivalTime;  // 도착 예정 시간
 
+    @Enumerated(EnumType.STRING)
+    private AttendanceStatus attendanceStatus = AttendanceStatus.PENDING;   // 탑승 상태
+
     public Reservation(User user, Seat seat, Stop stop, LocalDateTime expectedArrivalTime) {
         this.user = user;
         this.seat = seat;
