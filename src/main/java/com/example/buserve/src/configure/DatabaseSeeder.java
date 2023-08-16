@@ -140,19 +140,19 @@ public class DatabaseSeeder {
                 String nodeid = jsonObject.get("nodeid").toString();        // 정류소 ID
                 String nodeno = jsonObject.get("nodeno").toString();        // 정류소 번호
                 String nodenm = jsonObject.get("nodenm").toString();        // 정류소 명
-                String gpslati = jsonObject.get("gpslati").toString();      // 정류소 Y좌표
-                String gpslong = jsonObject.get("gpslong").toString();      // 정류소 X좌표
+                String gpslati = jsonObject.get("gpslati").toString();      // 정류소 위도(Y좌표)
+                String gpslong = jsonObject.get("gpslong").toString();      // 정류소 경도(X좌표)
                 String nodeord = jsonObject.get("nodeord").toString();      // 정류소 순번
-                String updowncd = jsonObject.get("updowncd").toString();    // 상하행 [0: 상행 1: 하행]
-                Direction updown;
-                if (updowncd.equals("0")) { updown = Direction.UPWARD; } else { updown = Direction.DOWNWARD; }
+                Direction updowncd;                                         // 상하행 [0: 상행 1: 하행]
+                if (jsonObject.get("updowncd").toString().equals("0")) { updowncd = Direction.UPWARD; }
+                else { updowncd = Direction.DOWNWARD; }
 
                 // DB 추가
-                Stop stop = new Stop(nodeid, nodenm, nodeno);
+                Stop stop = new Stop(nodeid, nodenm, nodeno, gpslati, gpslong);
                 stopRepository.save(stop);
 
                 // Creating RouteStop
-                RouteStop routeStop = new RouteStop(route, stop, Integer.parseInt(nodeord), LocalTime.of(0, 5), updown);
+                RouteStop routeStop = new RouteStop(route, stop, Integer.parseInt(nodeord), LocalTime.of(0, 5), updowncd);
                 routeStopRepository.save(routeStop);
             }
         }
