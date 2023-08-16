@@ -42,4 +42,7 @@ public class RouteService {
         return stops;
     }
 
+    public List<String> getAllRouteId() {
+        return routeRepository.findAllRouteId();
+    }
 }
