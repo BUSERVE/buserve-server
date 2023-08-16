@@ -14,16 +14,20 @@ import java.util.List;
 @NoArgsConstructor
 public class Stop {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String stopName;    // 정류장 이름
-    private int stopNumber;  // 정류장 번호
+    private String stopNumber;  // 정류장 번호
+    private String latitude;    // 정류장 위도
+    private String longitude;   // 정류장 경도
 
     @OneToMany(mappedBy = "stop")
     private List<RouteStop> routeStops = new ArrayList<>();
 
-    public Stop(String stopName, int stopNumber) {
+    public Stop(String id, String stopName, String stopNumber, String latitude, String longitude) {
+        this.id = id;
         this.stopName = stopName;
         this.stopNumber = stopNumber;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }

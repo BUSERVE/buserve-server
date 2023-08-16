@@ -9,5 +9,5 @@ import lombok.*;
 @Builder
 public class StopDto {
     String stopName;
-    int stopNumber;
+    String stopNumber;
 }

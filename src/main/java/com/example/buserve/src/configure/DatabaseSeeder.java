@@ -2,6 +2,7 @@ package com.example.buserve.src.configure;
 
 import com.example.buserve.src.bus.entity.*;
 import com.example.buserve.src.bus.repository.*;
+import com.example.buserve.src.bus.service.RouteService;
 import com.example.buserve.src.pay.entity.ChargingMethod;
 import com.example.buserve.src.pay.repository.ChargingMethodRepository;
 import com.example.buserve.src.reservation.entity.Reservation;
@@ -10,13 +11,25 @@ import com.example.buserve.src.user.Role;
 import com.example.buserve.src.user.SocialType;
 import com.example.buserve.src.user.User;
 import com.example.buserve.src.user.UserRepository;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.Objects;
 
 @Configuration
 public class DatabaseSeeder {
@@ -27,6 +40,7 @@ public class DatabaseSeeder {
             RouteRepository routeRepository,
             StopRepository stopRepository,
             RouteStopRepository routeStopRepository,
+            RouteService routeService,
             UserRepository userRepository,
             ChargingMethodRepository chargingMethodRepository,
             SeatRepository seatRepository,
@@ -34,7 +48,7 @@ public class DatabaseSeeder {
 
         return args -> {
             seedUsersAndChargingMethods(userRepository, chargingMethodRepository);
-            seedBusStopsAndRoutesAndReservations(busRepository, routeRepository, stopRepository, routeStopRepository, seatRepository, userRepository, reservationRepository);
+            seedBusStopsAndRoutesAndReservations(busRepository, routeRepository, routeService, stopRepository, routeStopRepository, seatRepository, userRepository, reservationRepository);
         };
     }
 
@@ -82,47 +96,84 @@ public class DatabaseSeeder {
     private void seedBusStopsAndRoutesAndReservations(
             BusRepository busRepository,
             RouteRepository routeRepository,
+            RouteService routeService,
             StopRepository stopRepository,
             RouteStopRepository routeStopRepository,
             SeatRepository seatRepository,
             UserRepository userRepository,
-            ReservationRepository reservationRepository)
-    {
-        // Creating Route
-        Route route1 = new Route("ICB1", "9802");
-        routeRepository.save(route1);
+            ReservationRepository reservationRepository) throws IOException, ParseException {
 
-        // Creating Stops
-        Stop stop1 = new Stop("공단사거리", 89074);
-        stopRepository.save(stop1);
+        String key = "lF8UEJMTnm7SpZKEcgBRzazgp0JNAxAwLEu9H%2BG844NuHoC4DZS8qbdDNpM1WoBTq1jimtK%2BW2P6N4kksiuwBQ%3D%3D";
+        String cityCode = "23";
+        String endPoint = "http://apis.data.go.kr/1613000/BusRouteInfoInqireService/";
 
-        Stop stop2 = new Stop("검단지식산업센타", 89054);
-        stopRepository.save(stop2);
+        for (int r = 0; r < 4; r++) {
+            // Creating Route
+            // String details = "getRouteNoList";
+            String routeId, rName;
+            if (r == 0) { routeId = "ICB165000160"; rName = "9100"; }
+            else if (r == 1) { routeId = "ICB165000161"; rName = "9200"; }
+            else if (r == 2) { routeId = "ICB165000162"; rName = "9300"; }
+            else { routeId = "ICB165000303"; rName = "9802"; }
+            Route route = new Route(routeId, rName);
+            routeRepository.save(route);
 
 
-        // Linking Stops to Route via RouteStop
-        RouteStop routeStop1 = new RouteStop(route1, stop1, 1, LocalTime.of(0, 0),Direction.UPWARD);
-        routeStopRepository.save(routeStop1);
+            // Creating Stops
+            // List<String> routeIds = routeService.getAllRouteId();
+            String details = "getRouteAcctoThrghSttnList";
 
-        RouteStop routeStop2 = new RouteStop(route1, stop2, 2, LocalTime.of(0, 5), Direction.UPWARD);
-        routeStopRepository.save(routeStop2);
+            URL url = new URL(endPoint + details + "?serviceKey=" + key
+                    + "&cityCode=" + cityCode + "&numOfRows=100"
+                    + "&routeId=" + routeId + "&_type=json");
 
-        // Creating Bus
-        Bus bus1 = new Bus(20, LocalTime.of(5, 0), route1);
-        busRepository.save(bus1);
-        seatRepository.saveAll(bus1.getSeats());
+            BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            String result = bf.readLine();
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+            JSONObject parseItems = (JSONObject) ((JSONObject) ((JSONObject) jsonObject.get("response")).get("body")).get("items");
+            JSONArray array = (JSONArray) parseItems.get("item");
 
-        Bus bus2 = new Bus(20, LocalTime.of(5, 30), route1);
-        busRepository.save(bus2);
-        seatRepository.saveAll(bus2.getSeats());
+            for (int j = 0; j < array.size(); j++) {
+                jsonObject = (JSONObject) array.get(j);
+                String routeid = jsonObject.get("routeid").toString();      // 노선 ID
+                String nodeid = jsonObject.get("nodeid").toString();        // 정류소 ID
+                String nodeno = jsonObject.get("nodeno").toString();        // 정류소 번호
+                String nodenm = jsonObject.get("nodenm").toString();        // 정류소 명
+                String gpslati = jsonObject.get("gpslati").toString();      // 정류소 위도(Y좌표)
+                String gpslong = jsonObject.get("gpslong").toString();      // 정류소 경도(X좌표)
+                String nodeord = jsonObject.get("nodeord").toString();      // 정류소 순번
+                Direction updowncd;                                         // 상하행 [0: 상행 1: 하행]
+                if (jsonObject.get("updowncd").toString().equals("0")) { updowncd = Direction.UPWARD; }
+                else { updowncd = Direction.DOWNWARD; }
 
-        // Creating Reservation
-        User user1 = userRepository.findByEmail("user1@example.com").get();
+                // DB 추가
+                Stop stop = new Stop(nodeid, nodenm, nodeno, gpslati, gpslong);
+                stopRepository.save(stop);
 
-        Reservation reservation1 = new Reservation(user1, bus1.getSeats().get(5), stop1, LocalDateTime.of(2023, 8, 15, 7, 0));
-        reservationRepository.save(reservation1);
+                // Creating RouteStop
+                RouteStop routeStop = new RouteStop(route, stop, Integer.parseInt(nodeord), LocalTime.of(0, 5), updowncd);
+                routeStopRepository.save(routeStop);
+            }
+        }
 
-        Reservation reservation2 = new Reservation(user1, bus2.getSeats().get(10), stop2, LocalDateTime.of(2023, 8, 15, 7, 30));
-        reservationRepository.save(reservation2);
+
+//        // Creating Bus
+//        Bus bus1 = new Bus(20, LocalTime.of(5, 0), route1);
+//        busRepository.save(bus1);
+//        seatRepository.saveAll(bus1.getSeats());
+//
+//        Bus bus2 = new Bus(20, LocalTime.of(5, 30), route1);
+//        busRepository.save(bus2);
+//        seatRepository.saveAll(bus2.getSeats());
+//
+//        // Creating Reservation
+//        User user1 = userRepository.findByEmail("user1@example.com").get();
+//
+//        Reservation reservation1 = new Reservation(user1, bus1.getSeats().get(5), stop1, LocalDateTime.of(2023, 8, 15, 7, 0));
+//        reservationRepository.save(reservation1);
+//
+//        Reservation reservation2 = new Reservation(user1, bus2.getSeats().get(10), stop2, LocalDateTime.of(2023, 8, 15, 7, 30));
+//        reservationRepository.save(reservation2);
     }
 }
