@@ -26,8 +26,8 @@ import java.util.stream.Collectors;
 public class ReservationService {
 
     private static final int BUS_FARE = 2500;  // 버스 요금
-    private static final int NO_SHOW_LIMIT = 2;  // 노쇼 제한 횟수
-    private static final int NO_SHOW_PENALTY_LIMIT = 5;  // 노쇼 패널티 제한 횟수
+    private static final int NO_SHOW_LIMIT_FOR_PENALTY = 2;  // 1주일 예약 제한을 위한 노쇼 횟수
+    private static final int NO_SHOW_LIMIT_FOR_RESTRICTION = 5;  // 페널티 금액을 부과하기 시작하는 노쇼 횟수
     private static final double PENALTY_RATE = 0.20;  // 패널티 비율
 
     private final ReservationRepository reservationRepository;
@@ -53,6 +53,7 @@ public class ReservationService {
     @Transactional
     public ReservationResponseDto createReservation(Long userId, ReservationRequestDto requestDto) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        applyNoShowPenaltyIfNeeded(user);
         checkNoShowPenalty(user);
 
         // 버정머니 확인
@@ -101,11 +102,26 @@ public class ReservationService {
         );
     }
 
+    private void applyNoShowPenaltyIfNeeded(User user) {
+        int noShowCount = user.getNoShowCount();
+
+        if (noShowCount >= NO_SHOW_LIMIT_FOR_PENALTY) {
+            int penaltyAmount = (int) (BUS_FARE * PENALTY_RATE);
+            user.useBusMoney(penaltyAmount);
+        } else if (noShowCount >= NO_SHOW_LIMIT_FOR_RESTRICTION) {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime penaltyEndDate = user.getNoShowPenaltyDate().plusDays(7);
+            if (now.isBefore(penaltyEndDate)) {
+                throw new IllegalArgumentException("노쇼로 인한 예약 제한 중입니다.");
+            }
+        }
+    }
+
     private void checkNoShowPenalty(User user) {
-        if (user.getNoShowCount() >= NO_SHOW_PENALTY_LIMIT) {
+        if (user.getNoShowCount() >= NO_SHOW_LIMIT_FOR_RESTRICTION) {
             int penaltyAmount = (int) (BUS_FARE * PENALTY_RATE);
             user.useBusMoney(penaltyAmount);  // 페널티로 버정머니 차감
-        } else if (user.getNoShowCount() >= NO_SHOW_LIMIT) {
+        } else if (user.getNoShowCount() >= NO_SHOW_LIMIT_FOR_PENALTY) {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime penaltyEndDate = user.getNoShowPenaltyDate().plusDays(7);  // 페널티 시작 날짜에서 7일 더함
             if (now.isBefore(penaltyEndDate)) {

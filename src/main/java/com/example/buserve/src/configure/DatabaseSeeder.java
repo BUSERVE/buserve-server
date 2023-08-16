@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -174,10 +175,10 @@ public class DatabaseSeeder {
         Stop stop1 = stops.get(0);
         Stop stop2 = stops.get(1);
 
-        Reservation reservation1 = new Reservation(user1, bus1.getSeats().get(5), stop1, LocalDateTime.of(2023, 8, 15, 7, 0));
+        Reservation reservation1 = new Reservation(user1, bus1.getSeats().get(5), stop1, LocalDate.now().plusDays(1).atTime(7, 0));
         reservationRepository.save(reservation1);
 
-        Reservation reservation2 = new Reservation(user1, bus2.getSeats().get(10), stop2, LocalDateTime.of(2023, 8, 15, 7, 30));
+        Reservation reservation2 = new Reservation(user1, bus2.getSeats().get(10), stop2, LocalDate.now().plusDays(1).atTime(7, 30));
         reservationRepository.save(reservation2);
     }
 }

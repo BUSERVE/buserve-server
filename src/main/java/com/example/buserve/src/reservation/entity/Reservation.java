@@ -45,4 +45,8 @@ public class Reservation {
     public void completeBoarding() {
         this.boardingStatus = BoardingStatus.BOARD_COMPLETED;
     }
+
+    public void markAsNoShow() {
+        this.boardingStatus = BoardingStatus.NO_SHOW;
+    }
 }
