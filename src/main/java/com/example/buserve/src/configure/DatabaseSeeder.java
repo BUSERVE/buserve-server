@@ -101,26 +101,27 @@ public class DatabaseSeeder {
             SeatRepository seatRepository,
             UserRepository userRepository,
             ReservationRepository reservationRepository) throws IOException, ParseException {
-        // Creating Route
-        Route route1 = new Route("ICB165000160", "9100"); // 57
-        routeRepository.save(route1);
-        Route route2 = new Route("ICB165000161", "9200"); // 60
-        routeRepository.save(route2);
-        Route route3 = new Route("ICB165000162", "9300"); // 81
-        routeRepository.save(route3);
-        Route route4 = new Route("ICB165000303", "9802"); // 80
-        routeRepository.save(route4);
-
-        // Creating Stops
-        List<String> routeIds = routeService.getAllRouteId();
 
         String key = "lF8UEJMTnm7SpZKEcgBRzazgp0JNAxAwLEu9H%2BG844NuHoC4DZS8qbdDNpM1WoBTq1jimtK%2BW2P6N4kksiuwBQ%3D%3D";
         String cityCode = "23";
         String endPoint = "http://apis.data.go.kr/1613000/BusRouteInfoInqireService/";
-        String details = "getRouteAcctoThrghSttnList";
 
-        for (int i = 0; i < routeIds.size(); i++) {
-            String routeId = routeIds.get(i);
+        for (int r = 0; r < 4; r++) {
+            // Creating Route
+            // String details = "getRouteNoList";
+            String routeId, rName;
+            if (r == 0) { routeId = "ICB165000160"; rName = "9100"; }
+            else if (r == 1) { routeId = "ICB165000161"; rName = "9200"; }
+            else if (r == 2) { routeId = "ICB165000162"; rName = "9300"; }
+            else { routeId = "ICB165000303"; rName = "9802"; }
+            Route route = new Route(routeId, rName);
+            routeRepository.save(route);
+
+
+            // Creating Stops
+            // List<String> routeIds = routeService.getAllRouteId();
+            String details = "getRouteAcctoThrghSttnList";
+
             URL url = new URL(endPoint + details + "?serviceKey=" + key
                     + "&cityCode=" + cityCode + "&numOfRows=100"
                     + "&routeId=" + routeId + "&_type=json");
@@ -146,39 +147,36 @@ public class DatabaseSeeder {
                 // DB 추가
                 Stop stop = new Stop(nodeid, nodenm, nodeno);
                 stopRepository.save(stop);
-            }
 
+                RouteStop routeStop = new RouteStop(route, stop, Integer.parseInt(nodeord), LocalTime.of(0, 5), Direction.UPWARD);
+                routeStopRepository.save(routeStop);
+            }
         }
 
-        Stop stop1 = new Stop(routeIds.get(1), "공단사거리", "89074");
-        stopRepository.save(stop1);
-        Stop stop2 = new Stop("id2", "검단지식산업센타", "89054");
-        stopRepository.save(stop2);
 
-
-        // Linking Stops to Route via RouteStop
-        RouteStop routeStop1 = new RouteStop(route1, stop1, 1, LocalTime.of(0, 0),Direction.UPWARD);
-        routeStopRepository.save(routeStop1);
-
-        RouteStop routeStop2 = new RouteStop(route1, stop2, 2, LocalTime.of(0, 5), Direction.UPWARD);
-        routeStopRepository.save(routeStop2);
-
-        // Creating Bus
-        Bus bus1 = new Bus(20, LocalTime.of(5, 0), route1);
-        busRepository.save(bus1);
-        seatRepository.saveAll(bus1.getSeats());
-
-        Bus bus2 = new Bus(20, LocalTime.of(5, 30), route1);
-        busRepository.save(bus2);
-        seatRepository.saveAll(bus2.getSeats());
-
-        // Creating Reservation
-        User user1 = userRepository.findByEmail("user1@example.com").get();
-
-        Reservation reservation1 = new Reservation(user1, bus1.getSeats().get(5), stop1, LocalDateTime.of(2023, 8, 15, 7, 0));
-        reservationRepository.save(reservation1);
-
-        Reservation reservation2 = new Reservation(user1, bus2.getSeats().get(10), stop2, LocalDateTime.of(2023, 8, 15, 7, 30));
-        reservationRepository.save(reservation2);
+//        // Linking Stops to Route via RouteStop
+//        RouteStop routeStop1 = new RouteStop(route1, stop1, 1, LocalTime.of(0, 0),Direction.UPWARD);
+//        routeStopRepository.save(routeStop1);
+//
+//        RouteStop routeStop2 = new RouteStop(route1, stop2, 2, LocalTime.of(0, 5), Direction.UPWARD);
+//        routeStopRepository.save(routeStop2);
+//
+//        // Creating Bus
+//        Bus bus1 = new Bus(20, LocalTime.of(5, 0), route1);
+//        busRepository.save(bus1);
+//        seatRepository.saveAll(bus1.getSeats());
+//
+//        Bus bus2 = new Bus(20, LocalTime.of(5, 30), route1);
+//        busRepository.save(bus2);
+//        seatRepository.saveAll(bus2.getSeats());
+//
+//        // Creating Reservation
+//        User user1 = userRepository.findByEmail("user1@example.com").get();
+//
+//        Reservation reservation1 = new Reservation(user1, bus1.getSeats().get(5), stop1, LocalDateTime.of(2023, 8, 15, 7, 0));
+//        reservationRepository.save(reservation1);
+//
+//        Reservation reservation2 = new Reservation(user1, bus2.getSeats().get(10), stop2, LocalDateTime.of(2023, 8, 15, 7, 30));
+//        reservationRepository.save(reservation2);
     }
 }
