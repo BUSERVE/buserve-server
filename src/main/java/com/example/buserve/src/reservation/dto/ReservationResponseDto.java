@@ -1,5 +1,6 @@
 package com.example.buserve.src.reservation.dto;
 
+import com.example.buserve.src.reservation.entity.BoardingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -12,4 +13,5 @@ public class ReservationResponseDto {
     private final int seatNumber; // 좌석 번호
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private final LocalDateTime expectedArrivalTime; // 도착 예정 시간
+    private final BoardingStatus boardingStatus; // 탑승 상태
 }

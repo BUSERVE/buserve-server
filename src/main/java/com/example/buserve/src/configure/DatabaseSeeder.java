@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -157,23 +158,27 @@ public class DatabaseSeeder {
             }
         }
 
+        Route route1 = routeRepository.findById("ICB165000160").get();
 
-//        // Creating Bus
-//        Bus bus1 = new Bus(20, LocalTime.of(5, 0), route1);
-//        busRepository.save(bus1);
-//        seatRepository.saveAll(bus1.getSeats());
-//
-//        Bus bus2 = new Bus(20, LocalTime.of(5, 30), route1);
-//        busRepository.save(bus2);
-//        seatRepository.saveAll(bus2.getSeats());
-//
-//        // Creating Reservation
-//        User user1 = userRepository.findByEmail("user1@example.com").get();
-//
-//        Reservation reservation1 = new Reservation(user1, bus1.getSeats().get(5), stop1, LocalDateTime.of(2023, 8, 15, 7, 0));
-//        reservationRepository.save(reservation1);
-//
-//        Reservation reservation2 = new Reservation(user1, bus2.getSeats().get(10), stop2, LocalDateTime.of(2023, 8, 15, 7, 30));
-//        reservationRepository.save(reservation2);
+        // Creating Bus
+        Bus bus1 = new Bus(20, LocalTime.of(5, 0), route1);
+        busRepository.save(bus1);
+        seatRepository.saveAll(bus1.getSeats());
+
+        Bus bus2 = new Bus(20, LocalTime.of(5, 30), route1);
+        busRepository.save(bus2);
+        seatRepository.saveAll(bus2.getSeats());
+
+        // Creating Reservation
+        User user1 = userRepository.findByEmail("user1@example.com").get();
+        List<Stop> stops = stopRepository.findAll();
+        Stop stop1 = stops.get(0);
+        Stop stop2 = stops.get(1);
+
+        Reservation reservation1 = new Reservation(user1, bus1.getSeats().get(5), stop1, LocalDate.now().plusDays(1).atTime(7, 0));
+        reservationRepository.save(reservation1);
+
+        Reservation reservation2 = new Reservation(user1, bus2.getSeats().get(10), stop2, LocalDate.now().plusDays(1).atTime(7, 30));
+        reservationRepository.save(reservation2);
     }
 }

@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,8 @@ public class User {
     private String provider;
 
     private int busMoney; // 버정머니
+    private int noShowCount = 0; // 노쇼 횟수
+    private LocalDateTime noShowPenaltyDate = null; // 노쇼 페널티 시작날짜
 
     @OneToOne
     @JoinColumn(name = "primary_charging_method_id")
@@ -59,6 +62,8 @@ public class User {
         this.role = role;
         this.provider = provider;
         this.busMoney = busMoney;
+        this.noShowCount = 0;
+        this.noShowPenaltyDate = null;
         this.chargingMethods = new ArrayList<>();
         this.reservations = new ArrayList<>();
     }

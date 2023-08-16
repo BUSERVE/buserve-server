@@ -1,7 +1,5 @@
 package com.example.buserve.src.reservation.entity;
 
-import com.example.buserve.src.bus.entity.Bus;
-import com.example.buserve.src.bus.entity.RouteStop;
 import com.example.buserve.src.bus.entity.Seat;
 import com.example.buserve.src.bus.entity.Stop;
 import com.example.buserve.src.user.User;
@@ -34,10 +32,21 @@ public class Reservation {
 
     private LocalDateTime expectedArrivalTime;  // 도착 예정 시간
 
+    @Enumerated(EnumType.STRING)
+    private BoardingStatus boardingStatus = BoardingStatus.PENDING;   // 탑승 상태
+
     public Reservation(User user, Seat seat, Stop stop, LocalDateTime expectedArrivalTime) {
         this.user = user;
         this.seat = seat;
         this.stop = stop;
         this.expectedArrivalTime = expectedArrivalTime;
+    }
+
+    public void completeBoarding() {
+        this.boardingStatus = BoardingStatus.BOARD_COMPLETED;
+    }
+
+    public void markAsNoShow() {
+        this.boardingStatus = BoardingStatus.NO_SHOW;
     }
 }

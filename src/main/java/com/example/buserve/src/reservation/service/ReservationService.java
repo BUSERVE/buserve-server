@@ -1,7 +1,5 @@
 package com.example.buserve.src.reservation.service;
 
-import com.example.buserve.src.bus.entity.Bus;
-import com.example.buserve.src.bus.entity.RouteStop;
 import com.example.buserve.src.bus.entity.Seat;
 import com.example.buserve.src.bus.entity.Stop;
 import com.example.buserve.src.bus.repository.RouteStopRepository;
@@ -28,6 +26,9 @@ import java.util.stream.Collectors;
 public class ReservationService {
 
     private static final int BUS_FARE = 2500;  // 버스 요금
+    private static final int NO_SHOW_LIMIT_FOR_PENALTY = 2;  // 1주일 예약 제한을 위한 노쇼 횟수
+    private static final int NO_SHOW_LIMIT_FOR_RESTRICTION = 5;  // 페널티 금액을 부과하기 시작하는 노쇼 횟수
+    private static final double PENALTY_RATE = 0.20;  // 패널티 비율
 
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
@@ -43,7 +44,8 @@ public class ReservationService {
                         reservation.getSeat().getBus().getRoute().getRouteName(),
                         reservation.getStop().getStopName(),
                         reservation.getSeat().getSeatNumber(),
-                        reservation.getExpectedArrivalTime()
+                        reservation.getExpectedArrivalTime(),
+                        reservation.getBoardingStatus()
                 ))
                 .collect(Collectors.toList());
     }
@@ -51,6 +53,7 @@ public class ReservationService {
     @Transactional
     public ReservationResponseDto createReservation(Long userId, ReservationRequestDto requestDto) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        applyNoShowPenaltyIfNeeded(user);
 
         // 버정머니 확인
         if (user.getBusMoney() < BUS_FARE) {
@@ -93,8 +96,24 @@ public class ReservationService {
                 reservation.getSeat().getBus().getRoute().getRouteName(),
                 reservation.getStop().getStopName(),
                 reservation.getSeat().getSeatNumber(),
-                reservation.getExpectedArrivalTime()
+                reservation.getExpectedArrivalTime(),
+                reservation.getBoardingStatus()
         );
+    }
+
+    private void applyNoShowPenaltyIfNeeded(User user) {
+        int noShowCount = user.getNoShowCount();
+
+        if (noShowCount >= NO_SHOW_LIMIT_FOR_PENALTY) {
+            int penaltyAmount = (int) (BUS_FARE * PENALTY_RATE);
+            user.useBusMoney(penaltyAmount);
+        } else if (noShowCount >= NO_SHOW_LIMIT_FOR_RESTRICTION) {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime penaltyEndDate = user.getNoShowPenaltyDate().plusDays(7);
+            if (now.isBefore(penaltyEndDate)) {
+                throw new IllegalArgumentException("노쇼로 인한 예약 제한 중입니다.");
+            }
+        }
     }
 
     // 예약 시간을 도착 예정 시간으로 변환하는 메서드
@@ -102,5 +121,34 @@ public class ReservationService {
     // 그 외의 날도 포함 시 로직 수정 필요
     private LocalDateTime convertToExpectedArrivalTime(String time) {
         return LocalTime.parse(time).atDate(LocalDate.now().plusDays(1));
+    }
+
+    public ReservationResponseDto getReservationDetail(Long userId, Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new IllegalArgumentException("예약을 찾을 수 없습니다."));
+        if (!reservation.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException("예약을 찾을 수 없습니다.");
+        }
+        return new ReservationResponseDto(
+                reservation.getSeat().getBus().getRoute().getRouteName(),
+                reservation.getStop().getStopName(),
+                reservation.getSeat().getSeatNumber(),
+                reservation.getExpectedArrivalTime(),
+                reservation.getBoardingStatus()
+        );
+    }
+
+    public ReservationResponseDto completeBoarding(Long userId, Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new IllegalArgumentException("예약을 찾을 수 없습니다."));
+        if (!reservation.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException("예약을 찾을 수 없습니다.");
+        }
+        reservation.completeBoarding();
+        reservationRepository.save(reservation);
+        return new ReservationResponseDto(
+                reservation.getSeat().getBus().getRoute().getRouteName(),
+                reservation.getStop().getStopName(),
+                reservation.getSeat().getSeatNumber(),
+                reservation.getExpectedArrivalTime(),
+                reservation.getBoardingStatus());
     }
 }
