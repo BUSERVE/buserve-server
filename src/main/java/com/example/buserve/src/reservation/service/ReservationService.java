@@ -54,7 +54,6 @@ public class ReservationService {
     public ReservationResponseDto createReservation(Long userId, ReservationRequestDto requestDto) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         applyNoShowPenaltyIfNeeded(user);
-        checkNoShowPenalty(user);
 
         // 버정머니 확인
         if (user.getBusMoney() < BUS_FARE) {
@@ -111,19 +110,6 @@ public class ReservationService {
         } else if (noShowCount >= NO_SHOW_LIMIT_FOR_RESTRICTION) {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime penaltyEndDate = user.getNoShowPenaltyDate().plusDays(7);
-            if (now.isBefore(penaltyEndDate)) {
-                throw new IllegalArgumentException("노쇼로 인한 예약 제한 중입니다.");
-            }
-        }
-    }
-
-    private void checkNoShowPenalty(User user) {
-        if (user.getNoShowCount() >= NO_SHOW_LIMIT_FOR_RESTRICTION) {
-            int penaltyAmount = (int) (BUS_FARE * PENALTY_RATE);
-            user.useBusMoney(penaltyAmount);  // 페널티로 버정머니 차감
-        } else if (user.getNoShowCount() >= NO_SHOW_LIMIT_FOR_PENALTY) {
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime penaltyEndDate = user.getNoShowPenaltyDate().plusDays(7);  // 페널티 시작 날짜에서 7일 더함
             if (now.isBefore(penaltyEndDate)) {
                 throw new IllegalArgumentException("노쇼로 인한 예약 제한 중입니다.");
             }
