@@ -1,7 +1,5 @@
 package com.example.buserve.src.reservation.service;
 
-import com.example.buserve.src.bus.entity.Bus;
-import com.example.buserve.src.bus.entity.RouteStop;
 import com.example.buserve.src.bus.entity.Seat;
 import com.example.buserve.src.bus.entity.Stop;
 import com.example.buserve.src.bus.repository.RouteStopRepository;
@@ -46,7 +44,8 @@ public class ReservationService {
                         reservation.getSeat().getBus().getRoute().getRouteName(),
                         reservation.getStop().getStopName(),
                         reservation.getSeat().getSeatNumber(),
-                        reservation.getExpectedArrivalTime()
+                        reservation.getExpectedArrivalTime(),
+                        reservation.getBoardingStatus()
                 ))
                 .collect(Collectors.toList());
     }
@@ -97,7 +96,8 @@ public class ReservationService {
                 reservation.getSeat().getBus().getRoute().getRouteName(),
                 reservation.getStop().getStopName(),
                 reservation.getSeat().getSeatNumber(),
-                reservation.getExpectedArrivalTime()
+                reservation.getExpectedArrivalTime(),
+                reservation.getBoardingStatus()
         );
     }
 
@@ -119,5 +119,34 @@ public class ReservationService {
     // 그 외의 날도 포함 시 로직 수정 필요
     private LocalDateTime convertToExpectedArrivalTime(String time) {
         return LocalTime.parse(time).atDate(LocalDate.now().plusDays(1));
+    }
+
+    public ReservationResponseDto getReservationDetail(Long userId, Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new IllegalArgumentException("예약을 찾을 수 없습니다."));
+        if (!reservation.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException("예약을 찾을 수 없습니다.");
+        }
+        return new ReservationResponseDto(
+                reservation.getSeat().getBus().getRoute().getRouteName(),
+                reservation.getStop().getStopName(),
+                reservation.getSeat().getSeatNumber(),
+                reservation.getExpectedArrivalTime(),
+                reservation.getBoardingStatus()
+        );
+    }
+
+    public ReservationResponseDto completeBoarding(Long userId, Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new IllegalArgumentException("예약을 찾을 수 없습니다."));
+        if (!reservation.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException("예약을 찾을 수 없습니다.");
+        }
+        reservation.completeBoarding();
+        reservationRepository.save(reservation);
+        return new ReservationResponseDto(
+                reservation.getSeat().getBus().getRoute().getRouteName(),
+                reservation.getStop().getStopName(),
+                reservation.getSeat().getSeatNumber(),
+                reservation.getExpectedArrivalTime(),
+                reservation.getBoardingStatus());
     }
 }

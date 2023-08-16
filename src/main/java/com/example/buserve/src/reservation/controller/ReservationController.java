@@ -41,6 +41,21 @@ public class ReservationController {
         return ApiResponse.success(reservationService.createReservation(userId, requestDto));
     }
 
+    @ApiOperation(value = "예약 세부 정보 조회", notes = "특정 예약의 세부 정보를 조회한다.")
+    @GetMapping("/{reservationId}")
+    public ApiResponse<ReservationResponseDto> getReservationDetail(Principal principal, @PathVariable Long reservationId) {
+        Long userId = getUserIdFromPrincipal(principal);
+        return ApiResponse.success(reservationService.getReservationDetail(userId, reservationId));
+    }
+
+
+    @ApiOperation(value = "예약한 버스에 탑승", notes = "해당 예약의 상태를 대기에서 탑승으로 변경한다.")
+    @PutMapping("/{reservationId}/mark-boarded")
+    public ApiResponse<ReservationResponseDto> completeBoarding(Principal principal, @PathVariable Long reservationId) {
+        Long userId = getUserIdFromPrincipal(principal);
+        return ApiResponse.success(reservationService.completeBoarding(userId, reservationId));
+    }
+
     // 로그인한 사용자의 ID를 획득하는 메서드 (구현 필요)
     private Long getUserIdFromPrincipal(Principal principal) {
         // 로그인한 사용자의 ID를 반환하는 로직
