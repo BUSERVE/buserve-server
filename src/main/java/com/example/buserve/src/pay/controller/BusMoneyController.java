@@ -22,11 +22,6 @@ public class BusMoneyController {
         this.userService = userService;
     }
 
-    @ExceptionHandler(Exception.class)
-    public ApiResponse<?> handleIllegalArgumentException(IllegalArgumentException e) {
-        return ApiResponse.error(ApiResponseStatus.REQUEST_ERROR);
-    }
-
     @ApiOperation(value = "사용자의 버스머니 조회 API")
     @GetMapping
     public ApiResponse<AmountDto> getBusMoney(Principal principal) {

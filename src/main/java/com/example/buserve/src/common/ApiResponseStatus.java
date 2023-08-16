@@ -30,6 +30,14 @@ public enum ApiResponseStatus {
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
 
+    USER_NOT_FOUND(false, 2020, "사용자를 찾을 수 없습니다."),
+    SEAT_NOT_FOUND(false, 2021, "좌석을 찾을 수 없습니다."),
+    SEAT_ALREADY_RESERVED(false, 2022, "이미 예약된 좌석입니다."),
+    STOP_NOT_FOUND(false, 2023, "정류장을 찾을 수 없습니다."),
+    DUPLICATE_RESERVATION(false, 2024, "이미 해당 시간에 예약이 있습니다."),
+    RESERVATION_RESTRICTED(false, 2025, "노쇼로 인한 예약 제한 중입니다."),
+    RESERVATION_NOT_FOUND(false, 2026, "예약을 찾을 수 없습니다."),
+    UNAUTHORIZED_ACCESS(false, 2027, "권한이 없는 접근입니다."),
 
 
     /**

@@ -1,7 +1,6 @@
 package com.example.buserve.src.reservation.controller;
 
 import com.example.buserve.src.common.ApiResponse;
-import com.example.buserve.src.common.ApiResponseStatus;
 import com.example.buserve.src.reservation.dto.ReservationRequestDto;
 import com.example.buserve.src.reservation.dto.ReservationResponseDto;
 import com.example.buserve.src.reservation.service.ReservationService;
@@ -21,11 +20,6 @@ import java.util.List;
 public class ReservationController {
 
     private final ReservationService reservationService;
-
-    @ExceptionHandler(Exception.class)
-    public ApiResponse<?> handleException(Exception e) {
-        return ApiResponse.error(ApiResponseStatus.REQUEST_ERROR);
-    }
 
     @ApiOperation(value = "예약 내역 조회", notes = "사용자의 예약 내역을 최근순으로 조회한다.")
     @GetMapping
