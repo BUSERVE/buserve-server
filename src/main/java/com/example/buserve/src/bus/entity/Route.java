@@ -1,6 +1,5 @@
 package com.example.buserve.src.bus.entity;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,11 +23,6 @@ public class Route {
     private List<RouteStop> routeStops = new ArrayList<>();
 
     public Route(String routeName) {
-        this.routeName = routeName;
-    }
-
-    public Route(Long id, String routeName) {
-        this.id = id;
         this.routeName = routeName;
     }
 }
