@@ -6,7 +6,5 @@ import com.example.buserve.src.bus.entity.Stop;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RouteStopRepository extends JpaRepository<RouteStop, Long> {
-
-    RouteStop findByRouteIdAndStopId(Route route, Stop stop);
-
+    RouteStop findByRouteIdAndStopId(Long routeId, Long stopId);
 }

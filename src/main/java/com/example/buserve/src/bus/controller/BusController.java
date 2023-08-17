@@ -19,11 +19,6 @@ public class BusController {
 
     private final BusService busService;
 
-    @ExceptionHandler(Exception.class)
-    public ApiResponse<?> handleIllegalArgumentException(IllegalArgumentException e) {
-        return ApiResponse.error(ApiResponseStatus.REQUEST_ERROR);
-    }
-
     // 버스 좌석 리스트 조회
     @ApiOperation(value = "버스 좌석 리스트 조회", notes = "해당 버스의 좌석 리스트를 조회한다.")
     @GetMapping("/buses/{bus_id}/seats")

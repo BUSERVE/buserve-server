@@ -25,11 +25,6 @@ public class ChargingMethodController {
         this.chargingMethodService = chargingMethodService;
     }
 
-    @ExceptionHandler(Exception.class)
-    public ApiResponse<?> handleIllegalArgumentException(IllegalArgumentException e) {
-        return ApiResponse.error(ApiResponseStatus.REQUEST_ERROR);
-    }
-
     @ApiOperation(value = "사용자의 전체 충전수단 조회 API")
     @GetMapping
     public ApiResponse<List<ChargingMethodInfoDto>> getAllChargingMethods(Principal principal) {

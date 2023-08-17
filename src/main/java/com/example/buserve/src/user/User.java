@@ -1,10 +1,12 @@
 package com.example.buserve.src.user;
 
 import com.example.buserve.src.pay.entity.ChargingMethod;
+import com.example.buserve.src.reservation.entity.Reservation;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +38,11 @@ public class User {
     @Column(name = "SOCIALTYPE")
     @Enumerated(EnumType.STRING)
     private SocialType socialType; // KAKAO, APPLE, GOOGLE
+    private String provider;
 
     private int busMoney; // 버정머니
+    private int noShowCount = 0; // 노쇼 횟수
+    private LocalDateTime noShowPenaltyDate = null; // 노쇼 페널티 시작날짜
 
     @OneToOne
     @JoinColumn(name = "primary_charging_method_id")
@@ -46,27 +51,21 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChargingMethod> chargingMethods = new ArrayList<>(); // 충전 수단 리스트
 
-    public User(@NotNull String email,
-                @NotNull String nickname,
-                @NotNull String imageUrl,
-                @NotNull Role role,
-                @NotNull SocialType socialType)
-    {
-        this.email = email;
-        this.nickname = nickname;
-        this.imageUrl = imageUrl;
-        this.role = role;
-        this.socialType = socialType;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations = new ArrayList<>();
+
 
     @Builder
-    public User(String email, String nickname, Role role, SocialType socialType, int busMoney) {
+    public User(String email, String nickname, Role role, String provider, int busMoney) {
         this.email = email;
         this.nickname = nickname;
         this.role = role;
-        this.socialType = socialType;
+        this.provider = provider;
         this.busMoney = busMoney;
+        this.noShowCount = 0;
+        this.noShowPenaltyDate = null;
         this.chargingMethods = new ArrayList<>();
+        this.reservations = new ArrayList<>();
     }
 
     // 유저 권한 설정 메소드
@@ -115,5 +114,9 @@ public class User {
             ChargingMethod newPrimary = this.chargingMethods.get(this.chargingMethods.size() - 1); // 가장 최근에 추가된 충전수단을 가져옵니다.
             this.setPrimaryChargingMethod(newPrimary);
         }
+    }
+
+    public void addReservation(Reservation reservation) {
+        this.reservations.add(reservation);
     }
 }
