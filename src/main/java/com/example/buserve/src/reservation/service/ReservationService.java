@@ -37,6 +37,7 @@ public class ReservationService {
     private final StopRepository stopRepository;
 
     public List<ReservationResponseDto> getReservations(Long userId) {
+        userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         List<Reservation> reservations = reservationRepository.findAllByUserId(userId);
         return reservations.stream()
                 .sorted((r1, r2) -> r2.getExpectedArrivalTime().compareTo(r1.getExpectedArrivalTime()))  // 최근순 정렬
@@ -57,7 +58,7 @@ public class ReservationService {
 
         // 버정머니 확인
         if (user.getBusMoney() < BUS_FARE) {
-            throw new IllegalArgumentException("버정머니가 부족합니다.");
+            throw new InsufficientBusMoneyException();
         }
 
         Seat seat = seatRepository.findById(requestDto.getSeatId()).orElseThrow(SeatNotFoundException::new);
@@ -107,7 +108,8 @@ public class ReservationService {
         if (noShowCount >= NO_SHOW_LIMIT_FOR_PENALTY) {
             int penaltyAmount = (int) (BUS_FARE * PENALTY_RATE);
             user.useBusMoney(penaltyAmount);
-        } else if (noShowCount >= NO_SHOW_LIMIT_FOR_RESTRICTION) {
+        }
+        if (noShowCount >= NO_SHOW_LIMIT_FOR_RESTRICTION) {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime penaltyEndDate = user.getNoShowPenaltyDate().plusDays(7);
             if (now.isBefore(penaltyEndDate)) {
