@@ -31,11 +31,15 @@ public class RouteStop {
     @Enumerated(EnumType.STRING)
     private Direction direction;    // 상행, 하행
 
-    public RouteStop(Route route, Stop stop, int sequence, LocalTime expectedArrivalTime, Direction direction) {
+    public RouteStop(Route route, Stop stop, int sequence, int expectedArrivalTime, Direction direction) {
         this.route = route;
         this.stop = stop;
         this.sequence = sequence;
-        this.expectedArrivalTime = expectedArrivalTime;
+        if (expectedArrivalTime == -1) { this.expectedArrivalTime = null; }
+        else {
+            int hour = expectedArrivalTime / 3600, minute = (expectedArrivalTime % 3600) / 60, second = expectedArrivalTime % 60;
+            this.expectedArrivalTime = LocalTime.of(hour, minute, second);
+        }
         this.direction = direction;
     }
 }
