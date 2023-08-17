@@ -102,11 +102,11 @@ public class DatabaseSeeder {
             RouteStopRepository routeStopRepository,
             SeatRepository seatRepository,
             UserRepository userRepository,
-            ReservationRepository reservationRepository) throws IOException, ParseException {
+            ReservationRepository reservationRepository) throws IOException, ParseException, InterruptedException {
 
         String key = "lF8UEJMTnm7SpZKEcgBRzazgp0JNAxAwLEu9H%2BG844NuHoC4DZS8qbdDNpM1WoBTq1jimtK%2BW2P6N4kksiuwBQ%3D%3D";
         String cityCode = "23";
-        String endPoint = "http://apis.data.go.kr/1613000/BusRouteInfoInqireService/";
+        String endPoint = "http://apis.data.go.kr/1613000/";
 
         for (int r = 0; r < 4; r++) {
             // Creating Route
@@ -119,14 +119,12 @@ public class DatabaseSeeder {
             Route route = new Route(routeId, rName);
             routeRepository.save(route);
 
-
             // Creating Stops
             // List<String> routeIds = routeService.getAllRouteId();
+            String service = "BusRouteInfoInqireService/";
             String details = "getRouteAcctoThrghSttnList";
-
-            URL url = new URL(endPoint + details + "?serviceKey=" + key
-                    + "&cityCode=" + cityCode + "&numOfRows=100"
-                    + "&routeId=" + routeId + "&_type=json");
+            URL url = new URL(endPoint + service + details + "?serviceKey=" + key
+                    + "&cityCode=" + cityCode + "&numOfRows=100" + "&routeId=" + routeId + "&_type=json");
 
             BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             String result = bf.readLine();
@@ -148,12 +146,29 @@ public class DatabaseSeeder {
                 if (jsonObject.get("updowncd").toString().equals("0")) { updowncd = Direction.UPWARD; }
                 else { updowncd = Direction.DOWNWARD; }
 
-                // DB 추가
                 Stop stop = new Stop(nodeid, nodenm, nodeno, gpslati, gpslong);
                 stopRepository.save(stop);
 
                 // Creating RouteStop
-                RouteStop routeStop = new RouteStop(route, stop, Integer.parseInt(nodeord), LocalTime.of(0, 5), updowncd);
+                service = "ArvlInfoInqireService/";
+                details = "getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList";
+                url = new URL(endPoint + service + details + "?serviceKey=" + key
+                        + "&cityCode=" + cityCode + "&nodeId=" + nodeid + "&routeId=" + routeid + "&numOfRows=1&_type=json");
+
+                // LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR (서비스 요청제한횟수 초과에러) 방지
+                Thread.sleep(10);
+                bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+                jsonParser = new JSONParser();
+                jsonObject = (JSONObject) jsonParser.parse(bf.readLine());
+                JSONObject parseBody = (JSONObject) ((JSONObject) jsonObject.get("response")).get("body");
+                int totalCount = Integer.parseInt(parseBody.get("totalCount").toString());
+                int arrtime = -1;
+                RouteStop routeStop;
+                if (totalCount != 0) {
+                    arrtime = Integer.parseInt(parseBody.get("arrtime").toString());
+                }
+                routeStop = new RouteStop(route, stop, Integer.parseInt(nodeord), arrtime, updowncd);
                 routeStopRepository.save(routeStop);
             }
         }
