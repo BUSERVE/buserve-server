@@ -5,6 +5,7 @@ import com.example.buserve.src.bus.entity.Stop;
 import com.example.buserve.src.bus.repository.RouteStopRepository;
 import com.example.buserve.src.bus.repository.SeatRepository;
 import com.example.buserve.src.bus.repository.StopRepository;
+import com.example.buserve.src.common.exception.*;
 import com.example.buserve.src.reservation.dto.ReservationRequestDto;
 import com.example.buserve.src.reservation.dto.ReservationResponseDto;
 import com.example.buserve.src.reservation.entity.Reservation;
@@ -34,9 +35,9 @@ public class ReservationService {
     private final UserRepository userRepository;
     private final SeatRepository seatRepository;
     private final StopRepository stopRepository;
-    private final RouteStopRepository routeStopRepository;
 
     public List<ReservationResponseDto> getReservations(Long userId) {
+        userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         List<Reservation> reservations = reservationRepository.findAllByUserId(userId);
         return reservations.stream()
                 .sorted((r1, r2) -> r2.getExpectedArrivalTime().compareTo(r1.getExpectedArrivalTime()))  // 최근순 정렬
@@ -52,28 +53,28 @@ public class ReservationService {
 
     @Transactional
     public ReservationResponseDto createReservation(Long userId, ReservationRequestDto requestDto) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         applyNoShowPenaltyIfNeeded(user);
 
         // 버정머니 확인
         if (user.getBusMoney() < BUS_FARE) {
-            throw new IllegalArgumentException("버정머니가 부족합니다.");
+            throw new InsufficientBusMoneyException();
         }
 
-        Seat seat = seatRepository.findById(requestDto.getSeatId()).orElseThrow(() -> new IllegalArgumentException("좌석을 찾을 수 없습니다."));
+        Seat seat = seatRepository.findById(requestDto.getSeatId()).orElseThrow(SeatNotFoundException::new);
 
         // 좌석 예약 가능 여부 확인
         if (!seat.isAvailable()) {
-            throw new IllegalArgumentException("이미 예약된 좌석입니다.");
+            throw new SeatAlreadyReservedException();
         }
 
-        Stop stop = stopRepository.findById(requestDto.getStopId()).orElseThrow(() -> new IllegalArgumentException("정류장을 찾을 수 없습니다."));
+        Stop stop = stopRepository.findById(requestDto.getStopId()).orElseThrow(StopNotFoundException::new);
         LocalDateTime expectedArrivalTime = convertToExpectedArrivalTime(requestDto.getExpectedArrivalTime());
 
         // 사용자가 해당 시간에 이미 예약한 내역이 있는지 확인
         List<Reservation> userReservations = reservationRepository.findAllByUserAndExpectedArrivalTime(user, expectedArrivalTime);
         if (!userReservations.isEmpty()) {
-            throw new IllegalArgumentException("이미 해당 시간에 예약이 있습니다.");
+            throw new DuplicateReservationException();
         }
 
         // 버정머니 차감
@@ -107,11 +108,12 @@ public class ReservationService {
         if (noShowCount >= NO_SHOW_LIMIT_FOR_PENALTY) {
             int penaltyAmount = (int) (BUS_FARE * PENALTY_RATE);
             user.useBusMoney(penaltyAmount);
-        } else if (noShowCount >= NO_SHOW_LIMIT_FOR_RESTRICTION) {
+        }
+        if (noShowCount >= NO_SHOW_LIMIT_FOR_RESTRICTION) {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime penaltyEndDate = user.getNoShowPenaltyDate().plusDays(7);
             if (now.isBefore(penaltyEndDate)) {
-                throw new IllegalArgumentException("노쇼로 인한 예약 제한 중입니다.");
+                throw new ReservationRestrictionException();
             }
         }
     }
@@ -124,9 +126,9 @@ public class ReservationService {
     }
 
     public ReservationResponseDto getReservationDetail(Long userId, Long reservationId) {
-        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new IllegalArgumentException("예약을 찾을 수 없습니다."));
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(ReservationNotFoundException::new);
         if (!reservation.getUser().getId().equals(userId)) {
-            throw new IllegalArgumentException("예약을 찾을 수 없습니다.");
+            throw new UnauthorizedAccessException();
         }
         return new ReservationResponseDto(
                 reservation.getSeat().getBus().getRoute().getRouteName(),
@@ -138,9 +140,9 @@ public class ReservationService {
     }
 
     public ReservationResponseDto completeBoarding(Long userId, Long reservationId) {
-        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new IllegalArgumentException("예약을 찾을 수 없습니다."));
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(ReservationNotFoundException::new);
         if (!reservation.getUser().getId().equals(userId)) {
-            throw new IllegalArgumentException("예약을 찾을 수 없습니다.");
+            throw new UnauthorizedAccessException();
         }
         reservation.completeBoarding();
         reservationRepository.save(reservation);
