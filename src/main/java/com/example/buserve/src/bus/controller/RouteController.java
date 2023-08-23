@@ -30,7 +30,7 @@ public class RouteController {
 
     @ApiOperation(value = "버스 노선 목록 조회")
     @GetMapping("/search")
-    public ApiResponse<List<RouteResponseDto>> searchRoutes(@RequestParam(required = false, defaultValue = "") String routeName){
+    public ApiResponse<List<RouteResponseDto>> searchRoutes(String name, @RequestParam(required = false, defaultValue = "") String routeName){
         return ApiResponse.success(routeService.searchRoutes(routeName));
     }
 
@@ -50,7 +50,7 @@ public class RouteController {
 
     @ApiOperation(value = "주변 노선 조회", notes = "특정 위치에서 반경 500M의 버스 정류장을 지나는 노선 목록을 조회합니다.")
     @GetMapping("/nearby")
-    public ApiResponse<List<RouteResponseDto>> getNearbyRoutes(@RequestParam double lat, @RequestParam double lon) {
+    public ApiResponse<List<RouteResponseDto>> getNearbyRoutes(String name, @RequestParam double lat, @RequestParam double lon) {
         List<RouteResponseDto> routes = routeService.getNearbyRoutes(lat, lon);
         return ApiResponse.success(routes);
     }

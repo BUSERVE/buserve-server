@@ -2,15 +2,13 @@ package com.example.buserve.src.bus.service;
 
 
 import com.example.buserve.src.bus.DTO.*;
-import com.example.buserve.src.bus.entity.Bus;
-import com.example.buserve.src.bus.entity.Route;
-import com.example.buserve.src.bus.entity.RouteStop;
-import com.example.buserve.src.bus.entity.Stop;
+import com.example.buserve.src.bus.entity.*;
 import com.example.buserve.src.bus.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +25,19 @@ public class RouteService {
         String searchRouteName = "%" + routeName + "%";
         List<Route> routes = routeRepository.findAllByRouteNameLike(searchRouteName);
         return routes.stream()
-                .map(route -> new RouteResponseDto(route.getId(), route.getRouteName()))
+                .map(route -> {
+                    final List<RouteStop> routeStops = route.getRouteStops();
+                    final List<RouteStop> upwardRouteStops = routeStops.stream()
+                            .filter(rs -> rs.getDirection() == Direction.UPWARD)
+                            .sorted(Comparator.comparingInt(RouteStop::getSequence))
+                            .collect(Collectors.toList());
+                    return new RouteResponseDto(
+                            route.getId(),
+                            route.getRouteName(),
+                            upwardRouteStops.get(0).getStop().getStopName(),
+                            upwardRouteStops.get(upwardRouteStops.size() - 1).getStop().getStopName(),
+                            false);
+                })
                 .collect(Collectors.toList());
     }
 
@@ -63,9 +73,19 @@ public class RouteService {
 
         // Set의 각 노선을 RouteDto로 변환하여 List로 반환
         return uniqueRoutes.stream()
-                .map(route -> new RouteResponseDto(
-                        route.getId(),
-                        route.getRouteName()))
+                .map(route -> {
+                    final List<RouteStop> routeStops = route.getRouteStops();
+                    final List<RouteStop> upwardRouteStops = routeStops.stream()
+                            .filter(rs -> rs.getDirection() == Direction.UPWARD)
+                            .sorted(Comparator.comparingInt(RouteStop::getSequence))
+                            .collect(Collectors.toList());
+                    return new RouteResponseDto(
+                            route.getId(),
+                            route.getRouteName(),
+                            upwardRouteStops.get(0).getStop().getStopName(),
+                            upwardRouteStops.get(upwardRouteStops.size() - 1).getStop().getStopName(),
+                            false);
+                })
                 .collect(Collectors.toList());
     }
 
