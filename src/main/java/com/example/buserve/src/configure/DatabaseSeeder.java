@@ -56,10 +56,10 @@ public class DatabaseSeeder {
     private void seedUsersAndChargingMethods(UserRepository userRepository, ChargingMethodRepository chargingMethodRepository) {
         User user1 = User.builder()
                 .email("user1@example.com")
-                .nickname("User1")
+                .nickname("박준혁")
                 .role(Role.USER)
                 .provider(SocialType.GOOGLE)
-                .busMoney(10000)
+                .busMoney(0)
                 .build();
         userRepository.save(user1);
 
@@ -81,9 +81,9 @@ public class DatabaseSeeder {
 
         User user2 = User.builder()
                 .email("user2@example.com")
-                .nickname("User2")
+                .nickname("최문경")
                 .role(Role.USER)
-                .busMoney(2000)
+                .busMoney(0)
                 .build();
         userRepository.save(user2);
 
