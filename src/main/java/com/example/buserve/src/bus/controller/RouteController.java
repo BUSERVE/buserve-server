@@ -51,17 +51,20 @@ public class RouteController {
         return ApiResponse.success(routes);
     }
 
+    @ApiOperation(value = "즐겨찾기 노선 추가", notes = "사용자가 즐겨찾기할 노선을 추가합니다.", tags = {"즐겨찾기 관련 API"})
     @PostMapping("/{route_id}/favorite")
     public ApiResponse<Void> addRouteToFavorite(String name, @PathVariable(name="route_id") String routeId) {
         favoriteService.addRoute(routeId, name);
         return ApiResponse.successWithNoContent();
     }
 
+    @ApiOperation(value = "즐겨찾기 노선 조회", notes = "사용자가 즐겨찾기한 노선 목록을 조회합니다.", tags = {"즐겨찾기 관련 API"})
     @GetMapping("/favorites")
     public ApiResponse<List<RouteResponseDto>> getFavoriteRoutes(String name) {
         return ApiResponse.success(favoriteService.getFavoritesByUsername(name));
     }
 
+    @ApiOperation(value = "즐겨찾기 노선 삭제", notes = "즐겨찾기 노선을 삭제합니다.", tags = {"즐겨찾기 관련 API"})
     @DeleteMapping("/{route_id}/favorite")
     public ApiResponse<Void> removeRouteFromFavorite(String name, @PathVariable(name="route_id") String routeId) {
         favoriteService.removeRouteFromFavorite(routeId, name);
