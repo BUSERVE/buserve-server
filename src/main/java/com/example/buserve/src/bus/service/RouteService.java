@@ -1,10 +1,7 @@
 package com.example.buserve.src.bus.service;
 
 
-import com.example.buserve.src.bus.DTO.BusResponseDto;
-import com.example.buserve.src.bus.DTO.RouteDto;
-import com.example.buserve.src.bus.DTO.RouteResponseDto;
-import com.example.buserve.src.bus.DTO.StopDto;
+import com.example.buserve.src.bus.DTO.*;
 import com.example.buserve.src.bus.entity.Bus;
 import com.example.buserve.src.bus.entity.Route;
 import com.example.buserve.src.bus.entity.RouteStop;
@@ -72,4 +69,13 @@ public class RouteService {
                 .collect(Collectors.toList());
     }
 
+    public List<StopResponseDto> getStopsByRouteId(final String routeId) {
+        final Route route = routeRepository.findById(routeId).orElseThrow(() -> new IllegalArgumentException("해당 노선이 존재하지 않습니다."));
+        return route.getRouteStops().stream()
+                .map(routeStop -> new StopResponseDto(
+                        routeStop.getStop().getId(),
+                        routeStop.getStop().getStopName(),
+                        routeStop.getStop().getStopNumber()
+                )).collect(Collectors.toList());
+    }
 }

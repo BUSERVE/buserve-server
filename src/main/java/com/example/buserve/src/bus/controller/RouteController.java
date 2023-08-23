@@ -1,9 +1,6 @@
 package com.example.buserve.src.bus.controller;
 
-import com.example.buserve.src.bus.DTO.BusResponseDto;
-import com.example.buserve.src.bus.DTO.RouteDto;
-import com.example.buserve.src.bus.DTO.RouteResponseDto;
-import com.example.buserve.src.bus.DTO.StopDto;
+import com.example.buserve.src.bus.DTO.*;
 import com.example.buserve.src.bus.entity.Route;
 import com.example.buserve.src.bus.service.BusService;
 import com.example.buserve.src.bus.service.RouteService;
@@ -39,13 +36,9 @@ public class RouteController {
 
     @ApiOperation(value = "버스 정류장 조회")
     @GetMapping("/{route_id}/stops")
-    public ResponseEntity<List<StopDto>> getStopsByRouteName(@PathVariable("route_id") String routeName){
-        List<StopDto> stops = routeService.getStopsByRoute(routeName);
-        if (stops != null && !stops.isEmpty()) {
-            return ResponseEntity.ok(stops);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ApiResponse<List<StopResponseDto>> getStopsByRouteName(@PathVariable("route_id") String routeId){
+        List<StopResponseDto> stops = routeService.getStopsByRouteId(routeId);
+        return ApiResponse.success(stops);
     }
 
     @ApiOperation(value = "버스 목록 조회", notes = "특정 버스 노선의 해당 정류장에서의 버스 목록을 조회합니다.")
