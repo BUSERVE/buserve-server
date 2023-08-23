@@ -26,8 +26,12 @@ public class RouteService {
     private final StopRepository stopRepository;
     private final RouteStopRepository routeStopRepository;
 
-    public List<Route> searchRoutes(String routeName) {
-        return routeRepository.findAllByRouteName(routeName);
+    public List<RouteResponseDto> searchRoutes(String routeName) {
+        String searchRouteName = "%" + routeName + "%";
+        List<Route> routes = routeRepository.findAllByRouteNameLike(searchRouteName);
+        return routes.stream()
+                .map(route -> new RouteResponseDto(route.getId(), route.getRouteName()))
+                .collect(Collectors.toList());
     }
 
 

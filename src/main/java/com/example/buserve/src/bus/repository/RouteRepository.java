@@ -12,4 +12,6 @@ public interface RouteRepository extends JpaRepository<Route, String> {
 
     @Query("SELECT r.id FROM Route r")
     List<String> findAllRouteId();
+
+    List<Route> findAllByRouteNameLike(String routeName);
 }

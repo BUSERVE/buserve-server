@@ -33,8 +33,8 @@ public class RouteController {
 
     @ApiOperation(value = "버스 노선 목록 조회")
     @GetMapping("/search")
-    public List<Route> searchRoutes(@RequestParam String routeName){
-        return routeService.searchRoutes(routeName);
+    public ApiResponse<List<RouteResponseDto>> searchRoutes(@RequestParam(required = false, defaultValue = "") String routeName){
+        return ApiResponse.success(routeService.searchRoutes(routeName));
     }
 
     @ApiOperation(value = "버스 정류장 조회")
