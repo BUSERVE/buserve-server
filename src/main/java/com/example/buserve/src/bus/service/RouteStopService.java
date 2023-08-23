@@ -28,11 +28,11 @@ public class RouteStopService {
         this.seatRepository = seatRepository;
     }
 
-    public RouteDto getRouteInfo(Long routeId, Long stopId) {
+    public RouteDto getRouteInfo(String routeId, String stopId) {
         return getRouteDto(routeStopRepository.findByRouteIdAndStopId(routeId, stopId), seatRepository, routeId, stopId);
     }
 
-    static RouteDto getRouteDto(RouteStop byRouteIdAndStopId, SeatRepository seatRepository, Long routeId, Long stopId) {
+    static RouteDto getRouteDto(RouteStop byRouteIdAndStopId, SeatRepository seatRepository, String routeId, String stopId) {
         RouteStop routeStop = byRouteIdAndStopId;
         if (routeStop == null) {
             // 처리 방식을 선택: 예외 처리, 메시지 반환 등
