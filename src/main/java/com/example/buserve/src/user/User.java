@@ -21,7 +21,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-
+    private String socialId;
     @Column(name ="EMAIL", nullable = false, unique = true)
     private String email; // 이메일
 
@@ -37,8 +37,7 @@ public class User {
 
     @Column(name = "SOCIALTYPE")
     @Enumerated(EnumType.STRING)
-    private SocialType socialType; // KAKAO, APPLE, GOOGLE
-    private String provider;
+    private SocialType provider; // KAKAO, APPLE, GOOGLE
 
     private int busMoney; // 버정머니
     private int noShowCount = 0; // 노쇼 횟수
@@ -55,8 +54,10 @@ public class User {
     private List<Reservation> reservations = new ArrayList<>();
 
 
+
     @Builder
-    public User(String email, String nickname, Role role, String provider, int busMoney) {
+    public User(String socialId, String email, String nickname, Role role, SocialType provider, int busMoney, String imageUrl) {
+        this.socialId = socialId;
         this.email = email;
         this.nickname = nickname;
         this.role = role;
@@ -66,6 +67,7 @@ public class User {
         this.noShowPenaltyDate = null;
         this.chargingMethods = new ArrayList<>();
         this.reservations = new ArrayList<>();
+        this.imageUrl = imageUrl;
     }
 
     // 유저 권한 설정 메소드
