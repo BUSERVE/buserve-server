@@ -44,7 +44,7 @@ public class RouteController {
         return ApiResponse.success(buses);
     }
 
-    @ApiOperation(value = "주변 노선 조회", notes = "특정 위치에서 반경 1KM의 버스 정류장을 지나는 노선 목록을 조회합니다.")
+    @ApiOperation(value = "주변 노선 조회", notes = "특정 위치에서 반경 1.5KM의 버스 정류장을 지나는 노선 목록을 조회합니다.")
     @GetMapping("/nearby")
     public ApiResponse<List<RouteResponseDto>> getNearbyRoutes(String name, @RequestParam double lat, @RequestParam double lon) {
         List<RouteResponseDto> routes = routeService.getNearbyRoutes(lat, lon, name);
