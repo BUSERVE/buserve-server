@@ -11,6 +11,7 @@ import com.example.buserve.src.login.jwt.JwtHeaderUtil;
 import com.example.buserve.src.login.service.AuthService;
 import com.example.buserve.src.login.service.GoogleAuthService;
 import com.example.buserve.src.login.service.KakaoAuthService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
+@Api(tags = {"로그인구현"})
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
