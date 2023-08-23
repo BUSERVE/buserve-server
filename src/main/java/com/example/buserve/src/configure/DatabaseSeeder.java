@@ -58,7 +58,7 @@ public class DatabaseSeeder {
                 .email("user1@example.com")
                 .nickname("User1")
                 .role(Role.USER)
-                .provider("GOOGLE")
+                .provider(SocialType.GOOGLE)
                 .busMoney(10000)
                 .build();
         userRepository.save(user1);
