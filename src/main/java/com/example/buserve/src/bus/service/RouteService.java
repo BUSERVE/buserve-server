@@ -52,7 +52,7 @@ public class RouteService {
 
     public List<RouteResponseDto> getNearbyRoutes(final double lat, final double lon, final String name) {
         final User user = userRepository.findByNickname(name).orElseThrow(UserNotFoundException::new);
-        final List<Stop> nearStops = stopRepository.findWithinDistance(lat, lon, 500);
+        final List<Stop> nearStops = stopRepository.findWithinDistance(lat, lon, 1000);
 
         // 중복된 노선을 제거하기 위한 Set 생성
         Set<Route> uniqueRoutes = new HashSet<>();
