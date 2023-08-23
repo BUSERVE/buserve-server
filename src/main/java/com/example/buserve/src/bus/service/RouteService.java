@@ -73,6 +73,7 @@ public class RouteService {
     public List<StopResponseDto> getStopsByRouteId(final String routeId) {
         final Route route = routeRepository.findById(routeId).orElseThrow(() -> new IllegalArgumentException("해당 노선이 존재하지 않습니다."));
         return route.getRouteStops().stream()
+                .filter(routeStop -> routeStop.getDirection() == Direction.UPWARD)
                 .map(routeStop -> new StopResponseDto(
                         routeStop.getStop().getId(),
                         routeStop.getStop().getStopName(),
