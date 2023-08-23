@@ -1,11 +1,11 @@
 package com.example.buserve.src.user;
 
+import com.example.buserve.src.bus.entity.UserRouteFavorite;
 import com.example.buserve.src.pay.entity.ChargingMethod;
 import com.example.buserve.src.reservation.entity.Reservation;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserRouteFavorite> favoriteRoutes = new ArrayList<>();
 
     @Builder
     public User(String socialId, String email, String nickname, Role role, SocialType provider, int busMoney, String imageUrl) {
@@ -68,6 +69,7 @@ public class User {
         this.chargingMethods = new ArrayList<>();
         this.reservations = new ArrayList<>();
         this.imageUrl = imageUrl;
+        this.favoriteRoutes = new ArrayList<>();
     }
 
     // 유저 권한 설정 메소드
@@ -120,5 +122,9 @@ public class User {
 
     public void addReservation(Reservation reservation) {
         this.reservations.add(reservation);
+    }
+
+    public void addFavoriteRoute(final UserRouteFavorite favorite) {
+        this.favoriteRoutes.add(favorite);
     }
 }
