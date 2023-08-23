@@ -1,6 +1,8 @@
 package com.example.buserve.src.bus.controller;
 
 import com.example.buserve.src.bus.DTO.BusResponseDto;
+import com.example.buserve.src.bus.DTO.RouteDto;
+import com.example.buserve.src.bus.DTO.RouteResponseDto;
 import com.example.buserve.src.bus.DTO.StopDto;
 import com.example.buserve.src.bus.entity.Route;
 import com.example.buserve.src.bus.service.BusService;
@@ -51,6 +53,13 @@ public class RouteController {
     public ApiResponse<List<BusResponseDto>> getBusesByRouteAndStop(@PathVariable("route_id") String routeId, @PathVariable("stop_id") String stopId) {
         List<BusResponseDto> buses = busService.getBusesByRouteAndStop(routeId, stopId);
         return ApiResponse.success(buses);
+    }
+
+    @ApiOperation(value = "주변 노선 조회", notes = "특정 위치에서 반경 500M의 버스 정류장을 지나는 노선 목록을 조회합니다.")
+    @GetMapping("/nearby")
+    public ApiResponse<List<RouteResponseDto>> getNearbyRoutes(@RequestParam double lat, @RequestParam double lon) {
+        List<RouteResponseDto> routes = routeService.getNearbyRoutes(lat, lon);
+        return ApiResponse.success(routes);
     }
 
 }
