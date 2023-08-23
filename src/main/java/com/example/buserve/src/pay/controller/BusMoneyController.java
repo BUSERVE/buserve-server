@@ -6,6 +6,7 @@ import com.example.buserve.src.common.ApiResponse;
 import com.example.buserve.src.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,16 +25,18 @@ public class BusMoneyController {
 
     @ApiOperation(value = "사용자의 버스머니 조회 API")
     @GetMapping
-    public ApiResponse<AmountDto> getBusMoney(Principal principal) {
-        Long userId = getUserIdFromPrincipal(principal); // 현재 로그인한 사용자 ID 획득
+    public ApiResponse<AmountDto> getBusMoney(String name) {
+        final Long userId = userService.getUserIdByUsername(name);
+//        Long userId = getUserIdFromPrincipal(principal); // 현재 로그인한 사용자 ID 획득
         int currentBusMoney = userService.getBusMoney(userId);
         return ApiResponse.success(new AmountDto(currentBusMoney));
     }
 
     @ApiOperation(value = "사용자의 버스머니 충전 API")
     @PostMapping("/charge")
-    public ApiResponse<AmountDto> chargeBusMoney(Principal principal, @RequestBody AmountDto amountDto) {
-        Long userId = getUserIdFromPrincipal(principal);
+    public ApiResponse<AmountDto> chargeBusMoney(String name, @RequestBody AmountDto amountDto) {
+        Long userId = userService.getUserIdByUsername(name);
+//        Long userId = getUserIdFromPrincipal(principal);
         userService.chargeBusMoney(userId, amountDto.getAmount());
         int changedMoney = userService.getBusMoney(userId);
         return ApiResponse.success(new AmountDto(changedMoney));

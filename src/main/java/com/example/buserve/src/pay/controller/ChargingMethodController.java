@@ -6,8 +6,10 @@ import com.example.buserve.src.pay.dto.ChargingMethodInfoDto;
 import com.example.buserve.src.pay.entity.ChargingMethod;
 import com.example.buserve.src.pay.service.ChargingMethodService;
 import com.example.buserve.src.common.ApiResponse;
+import com.example.buserve.src.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,19 +18,17 @@ import java.util.List;
 
 @Api(tags = {"충전수단 관련 API"})
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/charging-methods")
 public class ChargingMethodController {
     private final ChargingMethodService chargingMethodService;
-
-    @Autowired
-    public ChargingMethodController(ChargingMethodService chargingMethodService) {
-        this.chargingMethodService = chargingMethodService;
-    }
+    private final UserService userService;
 
     @ApiOperation(value = "사용자의 전체 충전수단 조회 API")
     @GetMapping
-    public ApiResponse<List<ChargingMethodInfoDto>> getAllChargingMethods(Principal principal) {
-        Long userId = getUserIdFromPrincipal(principal);
+    public ApiResponse<List<ChargingMethodInfoDto>> getAllChargingMethods(String name) {
+        Long userId = userService.getUserIdByUsername(name);
+//        Long userId = getUserIdFromPrincipal(principal);
         List<ChargingMethod> chargingMethods = chargingMethodService.getAllChargingMethods(userId);
         List<ChargingMethodInfoDto> chargingMethodsDto = chargingMethodService.convertToDto(chargingMethods);
         return ApiResponse.success(chargingMethodsDto);
@@ -36,8 +36,9 @@ public class ChargingMethodController {
 
     @ApiOperation(value = "충전수단 추가 API")
     @PostMapping
-    public ApiResponse<ChargingMethodInfoDto> addChargingMethod(Principal principal, @RequestBody AddChargingMethodDto addChargingMethodDto) {
-        Long userId = getUserIdFromPrincipal(principal);
+    public ApiResponse<ChargingMethodInfoDto> addChargingMethod(String name, @RequestBody AddChargingMethodDto addChargingMethodDto) {
+        Long userId = userService.getUserIdByUsername(name);
+//        Long userId = getUserIdFromPrincipal(principal);
 
         // DTO에서 ChargingMethod 엔터티를 생성합니다.
         ChargingMethod chargingMethod = ChargingMethod.builder()
@@ -53,8 +54,9 @@ public class ChargingMethodController {
 
     @ApiOperation(value = "충전수단 삭제 API")
     @DeleteMapping("/{method_id}")
-    public ApiResponse<List<ChargingMethodInfoDto>> deleteChargingMethod(Principal principal, @PathVariable Long method_id) {
-        Long userId = getUserIdFromPrincipal(principal);
+    public ApiResponse<List<ChargingMethodInfoDto>> deleteChargingMethod(String name, @PathVariable Long method_id) {
+        Long userId = userService.getUserIdByUsername(name);
+//        Long userId = getUserIdFromPrincipal(principal);
         chargingMethodService.deleteChargingMethod(userId, method_id);
 
         List<ChargingMethod> remainChargingMethods = chargingMethodService.getAllChargingMethods(userId);
@@ -64,8 +66,9 @@ public class ChargingMethodController {
 
     @ApiOperation(value = "주요 충전수단 변경 API", tags = {"충전수단 관련 API"})
     @PutMapping("/primary/{method_id}")
-    public ApiResponse<ChargingMethodInfoDto> setPrimaryChargingMethod(Principal principal, @PathVariable Long method_id) {
-        Long userId = getUserIdFromPrincipal(principal);
+    public ApiResponse<ChargingMethodInfoDto> setPrimaryChargingMethod(String name, @PathVariable Long method_id) {
+        Long userId = userService.getUserIdByUsername(name);
+//        Long userId = getUserIdFromPrincipal(principal);
         chargingMethodService.setPrimaryChargingMethod(userId, method_id);
 
         ChargingMethod primaryChargingMethod = chargingMethodService.getPrimaryChargingMethod(userId);
@@ -75,8 +78,9 @@ public class ChargingMethodController {
 
     @ApiOperation(value = "주요 충전수단 조회 API", tags = {"충전수단 관련 API"})
     @GetMapping("/primary")
-    public ApiResponse<ChargingMethodInfoDto> getPrimaryChargingMethod(Principal principal) {
-        Long userId = getUserIdFromPrincipal(principal);
+    public ApiResponse<ChargingMethodInfoDto> getPrimaryChargingMethod(String name) {
+        Long userId = userService.getUserIdByUsername(name);
+//        Long userId = getUserIdFromPrincipal(principal);
         ChargingMethod primaryChargingMethod = chargingMethodService.getPrimaryChargingMethod(userId);
         ChargingMethodInfoDto primaryChargingMethodInfoDto = chargingMethodService.convertToDto(primaryChargingMethod);
         return ApiResponse.success(primaryChargingMethodInfoDto);

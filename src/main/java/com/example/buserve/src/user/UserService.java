@@ -1,5 +1,6 @@
 package com.example.buserve.src.user;
 
+import com.example.buserve.src.common.exception.UserNotFoundException;
 import com.example.buserve.src.pay.entity.ChargingMethod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -58,4 +59,9 @@ public class UserService {
         user.useBusMoney(amount);
     }
 
+    public Long getUserIdByUsername(final String username) {
+        return userRepository.findByNickname(username)
+                .orElseThrow(UserNotFoundException::new)
+                .getId();
+    }
 }
