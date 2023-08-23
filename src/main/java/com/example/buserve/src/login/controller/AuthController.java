@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
-@Api(tags = {"로그인구현"})
+@Api(tags = {"로그인 관련 API"})
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
