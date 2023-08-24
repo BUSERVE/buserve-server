@@ -49,6 +49,26 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.error(ApiResponseStatus.UNAUTHORIZED_ACCESS));
     }
 
+    @ExceptionHandler(AlreadyExistingFavoriteException.class)
+    public ResponseEntity<ApiResponse<?>> handleAlreadyExistingFavoriteException(Exception e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiResponse.error(ApiResponseStatus.ALREADY_EXISTING_FAVORITE));
+    }
+
+    @ExceptionHandler(FavoriteNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleFavoriteNotFoundException(Exception e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(ApiResponseStatus.FAVORITE_NOT_FOUND));
+    }
+
+    @ExceptionHandler(InsufficientBusMoneyException.class)
+    public ResponseEntity<ApiResponse<?>> handleBusMoneyInsufficientException(Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error(ApiResponseStatus.BUSMONEY_INSUFFICIENT));
+    }
+
+    @ExceptionHandler(RouteNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleRouteNotFoundException(Exception e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(ApiResponseStatus.ROUTE_NOT_FOUND));
+    }
+
     // 기타 모든 예외 처리
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleException(Exception e) {

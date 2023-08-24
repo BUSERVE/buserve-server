@@ -38,6 +38,10 @@ public enum ApiResponseStatus {
     RESERVATION_RESTRICTED(false, 2025, "노쇼로 인한 예약 제한 중입니다."),
     RESERVATION_NOT_FOUND(false, 2026, "예약을 찾을 수 없습니다."),
     UNAUTHORIZED_ACCESS(false, 2027, "권한이 없는 접근입니다."),
+    ALREADY_EXISTING_FAVORITE(false, 2028, "이미 즐겨찾기에 추가된 노선입니다."),
+    FAVORITE_NOT_FOUND(false, 2029, "즐겨찾기에 추가된 노선이 없습니다."),
+    BUSMONEY_INSUFFICIENT(false, 2030, "버스머니가 부족합니다."),
+    ROUTE_NOT_FOUND(false, 2031, "노선을 찾을 수 없습니다."),
 
 
     /**

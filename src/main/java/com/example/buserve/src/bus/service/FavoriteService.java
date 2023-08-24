@@ -7,6 +7,8 @@ import com.example.buserve.src.bus.entity.RouteStop;
 import com.example.buserve.src.bus.entity.UserRouteFavorite;
 import com.example.buserve.src.bus.repository.RouteRepository;
 import com.example.buserve.src.bus.repository.UserRouteFavoriteRepository;
+import com.example.buserve.src.common.exception.AlreadyExistingFavoriteException;
+import com.example.buserve.src.common.exception.FavoriteNotFoundException;
 import com.example.buserve.src.common.exception.RouteNotFoundException;
 import com.example.buserve.src.common.exception.UserNotFoundException;
 import com.example.buserve.src.user.User;
@@ -29,7 +31,7 @@ public class FavoriteService {
         final User user = userRepository.findByNickname(name).orElseThrow(UserNotFoundException::new);
         final Route route = routeRepository.findById(routeId).orElseThrow(RouteNotFoundException::new);
 
-        final UserRouteFavorite favorite = userRouteFavoriteRepository.findByUserAndRoute(user, route);
+        final UserRouteFavorite favorite = userRouteFavoriteRepository.findByUserAndRoute(user, route).orElseThrow(FavoriteNotFoundException::new);
 
         userRouteFavoriteRepository.delete(favorite);
     }
@@ -59,6 +61,12 @@ public class FavoriteService {
     public void addRoute(final String routeId, final String name) {
         final User user = userRepository.findByNickname(name).orElseThrow(UserNotFoundException::new);
         final Route route = routeRepository.findById(routeId).orElseThrow(RouteNotFoundException::new);
+
+        // 중복 체크
+        userRouteFavoriteRepository.findByUserAndRoute(user, route).ifPresent(favorite -> {
+            throw new AlreadyExistingFavoriteException();
+        });
+
         final UserRouteFavorite favorite = new UserRouteFavorite();
         favorite.setUserAndRoute(user, route);
         userRouteFavoriteRepository.save(favorite);
